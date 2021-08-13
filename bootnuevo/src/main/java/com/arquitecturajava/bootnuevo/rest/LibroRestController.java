@@ -30,7 +30,7 @@ public class LibroRestController {
 		Libro libroactual=servicio.buscarUno(isbn);
 		libroactual.setTitulo(libro.getTitulo());
 		libroactual.setAutor(libro.getAutor());
-		servicio.actualizar(libro);
+		servicio.actualizar(libroactual);
 	}
 	@PostMapping
 	public void insertar(@RequestBody Libro libro) {
