@@ -24,14 +24,14 @@ public class LibroRepositoryJDBC implements LibroRepository {
 		this.plantilla = plantilla;
 	}
 
-	final static String CONSULTA_INSERTAR = "insert into Libros (isbn,titulo,autor) values (?,?,?)";
-	final static String CONSULTA_BORRAR = "delete from Libros  where isbn =?";
-	final static String CONSULTA_BUSCAR_TODOS = "select * from Libros";
-	final static String CONSULTA_BUSCAR_TODOS_CAPITULOS_LIBRO = "select * from Capitulos where libros_isbn=?";
-	final static String CONSULTA_BUSCAR_TODOS_CON_CAPITULOS = "select Libros.isbn as isbn, Libros.titulo as titulo, Libros.autor as autor, Capitulos.titulo as tituloCapitulo, Capitulos.paginas as paginas from Libros,Capitulos where Libros.isbn= Capitulos.libros_isbn";
-	final static String CONSULTA_BUSCAR_UNO = "select * from Libros where isbn=?";
-	final static String CONSULTA_BUSCAR_TITULO_AUTOR = "select * from Libros where titulo=? and autor=?";
-	final static String CONSULTA_ACTUALIZAR = "update Libros set titulo=? , autor=? where isbn=?";
+	final static String CONSULTA_INSERTAR = "insert into Libro (isbn,titulo,autor) values (?,?,?)";
+	final static String CONSULTA_BORRAR = "delete from Libro where isbn =?";
+	final static String CONSULTA_BUSCAR_TODOS = "select * from Libro";
+	final static String CONSULTA_BUSCAR_TODOS_CAPITULOS_LIBRO = "select * from capitulos where libros_isbn=?";
+	final static String CONSULTA_BUSCAR_TODOS_CON_CAPITULOS = "SELECT libro.isbn as isbn, libro.titulo as titulo, libro.autor as autor, capitulos.titulo as tituloCapitulo, capitulos.paginas as paginas from Libro, capitulos where Libro.isbn = capitulos.libros_isbn;";
+	final static String CONSULTA_BUSCAR_UNO = "select * from Libro where isbn=?";
+	final static String CONSULTA_BUSCAR_TITULO_AUTOR = "select * from Libro where titulo =? and autor =?";
+	final static String CONSULTA_ACTUALIZAR = "update Libro set titulo=?, autor =? where isbn =?";
 
 	@Transactional
 	public void actualizar(Libro libro) {

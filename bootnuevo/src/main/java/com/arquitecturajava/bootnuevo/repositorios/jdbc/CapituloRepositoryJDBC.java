@@ -26,9 +26,6 @@ public class CapituloRepositoryJDBC implements CapituloRepository {
 	final static String CONSULTA_BORRAR = "delete from Capitulos where titulo=?";
 	final static String CONSULTA_INSERTAR = "insert into Capitulos (titulo,paginas,libros_isbn) values (?,?,?)";
 	
-	
-	
-	
 	@Override
 	public List<Capitulo> buscarTodos() {
 		
