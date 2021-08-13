@@ -1,0 +1,22 @@
+http://localhost:8081/webapi/libros
+
+###
+POST http://localhost:8081/webapi/libros
+Content-Type: application/json
+
+{
+    "isbn":"444",
+    "titulo":"desde visual",
+    "autor": "registro"
+}
+###
+DELETE  http://localhost:8081/webapi/libros/444 HTTP/1.1
+###
+PUT http://localhost:8081/webapi/libros/444
+Content-Type: application/json
+
+{
+    "isbn":"444",
+    "titulo":"desdevisual2",
+    "autor": "registro3"
+}
