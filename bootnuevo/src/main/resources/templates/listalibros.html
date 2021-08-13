@@ -6,8 +6,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<table>
-
+	<table style="width:100%;text-align: center; border: 1px solid black;">
+		<tr>
+			<th>ISBN</th>
+			<th>Titulo</th>
+			<th>Autor</th>
+			<th colspan="4">Acciones</th>
+		</tr>
 		<tr th:each="libro:${libros}">
 
 			<td th:text="${libro.isbn}"></td>
