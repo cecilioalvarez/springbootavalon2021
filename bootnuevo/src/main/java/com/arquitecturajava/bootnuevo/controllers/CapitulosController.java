@@ -33,7 +33,7 @@ public class CapitulosController {
 		
 		capitulo.setLibro(new Libro(isbn));
 		servicio.insertarCapitulo(capitulo);
-		return "redirect: ../capitulos";
+		return "redirect:../capitulos";
 	}
 	
 	@RequestMapping(value="borrar")
@@ -43,6 +43,6 @@ public class CapitulosController {
 		c.setTitulo(titulo);
 		
 		servicio.borrarCapitulo(c);
-		return "redirect: ../capitulos";
+		return "redirect:../capitulos";
 	}
 }
