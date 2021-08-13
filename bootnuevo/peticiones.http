@@ -1,0 +1,10 @@
+http://localhost:8084/webapi/libros
+###
+POST http://localhost:8084/webapi/libros
+Content-Type: application/application/json
+
+{
+    "isbn":"A3",
+    "titulo":"java",
+    "autor":"pedro"
+}
