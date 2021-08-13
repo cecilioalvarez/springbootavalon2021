@@ -45,7 +45,7 @@ public class LibroRestController {
 	public void actualizar(@RequestBody Libro libro, @PathVariable String isbn) {
 		Libro libroactual = servicio.buscarUno(isbn);
 		libroactual.setTitulo(libro.getTitulo());
-		libroactual.setAutro(libro.getAutor());
+		libroactual.setAutor(libro.getAutor());
 		servicio.actualizar(libro);
 	}
 
