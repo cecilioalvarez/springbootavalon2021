@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments :: head(title='Detalles de autor', description='Tabla de visualización de Autor de la BD.')"></head>
+    <body>
+        <header>
+            <h1>DATOS DEL AUTOR</h1>
+        </header>
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th>NIF</th>
+                        <th>NOMBRE</th>
+                        <th>EDAD</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="cell-30" th:text="${#strings.toUpperCase(author.pk_id)}"></td>
+                        <td class="cell-30" th:text="${author.name}"></td>
+                        <td class="cell-20" th:text="${author.age}"></td>
+                        <td class="cell-20">
+                            <a th:href="@{'/books/list/' + ${author.pk_id}}">Ver libros</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="links">
+                <a href='../books/list'>Volver a la lista</a>
+            </div>
+        </main>
+    </body>
+</html>

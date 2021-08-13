@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments :: head(title='Formulario: Edición de libro', description='Formulario de edición de un Libro de la BD.')"></head>
+    <body>
+        <header>
+            <h1>Formulario de edición de un libro</h1>
+        </header>
+        <main>
+            <form id="update" name="update" method="POST" action="update">
+                <fieldset>
+                    <legend>Datos del libro</legend>
+                    <div>
+                        <label for="pk_isbn">ISBN:</label>
+                        <input type="text" id="pk_isbn" name="pk_isbn" th:value="${#strings.toUpperCase(book.pk_isbn)}" readonly/>
+                    </div>
+                    <div>
+                        <label for="title">Título:</label>
+                        <input type="text" id="title" name="title" th:value="${book.title}"/>
+                    </div>
+                    <div>
+                        <label for="fk_author">Autor:</label>
+                        <select id="fk_author" name="fk_author">
+                             <option th:each="author : ${authors}" th:value="${author.pk_id}" th:text="${author.name}"
+                                     th:selected="${author.pk_id} == ${book.fk_author.pk_id}"></option>
+                        </select>
+                    </div>
+                </fieldset>
+                <input type="submit" id="send" name="send" value="Actualizar"/>
+            </form>
+            <div class="links">
+                <a href="../list">Volver al listado</a>  
+            </div>
+        </main>
+    </body>
+</html>

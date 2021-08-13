@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments :: head(title='Listado de capítulos del libro', description='Listado de capítulos de un libro.')"></head>
+    <body>
+        <header>
+            <h1 th:text="${'CAPÍTULOS DE «' + #strings.toUpperCase(book.title) + '»'}"></h1>
+        </header>
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th>TÍTULO</th>
+                        <th>PÁGINAS</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="chapter : ${chapters}">
+                        <td class="cell-70" th:text="${chapter.pk_title}"></td>
+                        <td class="cell-10" th:text="${chapter.pages}"></td>
+                        <td class="cell-20">
+                            <a th:href="@{${chapter.pk_title} + '/edit'}">Editar</a>
+                            <a th:href="@{${chapter.pk_title} + '/delete'}">Borrar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="links">
+                <a href="add">Añadir un capítulo</a>
+                <a href="../../list">Volver a la lista</a>
+            </div>
+        </main>
+    </body>
+</html>

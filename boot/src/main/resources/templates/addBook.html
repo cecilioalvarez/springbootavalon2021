@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments :: head(title='Formulario: Creación de libro', description='Formulario para añadir un libro a la BD.')"></head>
+    <body>
+        <header>
+            <h1>Formulario de creación de un nuevo libro</h1>
+        </header>
+        <main>
+            <form id="create" name="create" method="POST" action="create">
+                <fieldset>
+                    <legend>Datos del nuevo libro</legend>
+                    <div>
+                        <label for="pk_isbn">ISBN:</label>
+                        <input type="text" id="pk_isbn" name="pk_isbn" minlength="13" maxlength="13"/>
+                    </div>
+                    <div>
+                        <label for="title">Título</label>
+                        <input type="text" id="title" name="title" maxlength="64"/>
+                    </div>
+                    <div>
+                        <label for="fk_author">Autor:</label>
+                        <select id="fk_author" name="fk_author">
+                             <option th:each="author : ${authors}" th:value="${author.pk_id}"  th:text="${author.name}">
+                        </select>
+                    </div>
+                </fieldset>
+                <input type="hidden" id="action" name="action" value="create"/>
+                <input type="submit" id="send" name="send" value="Añadir"/>
+            </form>
+            <div class="links">
+                <a href="list">Volver a la lista</a>  
+            </div>
+        </main>
+    </body>
+</html>

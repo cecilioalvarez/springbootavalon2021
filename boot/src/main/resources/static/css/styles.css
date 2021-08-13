@@ -1,0 +1,136 @@
+:root {
+    --main-fg-color: #0A0A0A;
+    --main-bg-color: #5B787B;
+    --header-fg-color: #5B787B;
+    --table-border-color: #9EB4C6;
+    --table-header-bg-color: #5B787B;
+    --table-header-border-color: #9EB4C6;
+    --links-color: #558FA6;
+    --passed-color: green;
+    --failed-color: red;
+}
+
+body {
+    width: 80%;
+    margin: 0 auto;
+    font-family: Arial, Verdana, sans-serif;
+    color: var(--main-fg-color);
+}
+
+h1, h2 {
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--header-fg-color);
+}
+
+table {
+    margin: 0 auto;
+    text-align: center;
+    border-collapse: collapse;
+    border: none;
+}
+
+table td {
+    border-bottom: solid thin var(--table-border-color);
+    font-size: 0.9em;
+    width: 300px;
+}
+
+caption {
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+
+table th, caption {
+    padding: 5px;
+    font-size: 16px;
+    background-color: var(--table-header-bg-color);
+    color: #FFFFFF;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--table-header-border-color);
+    text-transform: uppercase;
+}
+
+td.cell-10 {
+    width: 10%;
+}
+
+td.cell-20 {
+    width: 20%;
+}
+
+td.cell-30 {
+    width: 30%;
+}
+
+td.cell-60 {
+    width: 60%;
+}
+
+td.cell-70 {
+    width: 70%;
+}
+
+form {
+    margin: 0 auto;
+    text-align: center;
+    align-content: space-around;
+}
+
+fieldset {
+    border-color: var(--header-fg-color);
+}
+
+fieldset legend {
+    text-align: left;
+    font-weight: bold;
+    color: var(--header-fg-color);
+}
+
+form div {
+    display: inline-block;
+    margin: 5px 20px;
+}
+
+form input, form select {
+    text-align: center;
+}
+
+form input[type='submit'], form input[type='button'] {
+    margin-top: 20px;
+}
+
+main div {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.links {
+    color: var(--links-color);
+}
+
+input[type="button"] {
+    padding: 5px;
+    font-weight: bold;
+    font-size: 1em;
+    color: white;
+    background-color: var(--table-header-bg-color);
+    border-radius: 5px;
+    border-color: var(--table-header-border-color);
+}
+
+#error {
+    text-align: center;
+    color:red;
+}
+
+.passed {
+    color: var(--passed-color);
+}
+
+.failed {
+    color: var(--failed-color);
+}
