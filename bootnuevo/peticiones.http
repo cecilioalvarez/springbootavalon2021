@@ -11,3 +11,14 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:8080/webapi/libros/50 
+
+
+###
+PUT http://localhost:8080/webapi/libros/50
+Content-Type: application/json
+
+{
+    "isbn":"50",
+    "titulo":"java2",
+    "autor": "pedro2"
+}
