@@ -9,6 +9,7 @@ public interface LibroService {
 
 	void actualizar(Libro libro);
 
+	
 	void insertar(Libro libro);
 
 	void borrar(Libro libro);
