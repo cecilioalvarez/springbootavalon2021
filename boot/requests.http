@@ -1,0 +1,33 @@
+GET http://localhost:8080/library/webapi/books
+
+###
+
+POST http://localhost:8080/library/webapi/books
+Content-Type: application/json
+{
+    "pk_isbn": "1234567890123", 
+    "title": "Prueba", 
+    "fk_author": {
+        "pk_id": "00000000t"
+    }
+}
+
+###
+
+GET http://localhost:8080/library/webapi/books/1234567890123
+
+###
+
+PUT  http://localhost:8080/library/webapi/books/1234567890123
+Content-Type: application/json
+{
+    "pk_isbn": "1234567890123", 
+    "title": "Prueba modificado", 
+    "fk_author": {
+        "pk_id": "00000000t"
+    }
+}
+
+###
+
+DELETE http://localhost:8080/library/webapi/books/1234567890123
