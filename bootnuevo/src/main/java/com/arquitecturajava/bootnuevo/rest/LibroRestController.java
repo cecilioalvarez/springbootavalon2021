@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,14 +24,22 @@ public class LibroRestController {
 		this.servicio = servicio;
 	}
 	
-	@DeleteMapping 
-	public void borrar(Libro libro) {
-		servicio.borrar(libro);
+	@DeleteMapping("{isbn}")
+	public void borrar(@PathVariable String isbn) {
+		servicio.borrar(new Libro(isbn));
 	}
 	
 	@PostMapping
-	public void insertar (Libro libro) {
+	public void insertar (@RequestBody Libro libro) {
 		servicio.insertar(libro);
+	}
+	
+	@PutMapping("{isbn}")
+	public void actualizar(@RequestBody Libro libro, @PathVariable String isbn) {
+		Libro libroActual = servicio.buscarUno(isbn);
+		libroActual.setTitulo(libro.getTitulo());
+		libroActual.setAutor(libro.getAutor());
+		servicio.actualizar(libro);
 	}
 	
 	@GetMapping
