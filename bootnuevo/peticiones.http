@@ -14,11 +14,11 @@ DELETE http://localhost:8080/webapi/libros/50
 
 
 ###
-PUT http://localhost:8080/webapi/libros/50
+PUT http://localhost:8080/webapi/libros/51
 Content-Type: application/json
 
 {
-    "isbn":"50",
-    "titulo":"java2",
+    "isbn":"51",
+    "titulo":"java3",
     "autor": "pedro2"
 }

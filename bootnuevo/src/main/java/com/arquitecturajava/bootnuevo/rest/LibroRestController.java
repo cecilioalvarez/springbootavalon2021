@@ -25,7 +25,11 @@ public class LibroRestController {
 	}
 	
 	@PutMapping("{isbn}")
-	public void actualizar(@RequestBody Libro libro) {
+	public void actualizar(@RequestBody Libro libro, @PathVariable String isbn) {
+		
+		Libro libroactual=servicio.buscarUno(isbn);
+		libroactual.setTitulo(libro.getTitulo());
+		libroactual.setAutor(libro.getAutor());
 		servicio.actualizar(libro);
 	}
 	@PostMapping
