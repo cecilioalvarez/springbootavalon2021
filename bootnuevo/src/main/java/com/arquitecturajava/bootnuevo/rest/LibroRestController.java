@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.arquitecturajava.bootnuevo.servicios.LibroService;
 @RequestMapping("/webapi/libros")
 public class LibroRestController {
 	
+	private LibroService servicio;
 	@DeleteMapping
 	public void borrar(Libro libro) {
 		servicio.borrar(libro);
@@ -31,7 +33,11 @@ public class LibroRestController {
 	}
 
 
-	private LibroService servicio;
+	@GetMapping("/{isbn}")
+	public Libro buscarUno(@PathVariable String isbn) {
+		
+		return servicio.buscarUno(isbn);
+	}
 
 	public LibroRestController(LibroService servicio) {
 		super();
