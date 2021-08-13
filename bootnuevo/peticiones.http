@@ -1,0 +1,13 @@
+http://localhost:8080/webapi/libros
+
+###
+POST http://localhost:8080/webapi/libros
+Content-Type: application/json
+
+{
+    "isbn":"50",
+    "titulo":"java",
+    "autor": "pedro"
+}
+###
+DELETE http://localhost:8080/webapi/libros/50 
