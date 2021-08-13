@@ -1,0 +1,29 @@
+http://localhost:8080/webapi/libros
+
+###
+http://localhost:8080/webapi/libros/1
+
+###
+POST http://localhost:8080/webapi/libros
+Content-Type: application/json
+
+{
+    "isbn":"50",
+    "titulo":"java",
+    "autor":"pedro"
+
+}
+
+###
+DELETE http://localhost:8080/webapi/libros/50
+
+###
+PUT http://localhost:8080/webapi/libros/5
+Content-Type: application/json
+
+{
+    "isbn":"5",
+    "titulo":"Cien años de soledadad",
+    "autor":"Gabriel Garcia marquez"
+    
+}
