@@ -11,11 +11,11 @@ Content-Type: application/json
 ###
 DELETE http://localhost:8084/webapi/libros/A3
 ###
-PUt http://localhost:8084/webapi/libros
+PUT http://localhost:8084/webapi/libros/A1
 Content-Type: application/json
 
 {
-    "isbn":"A3",
-    "titulo":"Java V2",
+    "isbn":"A1",
+    "titulo":"Java V4",
     "autor":"Pedro"
 }
