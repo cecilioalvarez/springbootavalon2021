@@ -8,3 +8,14 @@ Content-Type: application/json
     "titulo":"Java",
     "autor":"Pedro"
 }
+###
+DELETE http://localhost:8084/webapi/libros/A3
+###
+PUt http://localhost:8084/webapi/libros
+Content-Type: application/json
+
+{
+    "isbn":"A3",
+    "titulo":"Java V2",
+    "autor":"Pedro"
+}
