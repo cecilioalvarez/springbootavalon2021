@@ -36,8 +36,8 @@ public class LibroRestController {
 		servicio.borrar(new Libro(isbn));
 	}
 
-	@PutMapping
-	public void actualizar(Libro libro) {
+	@PutMapping("/{isbn}")
+	public void actualizar(@RequestBody Libro libro) {
 		servicio.actualizar(libro);
 	}
 
