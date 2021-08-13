@@ -31,9 +31,9 @@ public class LibroRestController {
 		return servicio.buscarTodos();
 	}
 	
-	@DeleteMapping
-	public void borrar(Libro libro) {
-		servicio.borrar(libro);
+	@DeleteMapping("/{isbn}")
+	public void borrar(@PathVariable String isbn) {
+		servicio.borrar(new Libro(isbn));
 	}
 
 	@PutMapping
