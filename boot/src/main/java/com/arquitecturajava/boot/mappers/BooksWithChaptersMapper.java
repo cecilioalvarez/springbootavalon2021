@@ -1,8 +1,6 @@
 package com.arquitecturajava.boot.mappers;
 
-import com.arquitecturajava.boot.business.Author;
 import com.arquitecturajava.boot.business.Book;
-import com.arquitecturajava.boot.business.Chapter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +13,7 @@ public class BooksWithChaptersMapper implements ResultSetExtractor<List<Book>> {
     @Override
     public List<Book> extractData(ResultSet rs) throws SQLException, DataAccessException {
         final List<Book> BOOKS = new ArrayList<>();
-        while (rs.next()) {
+        /*while (rs.next()) {
             Book book = new Book(rs.getString("pk_isbn"));
             if (!BOOKS.contains(book)) {
                 book.setTitle(rs.getString("title"));
@@ -27,7 +25,7 @@ public class BooksWithChaptersMapper implements ResultSetExtractor<List<Book>> {
             if (rs.getString("pk_title") != null) {
                 book.addChapter(new Chapter(rs.getString("pk_title"), rs.getInt("pages"), book));
             }
-        }
+        }*/
         return BOOKS;
     }
 }

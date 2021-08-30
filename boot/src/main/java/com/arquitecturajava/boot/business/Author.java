@@ -1,9 +1,15 @@
 package com.arquitecturajava.boot.business;
 
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="author")
 public class Author {
 
+    @Id
     private String pk_id;
     private String name;
     private int age;

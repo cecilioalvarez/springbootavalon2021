@@ -1,15 +1,26 @@
 package com.arquitecturajava.boot.business;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="book")
 public class Book {
 
+    @Id
     private String pk_isbn;
     private String title;
+    @ManyToOne
+    @JoinColumn(name="fk_author", referencedColumnName="pk_id")
     private Author fk_author;
-    private List<Chapter> chapters = new ArrayList<>();
+    @OneToMany(mappedBy="pk_fk_book")
+    private List<Chapter> chapters;
 
     public Book() {
     }
@@ -22,13 +33,6 @@ public class Book {
         this.pk_isbn = isbn;
         this.title = title;
         this.fk_author = author;
-    }
-
-    public Book(String isbn, String title, Author author, List<Chapter> chapters) {
-        this.pk_isbn = isbn;
-        this.title = title;
-        this.fk_author = author;
-        this.chapters = chapters;
     }
 
     public String getPk_isbn() {
@@ -54,6 +58,10 @@ public class Book {
     public void setFk_author(Author fk_author) {
         this.fk_author = fk_author;
     }
+    
+    public void addChapter(Chapter chapter) {
+        this.chapters.add(chapter);
+    }
 
     public List<Chapter> getChapters() {
         return chapters;
@@ -61,10 +69,6 @@ public class Book {
 
     public void setChapters(List<Chapter> chapters) {
         this.chapters = chapters;
-    }
-    
-    public void addChapter(Chapter chapter) {
-        this.chapters.add(chapter);
     }
 
     @Override

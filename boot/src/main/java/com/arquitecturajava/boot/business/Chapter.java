@@ -1,11 +1,23 @@
 package com.arquitecturajava.boot.business;
 
+import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-public class Chapter {
+@Entity
+@Table(name="chapter")
+public class Chapter implements Serializable {
 
+    @Id
     private String pk_title;
     private int pages;
+    @Id
+    @ManyToOne
+    @JoinColumn(name="pk_fk_book", referencedColumnName="pk_isbn")
     private Book pk_fk_book;
     
     public Chapter() {

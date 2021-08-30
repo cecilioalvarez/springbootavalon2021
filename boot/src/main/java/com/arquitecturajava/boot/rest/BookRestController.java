@@ -45,7 +45,7 @@ public class BookRestController {
         Book bookToUpdate = this.LIBRARY_SERVICE.selectBook(new Book(pk_isbn));
         bookToUpdate.setTitle(book.getTitle());
         bookToUpdate.setFk_author(book.getFk_author());
-        bookToUpdate.setChapters(book.getChapters());
+        //bookToUpdate.setChapters(book.getChapters());
         return this.LIBRARY_SERVICE.update(bookToUpdate);
     }
 }
