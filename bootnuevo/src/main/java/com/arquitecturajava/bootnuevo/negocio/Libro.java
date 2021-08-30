@@ -3,27 +3,33 @@ package com.arquitecturajava.bootnuevo.negocio;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
+@Table(name="libros")
 public class Libro {
-
+    	@Id
 	private String isbn;
 	private String titulo;
 	private String autor;
-	@JsonIgnore
-	private List<Capitulo> capitulos= new ArrayList<Capitulo>();
-	
-	public List<Capitulo> getCapitulos() {
-		return capitulos;
-	}
-	public void setCapitulos(List<Capitulo> capitulos) {
-		this.capitulos = capitulos;
-	}
-	// fortalece la relacion y la simplifica entre 
-	//Libro y capitulo
-	public void addCapitulo(Capitulo c) {
-		this.capitulos.add(c);
-	}
+//	@JsonIgnore
+//	private List<Capitulo> capitulos= new ArrayList<Capitulo>();
+//	
+//	public List<Capitulo> getCapitulos() {
+//		return capitulos;
+//	}
+//	public void setCapitulos(List<Capitulo> capitulos) {
+//		this.capitulos = capitulos;
+//	}
+//	// fortalece la relacion y la simplifica entre 
+//	//Libro y capitulo
+//	public void addCapitulo(Capitulo c) {
+//		this.capitulos.add(c);
+//	}
 	
 	public String getIsbn() {
 		return isbn;
