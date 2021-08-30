@@ -1,11 +1,24 @@
 package com.arquitecturajava.bootnuevo.negocio;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
+@Table(name="Capitulos")
 public class Capitulo {
 
+	@Id
 	private String titulo;
 	private int paginas;
+	
+	
+	@ManyToOne
+	@JoinColumn(name="libros_isbn")
 	@JsonIgnore
 	private Libro libro;
 	

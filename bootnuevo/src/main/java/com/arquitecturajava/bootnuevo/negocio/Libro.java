@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,7 +18,9 @@ public class Libro {
 	private String isbn;
 	private String titulo;
 	private String autor;
-	/*@JsonIgnore
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "libro")
 	private List<Capitulo> capitulos= new ArrayList<Capitulo>();
 	
 	public List<Capitulo> getCapitulos() {
@@ -31,7 +34,7 @@ public class Libro {
 	public void addCapitulo(Capitulo c) {
 		this.capitulos.add(c);
 	}
-	*/
+	
 	public String getIsbn() {
 		return isbn;
 	}
