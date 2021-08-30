@@ -1,6 +1,9 @@
-insert into libros values ("1","Java","Cecilio")
-insert into libros values ("2","Net","Pedro")
-insert into libros values ("3","PHP","Cecilio")
+insert into Libros values ("1","Java","Cecilio")
+insert into Libros values ("2","Net","Pedro")
+insert into Libros values ("3","PHP","Cecilio")
+insert into Capitulos values ("intro","12","1")
+insert into Capitulos values ("basico","12","1")
+insert into Capitulos values ("introduccion","12","2")
 
 
 
