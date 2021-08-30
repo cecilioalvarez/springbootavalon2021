@@ -1,4 +1,4 @@
-package com.arquitecturajava.bootnuevo.repositorios.jdbc;
+package com.arquitecturajava.bootnuevo.repositorios.jpa;
 
 import java.util.List;
 
