@@ -18,7 +18,7 @@ public class LibroCapitulosExtractor implements ResultSetExtractor<List<Libro>> 
 
 		List<Libro> listaLibros = new ArrayList<Libro>();
 
-		while (rs.next()) {
+		/*while (rs.next()) {
 
 			Libro l = new Libro(rs.getString("isbn"), rs.getString("titulo"), rs.getString("autor"));
 
@@ -32,7 +32,7 @@ public class LibroCapitulosExtractor implements ResultSetExtractor<List<Libro>> 
 			}
 
 			
-		}
+		}*/
 		return listaLibros;
 	}
 }

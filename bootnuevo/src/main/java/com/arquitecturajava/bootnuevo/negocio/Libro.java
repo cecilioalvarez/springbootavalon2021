@@ -3,14 +3,21 @@ package com.arquitecturajava.bootnuevo.negocio;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
+@Table(name="Libros")
 public class Libro {
 
+	@Id
 	private String isbn;
 	private String titulo;
 	private String autor;
-	@JsonIgnore
+	/*@JsonIgnore
 	private List<Capitulo> capitulos= new ArrayList<Capitulo>();
 	
 	public List<Capitulo> getCapitulos() {
@@ -24,7 +31,7 @@ public class Libro {
 	public void addCapitulo(Capitulo c) {
 		this.capitulos.add(c);
 	}
-	
+	*/
 	public String getIsbn() {
 		return isbn;
 	}
