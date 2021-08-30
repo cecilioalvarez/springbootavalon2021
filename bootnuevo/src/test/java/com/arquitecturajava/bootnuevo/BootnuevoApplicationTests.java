@@ -116,4 +116,15 @@ class BootnuevoApplicationTests {
 		Libro librovacio = em.find(Libro.class, "1");
 		assertNull(librovacio);
 	}
+
+	@Test
+	@Transactional
+	void borrarUnCapituloTest() {
+		Capitulo cap = em.find(Capitulo.class, "intro");
+		// em.getTransaction().begin();
+		em.remove(cap);
+
+		Capitulo capituloVacio = em.find(Capitulo.class, "intro");
+		assertNull(capituloVacio);
+	}
 }
