@@ -2,6 +2,7 @@ package com.arquitecturajava.bootnuevo.repositorios.jdbc;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import com.arquitecturajava.bootnuevo.repositorios.jdbc.mappers.LibroCapitulosEx
 import com.arquitecturajava.bootnuevo.repositorios.jdbc.mappers.LibroMapper;
 
 @Repository
+@Qualifier("jdbc")
 public class LibroRepositoryJDBC implements LibroRepository {
 
 	private JdbcTemplate plantilla;

@@ -1,18 +1,10 @@
 package com.arquitecturajava.bootnuevo;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.arquitecturajava.bootnuevo.negocio.Capitulo;
-import com.arquitecturajava.bootnuevo.negocio.Libro;
 
 @SpringBootApplication
 public class BootnuevoApplication {
@@ -21,6 +13,7 @@ public class BootnuevoApplication {
 	EntityManager em;
 	
 	public static void main(String[] args) {
+		
 		SpringApplication.run(BootnuevoApplication.class, args);
 	}
 
