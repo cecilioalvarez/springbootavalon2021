@@ -12,6 +12,7 @@ public class Editorial {
 	@Id
 	private String nombre;
 	private String categoria;
+	
 	@OneToOne(mappedBy="editorial")
 	private Libro libro;
 	

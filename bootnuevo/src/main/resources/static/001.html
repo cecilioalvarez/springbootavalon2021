@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+
+	function borrar(isbn){
+		alert(isbn);
+	}
+
+	$(document).ready(function() {
+		$.get("http://localhost:8080/webapi/libros", function(datos) {
+			
+			for(var i=0; i<datos.length; i++){
+				let fila = datos[i];
+				$("table").append(`<tr>
+					<td>${fila.isbn}</td>
+					<td>${fila.titulo}</td>
+					<td>${fila.autor}</td>
+					<td><input type="button" onClick="borrar(${fila.isbn})" value="borrar elemento"/></td>
+					</tr>`);
+			}
+		})
+	})
+</script>
+</head>
+<body>
+	<table>
+	</table>
+</body>
+</html>

@@ -22,7 +22,7 @@ public class Libro {
 	private String isbn;
 	private String titulo;
 	private String autor;
-	
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="editoriales_nombre")
 	private Editorial editorial;
