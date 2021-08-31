@@ -2,14 +2,17 @@ package com.arquitecturajava.bootnuevo.repositorios.jdbc;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.arquitecturajava.bootnuevo.negocio.Capitulo;
 import com.arquitecturajava.bootnuevo.repositorios.CapituloRepository;
 import com.arquitecturajava.bootnuevo.repositorios.jdbc.mappers.CapituloMapper;
-@Component
+@Repository
+@Qualifier("jdbc")
 public class CapituloRepositoryJDBC implements CapituloRepository {
 
 	private JdbcTemplate plantilla;
