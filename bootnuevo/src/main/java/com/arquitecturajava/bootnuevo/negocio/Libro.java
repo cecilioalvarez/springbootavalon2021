@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,7 +19,16 @@ public class Libro {
 	private String titulo;
 	private String autor;
 	
+	@OneToOne
+	@JoinColumn(name="editoriales_nombre")
+	private Editorial editorial;
 
+	public Editorial getEditorial() {
+		return editorial;
+	}
+	public void setEditorial(Editorial editorial) {
+		this.editorial = editorial;
+	}
 	@JsonIgnore
 	@OneToMany(mappedBy="libro")
 	private List<Capitulo> capitulos= new ArrayList<Capitulo>();

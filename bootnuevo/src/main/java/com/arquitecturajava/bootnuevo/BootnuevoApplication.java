@@ -15,7 +15,7 @@ import com.arquitecturajava.bootnuevo.negocio.Capitulo;
 import com.arquitecturajava.bootnuevo.negocio.Libro;
 
 @SpringBootApplication
-public class BootnuevoApplication implements CommandLineRunner {
+public class BootnuevoApplication {
 
 	@PersistenceContext
 	EntityManager em;
@@ -24,6 +24,7 @@ public class BootnuevoApplication implements CommandLineRunner {
 		SpringApplication.run(BootnuevoApplication.class, args);
 	}
 
+	/*
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
@@ -46,5 +47,6 @@ public class BootnuevoApplication implements CommandLineRunner {
 		}
 
 	}
+	*/
 
 }
