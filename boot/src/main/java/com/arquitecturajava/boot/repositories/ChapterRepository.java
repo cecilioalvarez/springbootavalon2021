@@ -18,11 +18,11 @@ public interface ChapterRepository {
     
     int delete(Book book);
     
-    void updateChapter(Chapter oldChapter, Chapter newChapter);
+    int updateChapter(Chapter oldChapter, Chapter newChapter);
     
-    void updateTitle(Chapter chapter, String title);
+    int updateTitle(Chapter chapter, String title);
     
-    void updatePages(Chapter chapter, int pages);
+    int updatePages(Chapter chapter, int pages);
     
-    void updateBook(Chapter chapter, Book book);
+    int updateBook(Chapter chapter, Book book);
 }

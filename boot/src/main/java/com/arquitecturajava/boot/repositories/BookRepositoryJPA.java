@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public class BookRepositoryJPA implements BookRepository {
     
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public Book selectBook(Book book) {

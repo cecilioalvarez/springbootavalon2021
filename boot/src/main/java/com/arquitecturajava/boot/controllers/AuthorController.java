@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AuthorController {
 
     @Autowired
-    private LibraryService LIBRARY_SERVICE;
+    private LibraryService libraryService;
     
     @RequestMapping("/{pk_id}")
     public String getAuthorDetailPage(Model model, @PathVariable String pk_id) {
-        model.addAttribute("author", this.LIBRARY_SERVICE.select(new Author(pk_id)));
+        model.addAttribute("author", this.libraryService.select(new Author(pk_id)));
         return "authorDetail";
     }
 }

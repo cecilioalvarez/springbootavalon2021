@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public class AuthorRepositoryJPA implements AuthorRepository {
     
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public Author select(Author author) {
