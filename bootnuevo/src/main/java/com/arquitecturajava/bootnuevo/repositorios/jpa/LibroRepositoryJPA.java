@@ -42,14 +42,14 @@ public class LibroRepositoryJPA implements LibroRepository {
 	public List<Libro> buscarTodos() {
 		// TODO Auto-generated method stub
 
-		return em.createQuery("Select l from Libro l", Libro.class).getResultList();
+		return em.createQuery("Libros.buscarTodos", Libro.class).getResultList();
 	}
 
 	@Override
 	public List<Libro> buscarTodosConCapitulos() {
 		// TODO Auto-generated method stub
 
-		return em.createQuery("Select l from Libro l join fecth l.capitulos", Libro.class).getResultList();
+		return em.createQuery("Libros.buscarTodosConCapitulos", Libro.class).getResultList();
 	}
 
 	@Override
