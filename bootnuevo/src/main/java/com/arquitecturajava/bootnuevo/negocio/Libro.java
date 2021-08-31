@@ -14,8 +14,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name="Libros")
-@NamedQuery(name="Libros.buscarTodos", query="select l from Libro l")
-@NamedQuery(name="Libros.buscarTodosConCapitulos", query="Select l from Libro l join fecth l.capitulos")
+@NamedQuery(name = "Libros.buscarTodos",query="select l from Libro l")
+@NamedQuery(name = "Libros.buscarTodosConCapitulos",query="select l from Libro l join fetch l.capitulos ")
 public class Libro {
 	@Id
 	private String isbn;
