@@ -15,13 +15,23 @@ class BootApplicationTests2 {
     @PersistenceContext
     EntityManager entityManager;
     
-    @Test
-    void selectAllAuthorsTest() {
+    /*@Test
+    void selectAllBooksWithChaptersTest() {
         TypedQuery<Book> query = this.entityManager.createQuery("SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.chapters", Book.class);
         List<Book> books = query.getResultList();
         books.forEach(book -> {
             System.out.println(book);
             book.getChapters().forEach(chapter -> System.out.println(chapter));
+        });
+    }*/
+    
+    @Test 
+    void selectAllBooksWithCoverTest() {
+        TypedQuery<Book> query = this.entityManager.createQuery("SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.fk_cover", Book.class);
+        List<Book> books = query.getResultList();
+        books.forEach(book -> {
+            System.out.println(book);
+            System.out.println(book.getFk_cover());
         });
     }
 }

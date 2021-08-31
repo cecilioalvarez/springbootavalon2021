@@ -1,18 +1,22 @@
 package com.arquitecturajava.boot.business;
 
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="author")
+@Table(name = "author")
 public class Author {
 
     @Id
     private String pk_id;
     private String name;
     private int age;
+    @OneToMany(mappedBy = "fk_author")
+    private List<Book> books;
     
     public Author() {
     }

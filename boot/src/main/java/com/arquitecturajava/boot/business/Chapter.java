@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="chapter")
+@Table(name = "chapter")
 public class Chapter implements Serializable {
 
     @Id
@@ -17,7 +17,7 @@ public class Chapter implements Serializable {
     private int pages;
     @Id
     @ManyToOne
-    @JoinColumn(name="pk_fk_book", referencedColumnName="pk_isbn")
+    @JoinColumn(name = "pk_fk_book", referencedColumnName = "pk_isbn")
     private Book pk_fk_book;
     
     public Chapter() {

@@ -7,19 +7,23 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="book")
+@Table(name = "book")
 public class Book {
 
     @Id
     private String pk_isbn;
     private String title;
+    @OneToOne
+    @JoinColumn(name = "fk_cover", referencedColumnName = "pk_cover")
+    private Cover fk_cover;
     @ManyToOne
-    @JoinColumn(name="fk_author", referencedColumnName="pk_id")
+    @JoinColumn(name = "fk_author", referencedColumnName = "pk_id")
     private Author fk_author;
-    @OneToMany(mappedBy="pk_fk_book")
+    @OneToMany(mappedBy = "pk_fk_book")
     private List<Chapter> chapters;
 
     public Book() {
@@ -29,10 +33,18 @@ public class Book {
         this.pk_isbn = pk_isbn;
     }
     
-    public Book(String isbn, String title, Author author) {
-        this.pk_isbn = isbn;
+    public Book(String pk_isbn, String title, Author author) {
+        this.pk_isbn = pk_isbn;
         this.title = title;
         this.fk_author = author;
+    }
+
+    public Book(String pk_isbn, String title, Cover fk_cover, Author fk_author) {
+        this.pk_isbn = pk_isbn;
+        this.title = title;
+        this.fk_cover = fk_cover;
+        this.fk_author = fk_author;
+        this.chapters = chapters;
     }
 
     public String getPk_isbn() {
@@ -49,6 +61,14 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Cover getFk_cover() {
+        return fk_cover;
+    }
+
+    public void setFk_cover(Cover fk_cover) {
+        this.fk_cover = fk_cover;
     }
 
     public Author getFk_author() {
