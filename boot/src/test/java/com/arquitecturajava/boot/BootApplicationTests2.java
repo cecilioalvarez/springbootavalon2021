@@ -15,23 +15,25 @@ class BootApplicationTests2 {
     @PersistenceContext
     EntityManager entityManager;
     
-    /*@Test
+    @Test
     void selectAllBooksWithChaptersTest() {
-        TypedQuery<Book> query = this.entityManager.createQuery("SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.chapters", Book.class);
+        final String QUERY = "SELECT DISTINCT b "
+                + "FROM Book b "
+                + "LEFT JOIN FETCH b.fk_author "
+                + "LEFT JOIN FETCH b.chapters";
+        TypedQuery<Book> query = this.entityManager.createQuery(QUERY, Book.class);
         List<Book> books = query.getResultList();
-        books.forEach(book -> {
-            System.out.println(book);
-            book.getChapters().forEach(chapter -> System.out.println(chapter));
-        });
-    }*/
+        books.forEach(book -> book.getChapters().forEach(chapter -> System.out.println(chapter)));
+    }
     
     @Test 
     void selectAllBooksWithCoverTest() {
-        TypedQuery<Book> query = this.entityManager.createQuery("SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.fk_cover", Book.class);
+        final String QUERY = "SELECT DISTINCT b "
+                + "FROM Book b "
+                + "LEFT JOIN FETCH b.fk_author "
+                + "LEFT JOIN FETCH b.fk_cover";
+        TypedQuery<Book> query = this.entityManager.createQuery(QUERY, Book.class);
         List<Book> books = query.getResultList();
-        books.forEach(book -> {
-            System.out.println(book);
-            System.out.println(book.getFk_cover());
-        });
+        books.forEach(book -> System.out.println(book.getFk_cover()));
     }
 }

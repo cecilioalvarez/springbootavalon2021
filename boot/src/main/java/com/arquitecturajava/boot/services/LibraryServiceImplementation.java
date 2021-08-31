@@ -6,8 +6,10 @@ import com.arquitecturajava.boot.business.Chapter;
 import com.arquitecturajava.boot.repositories.AuthorRepository;
 import com.arquitecturajava.boot.repositories.BookRepository;
 import com.arquitecturajava.boot.repositories.ChapterRepository;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class LibraryServiceImplementation implements LibraryService {
     
     @Autowired
+    @Qualifier("jpa")
     private BookRepository bookRepository;
     @Autowired
+    @Qualifier("jpa")
     private ChapterRepository chapterRepository;
     @Autowired
+    @Qualifier("jpa")
     private AuthorRepository authorRepository;
     
     public Book selectBook(Book book) {
@@ -47,24 +52,20 @@ public class LibraryServiceImplementation implements LibraryService {
     
     @Transactional
     @Override
-    public int insert(Book book) {
-        return this.bookRepository.insert(book);
+    public void insert(Book book) {
+        this.bookRepository.insert(book);
     }
 
     @Transactional
     @Override
-    public int insert(Book... books) {
-        int booksInserted = 0;
-        for (Book book : books) {
-            booksInserted += insert(book);
-        }
-        return booksInserted;
+    public void insert(Book... books) {
+        Arrays.asList(books).forEach(book -> this.bookRepository.insert(book));
     }
 
     @Transactional
     @Override
-    public int deleteBook(Book book) {
-        return this.bookRepository.delete(book);
+    public void deleteBook(Book book) {
+        this.bookRepository.delete(book);
     }
 
     @Transactional
@@ -75,8 +76,8 @@ public class LibraryServiceImplementation implements LibraryService {
 
     @Transactional
     @Override
-    public int update(Book book) {
-        return this.bookRepository.update(book);
+    public void update(Book book) {
+        this.bookRepository.update(book);
     }
 
     @Transactional
@@ -114,14 +115,14 @@ public class LibraryServiceImplementation implements LibraryService {
 
     @Transactional
     @Override
-    public int insert(Chapter chapter) {
-        return this.chapterRepository.insert(chapter);
+    public void insert(Chapter chapter) {
+        this.chapterRepository.insert(chapter);
     }
 
     @Transactional
     @Override
-    public int delete(Chapter chapter) {
-        return this.chapterRepository.delete(chapter);
+    public void delete(Chapter chapter) {
+        this.chapterRepository.delete(chapter);
     }
 
     @Transactional
@@ -132,26 +133,26 @@ public class LibraryServiceImplementation implements LibraryService {
 
     @Transactional
     @Override
-    public int updateChapter(Chapter oldChapter, Chapter newChapter) {
-        return this.chapterRepository.updateChapter(oldChapter, newChapter);
+    public void updateChapter(Chapter oldChapter, Chapter newChapter) {
+        this.chapterRepository.updateChapter(oldChapter, newChapter);
     }
 
     @Transactional
     @Override
-    public int updateTitle(Chapter chapter, String title) {
-        return this.chapterRepository.updateTitle(chapter, title);
+    public void updateTitle(Chapter chapter, String title) {
+        this.chapterRepository.updateTitle(chapter, title);
     }
 
     @Transactional
     @Override
-    public int updatePages(Chapter chapter, int pages) {
-        return this.chapterRepository.updatePages(chapter, pages);
+    public void updatePages(Chapter chapter, int pages) {
+        this.chapterRepository.updatePages(chapter, pages);
     }
 
     @Transactional
     @Override
-    public int updateBook(Chapter chapter, Book book) {
-        return this.chapterRepository.updateBook(chapter, book);
+    public void updateBook(Chapter chapter, Book book) {
+        this.chapterRepository.updateBook(chapter, book);
     }
 
     @Override
@@ -166,20 +167,20 @@ public class LibraryServiceImplementation implements LibraryService {
 
     @Transactional
     @Override
-    public int insert(Author author) {
-        return this.authorRepository.insert(author);
+    public void insert(Author author) {
+        this.authorRepository.insert(author);
     }
 
     @Transactional
     @Override
-    public int delete(Author author) {
-        return this.authorRepository.delete(author);
+    public void delete(Author author) {
+        this.authorRepository.delete(author);
     }
 
     @Transactional
     @Override
-    public int update(Author author) {
-        return this.authorRepository.update(author);
+    public void update(Author author) {
+        this.authorRepository.update(author);
     }
 
     @Transactional

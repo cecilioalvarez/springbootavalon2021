@@ -9,15 +9,15 @@ public interface AuthorRepository {
     
     List<Author> select();
     
-    int insert(Author author);
+    void insert(Author author);
     
-    int delete(Author author);
+    void delete(Author author);
     
-    int update(Author author);
+    void update(Author author);
     
-    int updatePk_id(Author auuthor, String pk_id);
+    int updatePk_id(Author author, String pk_id);
     
-    int updateName(Author auuthor, String name);
+    int updateName(Author author, String name);
     
-    int updateAge(Author auuthor, int age);
+    int updateAge(Author author, int age);
 }

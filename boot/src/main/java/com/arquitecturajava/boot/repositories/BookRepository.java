@@ -16,13 +16,13 @@ public interface BookRepository {
     
     List<Book> select(Author fk_author);
     
-    int insert(Book book);
+    void insert(Book book);
     
-    int delete(Book book);
+    void delete(Book book);
     
     int deleteBooks(Author fk_author);
     
-    int update(Book book);
+    void update(Book book);
     
     int updatePk_isbn(Book book, String pk_isbn);
     

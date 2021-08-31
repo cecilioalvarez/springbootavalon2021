@@ -3,67 +3,115 @@ package com.arquitecturajava.boot.repositories;
 import com.arquitecturajava.boot.business.Author;
 import com.arquitecturajava.boot.business.Book;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
+@Repository
+@Qualifier("jpa")
 public class BookRepositoryJPA implements BookRepository {
+    
+    @PersistenceContext
+    EntityManager entityManager;
 
     @Override
     public Book selectBook(Book book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.entityManager.find(Book.class, book.getPk_isbn());
     }
 
     @Override
     public Book selectBookWithChapters(Book book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String STRING_QUERY = "SELECT b "
+                + "FROM Book b "
+                + "FETCH b.chapters "
+                + "WHERE b.pk_isbn = :pk_isbn";
+        final TypedQuery<Book> QUERY = this.entityManager.createQuery(STRING_QUERY, Book.class);
+        QUERY.setParameter("pk_isbn", book.getPk_isbn());
+        return QUERY.getSingleResult();
     }
 
     @Override
     public List<Book> selectBooks() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String QUERY = "SELECT b "
+                + "FROM Book b";
+        return this.entityManager.createQuery(QUERY, Book.class).getResultList();
     }
 
     @Override
     public List<Book> selectBooksWithChapters() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String QUERY = "SELECT b "
+                + "FROM Book b "
+                + "JOIN FETCH b.chapters";
+        return this.entityManager.createQuery(QUERY, Book.class).getResultList();
     }
 
     @Override
     public List<Book> select(Author fk_author) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String STRING_QUERY = "SELECT b "
+                + "FROM Book b "
+                + "WHERE b.fk_author.pk_id = :pk_id";
+        final TypedQuery<Book> QUERY = this.entityManager.createQuery(STRING_QUERY, Book.class);
+        QUERY.setParameter("pk_id", fk_author.getPk_id());
+        return QUERY.getResultList();
     }
 
     @Override
-    public int insert(Book book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void insert(Book book) {
+        this.entityManager.persist(book);
     }
 
     @Override
-    public int delete(Book book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void delete(Book book) {
+        this.entityManager.remove(this.entityManager.merge(book));
     }
 
     @Override
     public int deleteBooks(Author fk_author) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String STRING_QUERY = "DELETE b "
+                + "FROM Book b "
+                + "WHERE b.fk_author.pk_id = :pk_id";
+        final TypedQuery<Book> QUERY = this.entityManager.createQuery(STRING_QUERY, Book.class);
+        QUERY.setParameter("pk_id", fk_author.getPk_id());
+        return QUERY.executeUpdate();
     }
 
     @Override
-    public int update(Book book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Book book) {
+        this.entityManager.merge(book);
     }
 
     @Override
     public int updatePk_isbn(Book book, String pk_isbn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String STRING_QUERY = "UPDATE Book b "
+                + "SET b.pk_isbn = :new_pk_isbn "
+                + "WHERE b.pk_isbn = :old_pk_isbn";
+        final TypedQuery<Book> QUERY = this.entityManager.createQuery(STRING_QUERY, Book.class);
+        QUERY.setParameter("new_pk_isbn", pk_isbn);
+        QUERY.setParameter("old_pk_isbn", book.getPk_isbn());
+        return QUERY.executeUpdate();
     }
 
     @Override
     public int updateTitle(Book book, String title) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String STRING_QUERY = "UPDATE Book b "
+                + "SET b.title = :title "
+                + "WHERE b.pk_isbn = :pk_isbn";
+        final TypedQuery<Book> QUERY = this.entityManager.createQuery(STRING_QUERY, Book.class);
+        QUERY.setParameter("title", title);
+        QUERY.setParameter("pk_isbn", book.getPk_isbn());
+        return QUERY.executeUpdate();
     }
 
     @Override
     public int updateAuthor(Book book, Author author) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String STRING_QUERY = "UPDATE Book b "
+                + "SET b.fk_author = :fk_author "
+                + "WHERE b.pk_isbn = :pk_isbn";
+        final TypedQuery<Book> QUERY = this.entityManager.createQuery(STRING_QUERY, Book.class);
+        QUERY.setParameter("fk_author", author.getPk_id());
+        QUERY.setParameter("pk_isbn", book.getPk_isbn());
+        return QUERY.executeUpdate();
     }
-
 }

@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface LibraryService {
 
-    int deleteBook(Book book);
+    void deleteBook(Book book);
 
     int deleteBooks(Author fk_author);
 
-    int insert(Book book);
+    void insert(Book book);
     
-    int insert(Book ...book);
+    void insert(Book ...book);
     
     Book selectBook(Book book);
 
@@ -25,7 +25,7 @@ public interface LibraryService {
 
     List<Book> selectBooks(Author fk_author);
 
-    int update(Book book);
+    void update(Book book);
 
     int updateAuthor(Book book, Author author);
 
@@ -39,29 +39,29 @@ public interface LibraryService {
     
     List<Chapter> select(Book book);
     
-    int insert(Chapter chapter);
+    void insert(Chapter chapter);
     
-    int delete(Chapter chapter);
+    void delete(Chapter chapter);
     
     int deleteChapters(Book book);
     
-    int updateChapter(Chapter oldChapter, Chapter newChapter);
+    void updateChapter(Chapter oldChapter, Chapter newChapter);
     
-    int updateTitle(Chapter chapter, String title);
+    void updateTitle(Chapter chapter, String title);
     
-    int updatePages(Chapter chapter, int pages);
+    void updatePages(Chapter chapter, int pages);
     
-    int updateBook(Chapter chapter, Book book);
+    void updateBook(Chapter chapter, Book book);
     
     Author select(Author author);
     
     List<Author> selectAuthors();
     
-    int insert(Author author);
+    void insert(Author author);
     
-    int delete(Author author);
+    void delete(Author author);
     
-    int update(Author author);
+    void update(Author author);
     
     int updatePk_id(Author author, String pk_id);
     

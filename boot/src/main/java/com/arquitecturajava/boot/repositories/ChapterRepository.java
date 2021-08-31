@@ -12,17 +12,17 @@ public interface ChapterRepository {
     
     List<Chapter> select(Book book);
     
-    int insert(Chapter chapter);
+    void insert(Chapter chapter);
     
-    int delete(Chapter chapter);
+    void delete(Chapter chapter);
     
     int delete(Book book);
     
-    int updateChapter(Chapter oldChapter, Chapter newChapter);
+    void updateChapter(Chapter oldChapter, Chapter newChapter);
     
-    int updateTitle(Chapter chapter, String title);
+    void updateTitle(Chapter chapter, String title);
     
-    int updatePages(Chapter chapter, int pages);
+    void updatePages(Chapter chapter, int pages);
     
-    int updateBook(Chapter chapter, Book book);
+    void updateBook(Chapter chapter, Book book);
 }

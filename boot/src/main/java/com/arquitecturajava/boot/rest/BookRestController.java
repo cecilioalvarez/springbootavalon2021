@@ -31,21 +31,21 @@ public class BookRestController {
     }
     
     @PostMapping
-    public int insert(@RequestBody Book book) {
-        return this.LIBRARY_SERVICE.insert(book);
+    public void insert(@RequestBody Book book) {
+        this.LIBRARY_SERVICE.insert(book);
     }
     
     @DeleteMapping("/{pk_isbn}")
-    public int delete(@PathVariable String pk_isbn) {
-        return this.LIBRARY_SERVICE.deleteBook(new Book(pk_isbn));
+    public void delete(@PathVariable String pk_isbn) {
+        this.LIBRARY_SERVICE.deleteBook(new Book(pk_isbn));
     }
     
     @PutMapping("/{pk_isbn}")
-    public int update(@PathVariable String pk_isbn, @RequestBody Book book) {
+    public void update(@PathVariable String pk_isbn, @RequestBody Book book) {
         Book bookToUpdate = this.LIBRARY_SERVICE.selectBook(new Book(pk_isbn));
         bookToUpdate.setTitle(book.getTitle());
         bookToUpdate.setFk_author(book.getFk_author());
         //bookToUpdate.setChapters(book.getChapters());
-        return this.LIBRARY_SERVICE.update(bookToUpdate);
+        this.LIBRARY_SERVICE.update(bookToUpdate);
     }
 }
