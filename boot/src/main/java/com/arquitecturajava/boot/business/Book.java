@@ -1,5 +1,6 @@
 package com.arquitecturajava.boot.business;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "book")
 @NamedQuery(name = "Book.selectAll", query = "SELECT b FROM Book b")
 @NamedQuery(name = "Book.selectAllWithChapters", query = "SELECT b FROM Book b JOIN FETCH b.chapters")
-@NamedQuery(name = "Book.selectBookWithChapters", query = "SELECT b FROM Book b FETCH b.chapters WHERE b.pk_isbn = :pk_isbn")
+@NamedQuery(name = "Book.selectBookWithChapters", query = "SELECT b FROM Book b JOIN FETCH b.chapters WHERE b.pk_isbn = :pk_isbn")
 @NamedQuery(name = "Book.selectAllByAuthor", query = "SELECT b FROM Book b WHERE b.fk_author.pk_id = :pk_id")
 public class Book {
 
@@ -28,6 +29,7 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "fk_author", referencedColumnName = "pk_id")
     private Author fk_author;
+    @JsonIgnore
     @OneToMany(mappedBy = "pk_fk_book")
     private List<Chapter> chapters;
 

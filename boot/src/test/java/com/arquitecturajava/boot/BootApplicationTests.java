@@ -86,6 +86,6 @@ class BootApplicationTests {
         chapter = this.entityManager.find(Chapter.class, chapter);
         assertEquals(chapter.getPk_title(), "Primer capítulo");
         assertEquals(chapter.getPages(), 10);
-        assertEquals(chapter.getPk_fk_book().getTitle(), "Prueba");
+        assertEquals(chapter.getPk_fk_book().getTitle(), "Prueba modificado");
     }
 }
