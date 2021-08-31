@@ -5,9 +5,14 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
+
 import com.arquitecturajava.bootnuevo.negocio.Capitulo;
 import com.arquitecturajava.bootnuevo.repositorios.CapituloRepository;
 
+@Repository
+@Qualifier("jpa")
 public class CapituloRepositoryJPA implements CapituloRepository{
 
 	@PersistenceContext
