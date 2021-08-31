@@ -22,10 +22,12 @@ public class Libro {
 	private String titulo;
 	private String autor;
 	
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="editoriales_nombre")
 	private Editorial editorial;
 
+	
 	public Editorial getEditorial() {
 		return editorial;
 	}
