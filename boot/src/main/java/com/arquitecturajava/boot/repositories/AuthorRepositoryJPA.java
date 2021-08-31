@@ -22,9 +22,7 @@ public class AuthorRepositoryJPA implements AuthorRepository {
 
     @Override
     public List<Author> select() {
-        final String QUERY = "SELECT a "
-                + "FROM Author a";
-        return this.entityManager.createQuery(QUERY, Author.class).getResultList();
+        return this.entityManager.createNamedQuery("Author.selectAll", Author.class).getResultList();
     }
 
     @Override

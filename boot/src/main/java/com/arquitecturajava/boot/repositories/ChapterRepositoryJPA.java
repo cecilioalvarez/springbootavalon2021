@@ -23,17 +23,12 @@ public class ChapterRepositoryJPA implements ChapterRepository {
 
     @Override
     public List<Chapter> select() {
-        final String QUERY = "SELECT c "
-                + "FROM Chapter c";
-        return this.entityManager.createQuery(QUERY, Chapter.class).getResultList();
+        return this.entityManager.createNamedQuery("Chapter.selectAll", Chapter.class).getResultList();
     }
 
     @Override
     public List<Chapter> select(Book book) {
-        final String STRING_QUERY = "SELECT c "
-                + "FROM Chapter c "
-                + "WHERE c.pk_fk_book.pk_isbn = :pk_isbn";
-        final TypedQuery<Chapter> QUERY = this.entityManager.createQuery(STRING_QUERY, Chapter.class);
+        final TypedQuery<Chapter> QUERY = this.entityManager.createNamedQuery("Chapter.selectByBook", Chapter.class);
         QUERY.setParameter("pk_isbn", book.getPk_isbn());
         return QUERY.getResultList();
     }

@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "author")
+@NamedQuery(name = "Author.selectAll", query = "SELECT a FROM Author a")
 public class Author {
 
     @Id

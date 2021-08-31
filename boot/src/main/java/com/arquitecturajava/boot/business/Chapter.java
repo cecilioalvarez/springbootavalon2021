@@ -6,10 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "chapter")
+@NamedQuery(name = "Chapter.selectAll", query = "SELECT c FROM Chapter c")
+@NamedQuery(name = "Chapter.selectByBook", query = "SELECT c FROM Chapter c WHERE c.pk_fk_book.pk_isbn = :pk_isbn")
 public class Chapter implements Serializable {
 
     @Id

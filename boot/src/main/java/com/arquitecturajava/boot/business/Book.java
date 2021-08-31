@@ -6,12 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "book")
+@NamedQuery(name = "Book.selectAll", query = "SELECT b FROM Book b")
+@NamedQuery(name = "Book.selectAllWithChapters", query = "SELECT b FROM Book b JOIN FETCH b.chapters")
+@NamedQuery(name = "Book.selectBookWithChapters", query = "SELECT b FROM Book b FETCH b.chapters WHERE b.pk_isbn = :pk_isbn")
+@NamedQuery(name = "Book.selectAllByAuthor", query = "SELECT b FROM Book b WHERE b.fk_author.pk_id = :pk_id")
 public class Book {
 
     @Id

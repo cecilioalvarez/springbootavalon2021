@@ -23,36 +23,24 @@ public class BookRepositoryJPA implements BookRepository {
 
     @Override
     public Book selectBookWithChapters(Book book) {
-        final String STRING_QUERY = "SELECT b "
-                + "FROM Book b "
-                + "FETCH b.chapters "
-                + "WHERE b.pk_isbn = :pk_isbn";
-        final TypedQuery<Book> QUERY = this.entityManager.createQuery(STRING_QUERY, Book.class);
+        final TypedQuery<Book> QUERY = this.entityManager.createNamedQuery("Book.selectBookWithChapters", Book.class);
         QUERY.setParameter("pk_isbn", book.getPk_isbn());
         return QUERY.getSingleResult();
     }
 
     @Override
     public List<Book> selectBooks() {
-        final String QUERY = "SELECT b "
-                + "FROM Book b";
-        return this.entityManager.createQuery(QUERY, Book.class).getResultList();
+        return this.entityManager.createNamedQuery("Book.selectAll", Book.class).getResultList();
     }
 
     @Override
     public List<Book> selectBooksWithChapters() {
-        final String QUERY = "SELECT b "
-                + "FROM Book b "
-                + "JOIN FETCH b.chapters";
-        return this.entityManager.createQuery(QUERY, Book.class).getResultList();
+        return this.entityManager.createNamedQuery("Book.selectAllWithChapters", Book.class).getResultList();
     }
 
     @Override
     public List<Book> select(Author fk_author) {
-        final String STRING_QUERY = "SELECT b "
-                + "FROM Book b "
-                + "WHERE b.fk_author.pk_id = :pk_id";
-        final TypedQuery<Book> QUERY = this.entityManager.createQuery(STRING_QUERY, Book.class);
+        final TypedQuery<Book> QUERY = this.entityManager.createNamedQuery("Book.selectAllByAuthor", Book.class);
         QUERY.setParameter("pk_id", fk_author.getPk_id());
         return QUERY.getResultList();
     }
