@@ -5,17 +5,27 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+//Entity lo establece como entidad de JPA
 @Entity
 @Table(name="libros")
 public class Libro {
+	//Id indice el identificador en la entidad JPA, se asocia con la primary key de la BD
+	
 	@Id
 	private String isbn;
 	private String titulo;
 	private String autor;
+	
+	@OneToOne
+	@JoinColumn(name="editoriales_nombre")
+	private Editorial editorial;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="libro")
@@ -50,6 +60,14 @@ public class Libro {
 	}
 	public void setAutor(String autor) {
 		this.autor = autor;
+	}
+	
+	
+	public Editorial getEditorial() {
+		return editorial;
+	}
+	public void setEditorial(Editorial editorial) {
+		this.editorial = editorial;
 	}
 	public Libro(String isbn, String titulo, String autor) {
 		super();
