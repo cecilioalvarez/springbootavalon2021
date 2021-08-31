@@ -5,22 +5,32 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name="Libros")
 public class Libro {
-
 	@Id
 	private String isbn;
 	private String titulo;
 	private String autor;
 	
+	@OneToOne
+	@JoinColumn(name="editoriales_nombre")
+	private Editorial editorial;
+
+	public Editorial getEditorial() {
+		return editorial;
+	}
+	public void setEditorial(Editorial editorial) {
+		this.editorial = editorial;
+	}
 	@JsonIgnore
-	@OneToMany(mappedBy = "libro")
+	@OneToMany(mappedBy="libro")
 	private List<Capitulo> capitulos= new ArrayList<Capitulo>();
 	
 	public List<Capitulo> getCapitulos() {
