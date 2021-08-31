@@ -40,16 +40,14 @@ public class LibroRepositoryJPA implements LibroRepository {
 
 	@Override
 	public List<Libro> buscarTodos() {
-		// TODO Auto-generated method stub
-
-		return em.createQuery("Libros.buscarTodos", Libro.class).getResultList();
+		
+		return em.createNamedQuery("Libros.buscarTodos",Libro.class).getResultList();
 	}
 
 	@Override
 	public List<Libro> buscarTodosConCapitulos() {
 		// TODO Auto-generated method stub
-
-		return em.createQuery("Libros.buscarTodosConCapitulos", Libro.class).getResultList();
+		 	return em.createNamedQuery("Libros.buscarTodosConCapitulos",Libro.class).getResultList();
 	}
 
 	@Override
