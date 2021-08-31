@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -14,6 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="Libros")
+@NamedQuery(name = "Libros.buscarTodos", query="select l from Libro l")
+@NamedQuery(name = "Libros.buscarTodosConCapitulos", query="select l from Libro l join fetch l.capitulos")
 public class Libro {
 	@Id
 	private String isbn;

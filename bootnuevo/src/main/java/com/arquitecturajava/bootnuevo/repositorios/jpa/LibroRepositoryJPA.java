@@ -29,7 +29,6 @@ public class LibroRepositoryJPA implements LibroRepository {
 	@Override
 	public void insertar(Libro libro) {
 		em.persist(libro);
-		
 	}
 
 	@Override
@@ -40,12 +39,17 @@ public class LibroRepositoryJPA implements LibroRepository {
 
 	@Override
 	public List<Libro> buscarTodos() {
-		return em.createQuery("select l from Libro l", Libro.class).getResultList();
+		//Se puede hacer con esta linea solo
+		//return em.createQuery("select l from Libro l", Libro.class).getResultList();
+		//Con esta forma necesitamos en namedQuery en la clase libro
+		return em.createNamedQuery("Libros.buscarTodos", Libro.class).getResultList();
 	}
 
 	@Override
 	public List<Libro> buscarTodosConCapitulos() {
-		return em.createQuery("select l from Libro l join fetch l.capitulos", Libro.class).getResultList();
+		//Igual que en el metodo anterior de buscar todos se pueden hacer de las dos maneras
+		//return em.createQuery("select l from Libro l join fetch l.capitulos", Libro.class).getResultList();
+		return em.createNamedQuery("Libros.buscarTodosConCapitulos", Libro.class).getResultList();
 	}
 
 	@Override
