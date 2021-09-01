@@ -19,7 +19,8 @@
 				<td>${fila.titulo}</td>
 				<td>${fila.autor}</td>
 				<td><input type="button" onClick="pulsarBorrar(${fila.isbn})" value="borrar elemento"/></td>
-				<td><input type="button" onClick="pulsarDetalle(${fila.isbn})" id="botonvistadetalle" value="ver elemento"/></td>
+				<td><input type="button" onClick="pulsarDetalle(${fila.isbn})" value="ver elemento"/></td>
+				<td><input type="button" onClick="pulsarCapitulos(${fila.isbn})" value="capitulos"/></td>
 				</tr>`);
 		}
 	}
@@ -34,6 +35,27 @@
 				<p>${libro.autor}</p>
 				<p><input type="button" id="volverdetalle" value="volver"/></p>
 				`)
+	}
+	
+	function generarDetalleCapitulos(capitulos){
+		
+		$("#capitulos").empty();
+		
+		for(let i=0; i<capitulos.length;i++){
+			var capitulo = capitulos[i];
+			$("#capitulos").append(`
+					<p>${capitulo.titulo}</p>
+					<p>${capitulo.paginas}</p>
+					`)
+		}
+	}
+	
+	function pulsarCapitulos(isbn){
+		buscarTodosLosCapitulos(isbn).then(function(capitulos){
+			$("#lista").hide();
+			$("#capitulos").show();
+			generarDetalleCapitulos(capitulos.data);
+		})
 	}
 	
 	function pulsarBorrar(isbn){
@@ -57,6 +79,10 @@
 	
 	function buscarTodos(){
 		return axios.get("http://localhost:8080/webapi/libros");
+	}
+	
+	function buscarTodosLosCapitulos(isbn){
+		return axios.get(`http://localhost:8080/webapi/libros/${isbn}/capitulos`);
 	}
 	
 	function buscarUno(isbn){
@@ -137,5 +163,8 @@
 			
 	</div>
 	
+	<div id="capitulos">
+			
+	</div>
 </body>
 </html>
