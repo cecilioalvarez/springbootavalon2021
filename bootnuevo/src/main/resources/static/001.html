@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
 
 
@@ -28,7 +29,7 @@ function pulsarBorrar(isbn) {
 	
 		borrar(isbn).then(buscarTodos).then(function(libros) {
 			
-			generarTabla(libros);
+			generarTabla(libros.data);
 		})
 	
 }
@@ -39,9 +40,7 @@ function pulsarBorrar(isbn) {
 
 function borrar(isbn) {
 	
-	return $.ajax({
-	    url: `http://localhost:8080/webapi/libros/${isbn}`,
-	    type: 'DELETE'});
+	return axios.delete(`http://localhost:8080/webapi/libros/${isbn}`);
 	
 	
 }
@@ -52,19 +51,14 @@ function buscarTodos() {
 	// y ese valor solo tendra contenido en un futuro
 	// cuando el objeto quede relleno de la petición ajax
 	console.log("entra buscar todos");
-	return $.get("http://localhost:8080/webapi/libros");
+	return axios.get("http://localhost:8080/webapi/libros");
 	
 	
 }
 
 function insertar(libro) {
 	
-	return $.ajax({
-        type: "POST",
-        url: "http://localhost:8080/webapi/libros",
-        contentType:"application/json",
-        data: JSON.stringify(libro)
-    });
+	return axios.post("http://localhost:8080/webapi/libros",libro);
 	
 }
 
@@ -78,7 +72,7 @@ $(document).ready(function() {
 	
 	promesaAjax.then(function(libros) {
 		
-		generarTabla(libros);
+		generarTabla(libros.data);
 	})
 	
 	$("#botonformularionuevo").click(function() {
@@ -99,7 +93,7 @@ $(document).ready(function() {
 		
 			$("#lista").show();
 			$("#formularionuevo").hide();
-			generarTabla(libros);
+			generarTabla(libros.data);
 		
 			
 		})
