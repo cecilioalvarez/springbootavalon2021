@@ -12,15 +12,15 @@ function addListeners() {
 function configureAddBookListener() {
     $("#saveBook").html("Añadir").off("click").click(createBook);
     $("#bookForm legend").html("Datos del nuevo libro");
-    $("#addBook").click(() => {
-        $("#bookForm").prop("hidden", false);
+    $("#addBook").off().click(() => {
+        $("#bookForm").show();
         $("#addBook").html("Cancelar").off().click(() => {
             $("#pk_isbn").val("");
             $("#title").val("");
             $("#fk_author option:first").prop("selected", true);
             $("#addBook").html("Añadir un libro");
-            $("#bookForm").prop("hidden", true);
-            $("#addBook").prop("hidden", false);
+            $("#bookForm").hide();
+            $("#addBook").show();
             configureAddBookListener();
         });
     });
@@ -35,12 +35,13 @@ function createBook() {
         }
     };
     insertBook(book).then(() => {
-        $("#bookForm").prop("hidden", true);
-        $("#addBook").html("Añadir un libro").prop("hidden", false);
+        $("#bookForm").hide();
+        $("#addBook").html("Añadir un libro").show();
         $("#pk_isbn").val("");
         $("#title").val("");
         $("#fk_author option:first").prop("selected", true);
         loadBooksTable();
+        configureAddBookListener();
     });
 }
 
@@ -66,18 +67,18 @@ function buildBooksTableBody(response) {
     });
     
     function configureEditBookListener(book) {
-        $("#bookForm").prop("hidden", false);
+        $("#bookForm").show();
         $("#bookForm legend").html("Edición del libro");
         $("#saveBook").html("Guardar cambios").off("click").click(() => editBook(book.pk_isbn));
-        $("#pk_isbn").val(book.pk_isbn);
+        $("#pk_isbn").prop("readonly", true).val(book.pk_isbn);
         $("#title").val(book.title);
         $("#fk_author option[value='" + book.fk_author.pk_id + "']").prop("selected", true);
         $("#addBook").html("Cancelar").off("click").click(() => {
-            $("#pk_isbn").val("");
+            $("#pk_isbn").prop("readonly", false).val("");
             $("#title").val("");
             $("#fk_author option:first").prop("selected", true);
-            $("#addBook").html("Añadir un libro").prop("hidden", false);
-            $("#bookForm").prop("hidden", true);
+            $("#addBook").html("Añadir un libro").show();
+            $("#bookForm").hide();
             configureAddBookListener();
         });
     }
@@ -91,13 +92,14 @@ function buildBooksTableBody(response) {
             }
         };
         updateBook(pk_isbn, book).then(() => {
-            $("#bookForm").prop("hidden", true);
-            $("#addBook").html("Añadir un libro").prop("hidden", false);
+            $("#bookForm").hide();
+            $("#addBook").html("Añadir un libro").show();
             $("#pk_isbn").val("");
             $("#title").val("");
             $("#fk_author option:first").prop("selected", true);
             $("#saveBook").off().click(() => createBook);
             loadBooksTable();
+            configureAddBookListener();
         });
     }
 }
