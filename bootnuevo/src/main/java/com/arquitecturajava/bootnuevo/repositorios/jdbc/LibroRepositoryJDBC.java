@@ -35,6 +35,7 @@ public class LibroRepositoryJDBC implements LibroRepository {
 	final static String CONSULTA_BUSCAR_TITULO_AUTOR = "select * from Libros where titulo=? and autor=?";
 	final static String CONSULTA_ACTUALIZAR = "update Libros set titulo=? , autor=? where isbn=?";
 
+	
 	@Transactional
 	public void actualizar(Libro libro) {
 
