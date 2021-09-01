@@ -20,10 +20,25 @@ function generarTabla(libros) {
 							  <td>${fila.titulo}</td>
 							  <td>${fila.autor}</td>
 							  <td><input type="button" onClick="pulsarBorrar(${fila.isbn})" value="borrar elemento"/></td>
+							  <td><input type="button" onClick="pulsarDetalle(${fila.isbn})" value="detalle"/></td>
+								
 							  </tr>`);
 	}
 	
 }
+
+
+function generarDetalle(libro) {
+	
+	 $("#detalle").empty();
+	
+	
+		$("#detalle").append(`<p>${libro.isbn},${libro.titulo},${libro.autor}<input type="button" id="volverdetalle" value="volver"/></p>`);
+	
+	
+}
+
+
 
 function pulsarBorrar(isbn) {
 	
@@ -32,6 +47,18 @@ function pulsarBorrar(isbn) {
 			generarTabla(libros.data);
 		})
 	
+}
+
+function pulsarDetalle(isbn) {
+	
+	$("#lista").hide();
+	$("#detalle").show();
+	
+	detalle(isbn).then(function(libro) {
+		
+		generarDetalle(libro.data);
+	})
+
 }
 
 
@@ -62,6 +89,12 @@ function insertar(libro) {
 	
 }
 
+function detalle(isbn) {
+	
+	return axios.get(`http://localhost:8080/webapi/libros/${isbn}`);
+
+}
+
 $(document).ready(function() {
 
 	$("#formularionuevo").hide();
@@ -79,6 +112,12 @@ $(document).ready(function() {
 		$("#lista").hide();
 		$("#formularionuevo").show();
 		
+	})
+	
+	$("body").on("click","#volverdetalle",function() {
+		console.log("pasa");
+		$("#lista").show();
+		$("#detalle").hide();
 	})
 	
 	$("#salvar").click(function() {
@@ -129,6 +168,11 @@ $(document).ready(function() {
 
 
 		</form>
+	</div>
+	
+	<div id="detalle">
+
+		
 	</div>
 </body>
 </html>
