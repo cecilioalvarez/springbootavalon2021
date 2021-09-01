@@ -70,7 +70,7 @@ function insertar(libro) {
 
 $(document).ready(function() {
 
-	
+	$("#formularionuevo").hide();
 	
 	// devuelve una variable con datos
 	
@@ -81,51 +81,60 @@ $(document).ready(function() {
 		generarTabla(libros);
 	})
 	
+	$("#botonformularionuevo").click(function() {
+		$("#lista").hide();
+		$("#formularionuevo").show();
+		
+	})
+	
 	$("#salvar").click(function() {
 	
 		let objeto={}
 		objeto.isbn= $("#isbn").val();
 		objeto.titulo= $("#titulo").val();
 		objeto.autor= $("#autor").val();
-		
+	
 		
 		insertar(objeto).then(buscarTodos).then(function(libros) {
-			
+		
+			$("#lista").show();
+			$("#formularionuevo").hide();
 			generarTabla(libros);
+		
 			
 		})
-		
-		
-		
+			
 	})
-	
-	
-	
-	
 	
 	
 })
 </script>
 </head>
 <body>
-	<table>
+	<div id="lista">
 
-	</table>
-	<form>
-	
-	<p>
-		ISBN: <input type="text" id="isbn" name="isbn" />
-		</p>
-		<p>
-		titulo: <input type="text" id="titulo" name="titulo" />
-		</p>
-		<p>
-		autor: <input type="text" id="autor" name="autor" />
-		</p>
-		<input type="button" id="salvar" value="salvar"/>
-	
-	
-	</form>
+		<table>
 
+		</table>
+		<input type="button" id="botonformularionuevo" value="añadir"/>
+	</div>
+	<div id="formularionuevo">
+
+		<form>
+
+			<p>
+				ISBN: <input type="text" id="isbn" name="isbn" />
+			</p>
+			<p>
+				titulo: <input type="text" id="titulo" name="titulo" />
+			</p>
+			<p>
+				autor: <input type="text" id="autor" name="autor" />
+			</p>
+			<input type="button" id="salvar" value="salvar" />
+
+
+		</form>
+	</div>
 </body>
 </html>
