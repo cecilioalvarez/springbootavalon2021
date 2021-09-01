@@ -19,36 +19,52 @@
 				<td>${fila.titulo}</td>
 				<td>${fila.autor}</td>
 				<td><input type="button" onClick="pulsarBorrar(${fila.isbn})" value="borrar elemento"/></td>
+				<td><input type="button" onClick="pulsarDetalle(${fila.isbn})" id="botonvistadetalle" value="ver elemento"/></td>
 				</tr>`);
 		}
 	}
 	
+	function generarVistaDetalle(libro){
+		
+		$("#vistadetalle").empty();
+		
+		$("#vistadetalle").append(`
+				<p>${libro.isbn}</p>
+				<p>${libro.titulo}</p>
+				<p>${libro.autor}</p>
+				<p><input type="button" id="volverdetalle" value="volver"/></p>
+				`)
+	}
+	
 	function pulsarBorrar(isbn){
 		borrar(isbn).then(buscarTodos).then(function(libros) {
-			generarTabla(libros);
+			generarTabla(libros.data);
 		});
 	}
 	
+	function pulsarDetalle(isbn){
+		buscarUno(isbn).then(function(libro){
+			generarVistaDetalle(libro.data);
+			$("#lista").hide();
+			$("#vistadetalle").show();
+		})
+	}
 	
 	//Funciones Ajax
 	function borrar(isbn){
-		return $.ajax({
-			url: `http://localhost:8080/webapi/libros/${isbn}`,
-			type: 'DELETE'});
+		return axios.delete(`http://localhost:8080/webapi/libros/${isbn}`);
 	}
 	
 	function buscarTodos(){
-		return $.get("http://localhost:8080/webapi/libros");
+		return axios.get("http://localhost:8080/webapi/libros");
+	}
+	
+	function buscarUno(isbn){
+		return axios.get(`http://localhost:8080/webapi/libros/${isbn}`);
 	}
 	
 	function insertar(libro){
-		return $.ajax({
-	        type: "POST",
-	        url: "http://localhost:8080/webapi/libros",
-	        //dataType: "json",
-	        contentType:"application/json",
-	        data: JSON.stringify(libro)
-	    });
+		return axios.post("http://localhost:8080/webapi/libros",libro);
 	}
 	
 	$(document).ready(function(){
@@ -56,11 +72,12 @@
 		//cuando se cargue la pagina el formulario se ocultara
 		$("#formularionuevo").hide();
 		
+		
 		//Devolvemos una variable con datos 
 		let promesaAjax = buscarTodos();
 		
 		promesaAjax.then(function(libros){
-			generarTabla(libros);
+			generarTabla(libros.data);
 		})
 		
 		$("#botonformularionuevo").click(function(){
@@ -68,6 +85,12 @@
 			$("#formularionuevo").show();
 		})
 		
+		$("body").on("click","#volverdetalle", function(){
+			$("#lista").show();
+			$("#vistadetalle").hide();
+		})
+		
+
 		$("#salvar").click(function(){
 			
 			let objeto = {}
@@ -79,7 +102,7 @@
 			insertar(objeto).then(buscarTodos).then(function(libros){
 				$("#lista").show();
 				$("#formularionuevo").hide();
-				generarTabla(libros);
+				generarTabla(libros.data);
 			})
 		})
 	})
@@ -108,6 +131,10 @@
 			</p>
 			<input type="button" id="salvar" value="salvar" />
 		</form>
+	</div>
+	
+	<div id="vistadetalle">
+			
 	</div>
 	
 </body>
