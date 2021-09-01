@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		let promesaAjax = buscarTodos();
+		
+		promesaAjax.then(function(libros){
+			generarTabla(libros);
+		});
+		
+		$("#salvar").click(function(){
+			let objeto={};
+			objeto.isbn=$("#isbn").val();
+			objeto.titulo=$("#titulo").val();
+			objeto.autor=$("#autor").val();
+			
+			console.log(objeto)
+		});
+	})
+	
+	function generarTabla(datos){
+		$("#tablaDatos tbody").empty();
+		for(var i = 0;i<datos.length;i++){
+			let fila = datos[i];
+			$("#tablaDatos tbody").append(`<tr>
+								<td>${fila.isbn}</td>
+								<td>${fila.titulo}</td>
+								<td>${fila.autor}</td>
+								<td><button onClick="pulsarBorrar(${fila.isbn})">Borrar</button></td>
+								</tr>`)
+		}
+	}
+	
+	function pulsarBorrar(isbn){
+		
+		//then(buscarTodos) Esto es la referencia a la función 
+		//por eso el siguiente then va tras el paréntesis
+		borrar(isbn).then(buscarTodos)
+				.then(function(libros){
+					generarTabla(libros);
+			});
+	}
+	
+	//Funciones AJAX a partir de aquí
+	function buscarTodos(){
+		
+		return $.get("http://localhost:8084/webapi/libros");
+	}
+	
+	function borrar(isbn){
+		return $.ajax({
+			url:`http://localhost:8084/webapi/libros/${isbn}`,
+			type: 'DELETE'
+		});
+	}
+	
+	
+</script>
+<style type="text/css">
+	table {
+		width: 100%;
+	}
+	table,td,th{
+		border: 1px solid black;
+		border-collapse: collapse;	
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+	<table id="tablaDatos">
+		<thead>
+		<tr>
+			<th>ISBN</th>
+			<th>Titulo</th>
+			<th>Autor</th>
+			<th>Acciones</th>
+		</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+	<form id="formularioLibro" action="insertar" method="POST">
+		<!--  he usado las etiquetas input para diseñar el formulario -->
+		<p>
+		ISBN: <input type="text" id="isbn" name="isbn" />
+		</p>
+		<p>
+		titulo: <input type="text" id="titulo" name="titulo" />
+		</p>
+		<p>
+		autor: <input type="text" id="autor" name="autor" />
+		</p>
+		<input id="salvar" type="button" value="salvar"/>
+	</form>
+</body>
+</html>

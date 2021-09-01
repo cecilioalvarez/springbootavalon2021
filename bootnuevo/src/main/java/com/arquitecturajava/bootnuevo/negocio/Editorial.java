@@ -5,12 +5,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="editoriales")
 public class Editorial {
 	@Id
 	private String nombre;
 	private String categoria;
+	@JsonIgnore
 	@OneToOne(mappedBy = "editorial")
 	private Libro libro;
 	
