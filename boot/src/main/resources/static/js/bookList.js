@@ -14,6 +14,7 @@ function configureAddBookListener() {
     $("#bookForm legend").html("Datos del nuevo libro");
     $("#addBook").off().click(() => {
         $("#bookForm").show();
+        $("#pk_isbn").prop("readonly", false);
         $("#addBook").html("Cancelar").off().click(() => {
             $("#pk_isbn").val("");
             $("#title").val("");
