@@ -21,11 +21,14 @@ function generarTabla(libros) {
 							  <td>${fila.autor}</td>
 							  <td><input type="button" onClick="pulsarBorrar(${fila.isbn})" value="borrar elemento"/></td>
 							  <td><input type="button" onClick="pulsarDetalle(${fila.isbn})" value="detalle"/></td>
+							  <td><input type="button" onClick="pulsarCapitulos(${fila.isbn})" value="capitulos"/></td>
 								
 							  </tr>`);
 	}
 	
 }
+
+
 
 
 function generarDetalle(libro) {
@@ -38,6 +41,32 @@ function generarDetalle(libro) {
 	
 }
 
+function generarDetalleCapitulos(capitulos) {
+	
+	 $("#capitulos").empty();
+	 for (let i=0;i<capitulos.length;i++) {
+		 var capitulo=capitulos[i];
+		 console.log("fila");
+		 $("#capitulos").append(`<p>${capitulo.titulo},${capitulo.paginas}</p>`);
+			
+	 }
+	
+	
+}
+
+function pulsarCapitulos(isbn) {
+	
+	
+		buscarTodosLosCapitulos(isbn).then(function(capitulos) {
+		console.log(capitulos);
+		$("#lista").hide();
+		$("#capitulos").show();
+		console.log(capitulos.data);
+		generarDetalleCapitulos(capitulos.data);
+
+		
+	});
+}
 
 
 function pulsarBorrar(isbn) {
@@ -83,6 +112,14 @@ function buscarTodos() {
 	
 }
 
+
+function buscarTodosLosCapitulos(isbn) {
+	
+	
+	return axios.get(`http://localhost:8080/webapi/libros/${isbn}/capitulos`);
+	
+	
+}
 function insertar(libro) {
 	
 	return axios.post("http://localhost:8080/webapi/libros",libro);
@@ -171,6 +208,10 @@ $(document).ready(function() {
 	</div>
 	
 	<div id="detalle">
+
+		
+	</div>
+		<div id="capitulos">
 
 		
 	</div>
