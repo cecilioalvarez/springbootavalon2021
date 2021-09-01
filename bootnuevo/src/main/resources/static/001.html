@@ -4,6 +4,7 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
 
 	//Funciones ligadas a la pantalla
@@ -51,11 +52,20 @@
 	}
 	
 	$(document).ready(function(){
+		
+		//cuando se cargue la pagina el formulario se ocultara
+		$("#formularionuevo").hide();
+		
 		//Devolvemos una variable con datos 
 		let promesaAjax = buscarTodos();
 		
 		promesaAjax.then(function(libros){
 			generarTabla(libros);
+		})
+		
+		$("#botonformularionuevo").click(function(){
+			$("#lista").hide();
+			$("#formularionuevo").show();
 		})
 		
 		$("#salvar").click(function(){
@@ -67,6 +77,8 @@
 			console.log(objeto);
 			
 			insertar(objeto).then(buscarTodos).then(function(libros){
+				$("#lista").show();
+				$("#formularionuevo").hide();
 				generarTabla(libros);
 			})
 		})
@@ -76,20 +88,27 @@
 </script>
 </head>
 <body>
-	<table>
-	</table>
+
+	<div id="lista">
+		<table>
+		</table>
+		<input type="button" id="botonformularionuevo" value="Añadir">
+	</div>
 	
-	<form action="">
-	<p>
-		ISBN: <input type="text" id="isbn" name="isbn" />
-		</p>
-		<p>
-		titulo: <input type="text" id="titulo" name="titulo" />
-		</p>
-		<p>
-		autor: <input type="text" id="autor" name="autor" />
-		</p>
-		<input type="button" id="salvar" value="salvar"/>
-	</form>
+	<div id="formularionuevo">
+		<form action="">
+			<p>
+				ISBN: <input type="text" id="isbn" name="isbn" />
+			</p>
+			<p>
+				titulo: <input type="text" id="titulo" name="titulo" />
+			</p>
+			<p>
+				autor: <input type="text" id="autor" name="autor" />
+			</p>
+			<input type="button" id="salvar" value="salvar" />
+		</form>
+	</div>
+	
 </body>
 </html>
