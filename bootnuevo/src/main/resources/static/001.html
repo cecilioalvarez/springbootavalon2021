@@ -10,6 +10,7 @@
 //las funciones ligadas a la pantalla
 function generarTabla(libros) {
 	
+	 $("table").empty();
 	
 	for (var i=0;i<libros.length;i++) {
 		let fila=libros[i];	
@@ -25,7 +26,10 @@ function generarTabla(libros) {
 
 function pulsarBorrar(isbn) {
 	
-		borrar(isbn);
+		borrar(isbn).then(buscarTodos).then(function(libros) {
+			
+			generarTabla(libros);
+		})
 	
 }
 
@@ -57,7 +61,25 @@ $(document).ready(function() {
 
 	
 	
-	buscarTodos();
+	// devuelve una variable con datos
+	
+	let promesaAjax=buscarTodos();
+	
+	promesaAjax.then(function(libros) {
+		
+		generarTabla(libros);
+	})
+	
+	$("#salvar").click(function() {
+	
+		let objeto={}
+		objeto.isbn= $("#isbn").val();
+		objeto.titulo= $("#titulo").val();
+		objeto.autor= $("#autor").val();
+		console.log(objeto);
+		
+		
+	})
 	
 	
 	
@@ -71,6 +93,21 @@ $(document).ready(function() {
 	<table>
 
 	</table>
+	<form>
+	
+	<p>
+		ISBN: <input type="text" id="isbn" name="isbn" />
+		</p>
+		<p>
+		titulo: <input type="text" id="titulo" name="titulo" />
+		</p>
+		<p>
+		autor: <input type="text" id="autor" name="autor" />
+		</p>
+		<input type="button" id="salvar" value="salvar"/>
+	
+	
+	</form>
 
 </body>
 </html>
