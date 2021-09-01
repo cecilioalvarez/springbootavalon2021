@@ -1,34 +1,23 @@
 function getBooks() {
-    let params = {
-        url: "http://localhost:8080/library/webapi/books", 
-        dataType: "json",
-        method: "GET"
-    };
-    return $.ajax(params);
+    return axios.get("http://localhost:8080/library/webapi/books");
 }
 
 function deleteBook(pk_isbn) {
-    let params = {
-        url: `http://localhost:8080/library/webapi/books/${pk_isbn}`, 
-        method: "DELETE"
-    };
-    return $.ajax(params);
+    return axios.delete(`http://localhost:8080/library/webapi/books/${pk_isbn}`);
 }
 
 function insertBook(book) {
-    let params = {
-        url: "http://localhost:8080/library/webapi/books", 
-        method: "POST", 
-        data: book
-    };
-    return $.ajax(params);
+    return axios.post("http://localhost:8080/library/webapi/books", book);
+}
+
+function updateBook(pk_isbn, book) {
+    return axios.put(`http://localhost:8080/library/webapi/books/${pk_isbn}`, book);
 }
 
 function getAuthors() {
-    let params = {
-        url: "http://localhost:8080/library/webapi/authors", 
-        dataType: "json",
-        method: "GET"
-    };
-    return $.ajax(params);
+    return axios.get("http://localhost:8080/library/webapi/authors");
+}
+
+function getChapters(pk_isbn) {
+    return axios.get(`http://localhost:8080/library/webapi/books/${pk_isbn}/chapters`);
 }

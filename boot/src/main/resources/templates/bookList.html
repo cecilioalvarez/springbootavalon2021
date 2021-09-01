@@ -8,7 +8,7 @@
             <h1 th:text="${'LIBROS' + (author != null ? ' DE «' + #strings.toUpperCase(author.name) + '»' : '')}"></h1>
         </header>
         <main>
-            <table>
+            <table id="booksTable">
                 <thead>
                     <tr>
                         <th>ISBN</th>
@@ -22,7 +22,7 @@
             <div class="links" th:if="${author == null}">
                 <button id="addBook">Añadir un libro</button>
             </div>
-            <form id="createBook" name="createBook" method="POST" action="create" hidden>
+            <form id="bookForm" name="bookForm" onsubmit="return false" hidden>
                 <fieldset>
                     <legend>Datos del nuevo libro</legend>
                     <div>
@@ -43,6 +43,20 @@
             <div class="links" th:unless="${author == null}">
                 <a th:href="${'../../authors/' + author.pk_id}">Volver al autor</a>
                 <a href='../list'>Ver todos los libros</a>
+            </div>
+            <div id="chaptersDetail" hidden>
+                <table id="chaptersTable">
+                    <caption>Capítulos de...</caption>
+                    <thead>
+                        <tr>
+                            <th>TÍTULO</th>
+                            <th>PÁGINAS</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <button id="hideChapters" name="hideChapters">Ocular capítulos</button>
             </div>
         </main>
     </body>

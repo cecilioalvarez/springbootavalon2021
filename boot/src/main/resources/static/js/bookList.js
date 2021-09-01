@@ -5,50 +5,25 @@ $(document).ready(() => {
 });
 
 function addListeners() {
-    $("#saveBook").click(() => createBook);
-    configureAddBookListeners();
-    
-    function configureAddBookListeners() {
-        $("#addBook").click(() => {
-            $("#createBook").prop("hidden", false);
-            $("#addBook").html("Cancelar").off().click(() => {
-                $("#addBook").html("Añadir un libro");
-                $("#createBook").prop("hidden", true);
-                $("#addBook").prop("hidden", false);
-                configureAddBookListeners();
-            });
+    configureAddBookListener();
+    $("#hideChapters").click(() => $("#chaptersDetail").hide());
+}
+
+function configureAddBookListener() {
+    $("#saveBook").html("Añadir").off("click").click(createBook);
+    $("#bookForm legend").html("Datos del nuevo libro");
+    $("#addBook").click(() => {
+        $("#bookForm").prop("hidden", false);
+        $("#addBook").html("Cancelar").off().click(() => {
+            $("#pk_isbn").val("");
+            $("#title").val("");
+            $("#fk_author option:first").prop("selected", true);
+            $("#addBook").html("Añadir un libro");
+            $("#bookForm").prop("hidden", true);
+            $("#addBook").prop("hidden", false);
+            configureAddBookListener();
         });
-    }
-}
-
-function loadBooksTable() {
-    getBooks().then(buildBooksTableBody);
-}
-
-function buildBooksTableBody(data) {
-    $("main table tbody").empty();
-    $(data).each((index, book) => {
-        $("<tr>")
-                .appendTo($("main table tbody"))
-                .append($("<td>").html(book.pk_isbn))
-                .append($("<td>").html(book.title))
-                .append($("<td>")
-                        .append($("<a>").html(book.fk_author.name).attr("href", `/library/authors/${book.fk_author.pk_id}`)))
-                .append($("<td>")
-                        .append($("<a>").html("Editar").attr("href", `/library/books/${book.pk_isbn}/edit`))
-                        /*.append($("<button>").html("Editar").click(() => $.get(`${book.pk_isbn}/edit`).then(loadEditBookPage)))*/
-                        .append($("<button>").html("Borrar").click(() => deleteBook(book.pk_isbn).then(loadBooksTable)))
-                        .append($("<a>").html("Ver capítulos").attr("href", `/library/books/${book.pk_isbn}/chapters/list`)));
     });
-}
-
-function loadAuthorsSelect() {
-    getAuthors().then(buildAuthorsSelectOptions);
-}
-
-function buildAuthorsSelectOptions(data) {
-    $("#fk_author").empty();
-    $(data).each((index, author) => $("<option>").html(author.name).val(author.pk_id).appendTo($("#fk_author")));
 }
 
 function createBook() {
@@ -60,8 +35,98 @@ function createBook() {
         }
     };
     insertBook(book).then(() => {
-        $("#createBook").prop("hidden", true);
-        $("#addBook").prop("hidden", false);
+        $("#bookForm").prop("hidden", true);
+        $("#addBook").html("Añadir un libro").prop("hidden", false);
+        $("#pk_isbn").val("");
+        $("#title").val("");
+        $("#fk_author option:first").prop("selected", true);
         loadBooksTable();
     });
+}
+
+function loadBooksTable() {
+    getBooks().then(buildBooksTableBody);
+}
+
+function buildBooksTableBody(response) {
+    $("#booksTable tbody").empty();
+    $(response.data).each((index, book) => {
+        $("<tr>")
+                .appendTo($("#booksTable tbody"))
+                .append($("<td>").html(book.pk_isbn))
+                .append($("<td>").html(book.title))
+                .append($("<td>")
+                        .append($("<a>").html(book.fk_author.name).attr("href", `/library/authors/${book.fk_author.pk_id}`))
+                        )
+                .append($("<td>")
+                        .append($("<button>").html("Editar").click(() => configureEditBookListener(book)))
+                        .append($("<button>").html("Borrar").click(() => deleteBook(book.pk_isbn).then(loadBooksTable)))
+                        .append($("<button>").html("Ver capítulos").click(() => loadChaptersTable(book)))
+                        );
+    });
+    
+    function configureEditBookListener(book) {
+        $("#bookForm").prop("hidden", false);
+        $("#bookForm legend").html("Edición del libro");
+        $("#saveBook").html("Guardar cambios").off("click").click(() => editBook(book.pk_isbn));
+        $("#pk_isbn").val(book.pk_isbn);
+        $("#title").val(book.title);
+        $("#fk_author option[value='" + book.fk_author.pk_id + "']").prop("selected", true);
+        $("#addBook").html("Cancelar").off("click").click(() => {
+            $("#pk_isbn").val("");
+            $("#title").val("");
+            $("#fk_author option:first").prop("selected", true);
+            $("#addBook").html("Añadir un libro").prop("hidden", false);
+            $("#bookForm").prop("hidden", true);
+            configureAddBookListener();
+        });
+    }
+    
+    function editBook(pk_isbn) {
+        let book = {
+            pk_isbn: $("#pk_isbn").val(), 
+            title: $("#title").val(), 
+            fk_author: {
+                pk_id: $("#fk_author").val()
+            }
+        };
+        updateBook(pk_isbn, book).then(() => {
+            $("#bookForm").prop("hidden", true);
+            $("#addBook").html("Añadir un libro").prop("hidden", false);
+            $("#pk_isbn").val("");
+            $("#title").val("");
+            $("#fk_author option:first").prop("selected", true);
+            $("#saveBook").off().click(() => createBook);
+            loadBooksTable();
+        });
+    }
+}
+
+function loadChaptersTable(book) {
+    $("#chaptersTable caption").html(`Capítulos de «${book.title}»`);
+    getChapters(book.pk_isbn).then(buildChaptersTableBody);
+    $("#chaptersDetail").show();
+}
+
+function buildChaptersTableBody(response) {
+    $("#chaptersTable tbody").empty();
+    $(response.data).each((index, chapter) => {
+        $("<tr>")
+                .appendTo($("#chaptersTable tbody"))
+                .append($("<td>").html(chapter.pk_title))
+                .append($("<td>").html(chapter.pages))
+                .append($("<td>")
+                        .append($("<button>").html("Editar"))
+                        .append($("<button>").html("Borrar"))
+                        );
+    });
+}
+
+function loadAuthorsSelect() {
+    getAuthors().then(buildAuthorsSelectOptions);
+}
+
+function buildAuthorsSelectOptions(response) {
+    $("#fk_author").empty();
+    $(response.data).each((index, author) => $("<option>").html(author.name).val(author.pk_id).appendTo($("#fk_author")));
 }
