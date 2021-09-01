@@ -18,7 +18,7 @@
 			objeto.titulo=$("#titulo").val();
 			objeto.autor=$("#autor").val();
 			
-			console.log(objeto)
+			pulsarNuevoLibro(objeto);
 		});
 	})
 	
@@ -30,7 +30,7 @@
 								<td>${fila.isbn}</td>
 								<td>${fila.titulo}</td>
 								<td>${fila.autor}</td>
-								<td><button onClick="pulsarBorrar(${fila.isbn})">Borrar</button></td>
+								<td><button onClick='pulsarBorrar(${fila.isbn})'>Borrar</button></td>
 								</tr>`)
 		}
 	}
@@ -45,6 +45,13 @@
 			});
 	}
 	
+	function pulsarNuevoLibro(libro){
+		console.log(libro)
+		insertar(libro).then(buscarTodos).then(function(libros){
+				generarTabla(libros);
+		});
+	}
+	
 	//Funciones AJAX a partir de aquí
 	function buscarTodos(){
 		
@@ -56,6 +63,16 @@
 			url:`http://localhost:8084/webapi/libros/${isbn}`,
 			type: 'DELETE'
 		});
+	}
+	
+	function insertar(libro){
+		return $.ajax({
+	        type: "POST",
+	        url: "http://localhost:8084/webapi/libros",
+	        contentType:"application/json",
+	        data: JSON.stringify(libro)
+	    });
+
 	}
 	
 	
