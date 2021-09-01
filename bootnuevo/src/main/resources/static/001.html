@@ -16,7 +16,7 @@ function generarTabla(libros) {
 		let fila=libros[i];	
 		$("table").append(`<tr>
 							 <td>${fila.isbn}</td>
-							  <td><${fila.titulo}</td>
+							  <td>${fila.titulo}</td>
 							  <td>${fila.autor}</td>
 							  <td><input type="button" onClick="pulsarBorrar(${fila.isbn})" value="borrar elemento"/></td>
 							  </tr>`);
@@ -51,9 +51,20 @@ function buscarTodos() {
 	// es una funcion que devuelve un valor
 	// y ese valor solo tendra contenido en un futuro
 	// cuando el objeto quede relleno de la petición ajax
-	
+	console.log("entra buscar todos");
 	return $.get("http://localhost:8080/webapi/libros");
 	
+	
+}
+
+function insertar(libro) {
+	
+	return $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/webapi/libros",
+        contentType:"application/json",
+        data: JSON.stringify(libro)
+    });
 	
 }
 
@@ -76,7 +87,14 @@ $(document).ready(function() {
 		objeto.isbn= $("#isbn").val();
 		objeto.titulo= $("#titulo").val();
 		objeto.autor= $("#autor").val();
-		console.log(objeto);
+		
+		
+		insertar(objeto).then(buscarTodos).then(function(libros) {
+			
+			generarTabla(libros);
+			
+		})
+		
 		
 		
 	})
