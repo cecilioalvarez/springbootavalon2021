@@ -1,33 +1,178 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
 
-	function borrar(isbn){
-		alert(isbn);
-	}
 
-	$(document).ready(function() {
-		$.get("http://localhost:8081/webapi/libros", function(datos) {
+//las funciones ligadas a la pantalla
+function generarTabla(libros) {
+	
+	 $("table").empty();
+	
+	for (var i=0;i<libros.length;i++) {
+		let fila=libros[i];	
+		$("table").append(`<tr>
+							 <td>${fila.isbn}</td>
+							  <td>${fila.titulo}</td>
+							  <td>${fila.autor}</td>
+							  <td><input type="button" onClick="pulsarBorrar(${fila.isbn})" value="borrar elemento"/></td>
+							  <td><input type="button" onClick="pulsarDetalle(${fila.isbn})" value="detalle"/></td>
+								
+							  </tr>`);
+	}
+	
+}
+
+
+function generarDetalle(libro) {
+	
+	 $("#detalle").empty();
+	
+	
+		$("#detalle").append(`<p>${libro.isbn},${libro.titulo},${libro.autor}<input type="button" id="volverdetalle" value="volver"/></p>`);
+	
+	
+}
+
+
+
+function pulsarBorrar(isbn) {
+	
+		borrar(isbn).then(buscarTodos).then(function(libros) {
 			
-			for(var i=0; i<datos.length; i++){
-				let fila = datos[i];
-				$("table").append(`<tr>
-					<td>${fila.isbn}</td>
-					<td>${fila.titulo}</td>
-					<td>${fila.autor}</td>
-					<td><input type="button" onClick="borrar(${fila.isbn})" value="borrar elemento"/></td>
-					</tr>`);
-			}
+			generarTabla(libros.data);
 		})
+	
+}
+
+function pulsarDetalle(isbn) {
+	
+	$("#lista").hide();
+	$("#detalle").show();
+	
+	detalle(isbn).then(function(libro) {
+		
+		generarDetalle(libro.data);
 	})
+
+}
+
+
+
+// dejo las funciones de Ajax
+
+function borrar(isbn) {
+	
+	return axios.delete(`http://localhost:8081/webapi/libros/${isbn}`);
+	
+	
+}
+
+function buscarTodos() {
+	
+	// es una funcion que devuelve un valor
+	// y ese valor solo tendra contenido en un futuro
+	// cuando el objeto quede relleno de la petición ajax
+	console.log("entra buscar todos");
+	return axios.get("http://localhost:8081/webapi/libros");
+	
+	
+}
+
+function insertar(libro) {
+	
+	return axios.post("http://localhost:8081/webapi/libros",libro);
+	
+}
+
+function detalle(isbn) {
+	
+	return axios.get(`http://localhost:8081/webapi/libros/${isbn}`);
+
+}
+
+$(document).ready(function() {
+
+	$("#formularionuevo").hide();
+	
+	// devuelve una variable con datos
+	
+	let promesaAjax=buscarTodos();
+	
+	promesaAjax.then(function(libros) {
+		
+		generarTabla(libros.data);
+	})
+	
+	$("#botonformularionuevo").click(function() {
+		$("#lista").hide();
+		$("#formularionuevo").show();
+		
+	})
+	
+	$("body").on("click","#volverdetalle",function() {
+		console.log("pasa");
+		$("#lista").show();
+		$("#detalle").hide();
+	})
+	
+	$("#salvar").click(function() {
+	
+		let objeto={}
+		objeto.isbn= $("#isbn").val();
+		objeto.titulo= $("#titulo").val();
+		objeto.autor= $("#autor").val();
+	
+		
+		insertar(objeto).then(buscarTodos).then(function(libros) {
+		
+			$("#lista").show();
+			$("#formularionuevo").hide();
+			generarTabla(libros.data);
+		
+			
+		})
+			
+	})
+	
+	
+})
 </script>
 </head>
 <body>
-	<table>
-	</table>
+	<div id="lista">
+
+		<table>
+
+		</table>
+		<input type="button" id="botonformularionuevo" value="añadir"/>
+	</div>
+	<div id="formularionuevo">
+
+		<form>
+
+			<p>
+				ISBN: <input type="text" id="isbn" name="isbn" />
+			</p>
+			<p>
+				titulo: <input type="text" id="titulo" name="titulo" />
+			</p>
+			<p>
+				autor: <input type="text" id="autor" name="autor" />
+			</p>
+			<input type="button" id="salvar" value="salvar" />
+
+
+		</form>
+	</div>
+	
+	<div id="detalle">
+
+		
+	</div>
 </body>
 </html>

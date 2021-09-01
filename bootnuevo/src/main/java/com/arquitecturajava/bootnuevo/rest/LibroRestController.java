@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.arquitecturajava.bootnuevo.negocio.Capitulo;
 import com.arquitecturajava.bootnuevo.negocio.Libro;
 import com.arquitecturajava.bootnuevo.servicios.LibroService;
 
@@ -52,6 +53,11 @@ public class LibroRestController {
 	@PostMapping
 	public void insertar(@RequestBody Libro libro) {
 		servicio.insertar(libro);
+	}
+
+	@GetMapping("/{isbn}/capitulos")
+	public List<Capitulo> buscarTodosCapitulos(@PathVariable String isbn) {
+		return servicio.buscarTodosCapitulos(new Libro(isbn));
 	}
 
 }
