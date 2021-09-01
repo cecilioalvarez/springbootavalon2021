@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments :: head(title='Listado de libros', description='Listado de libros de la BD.')"></head>
+    <head th:replace="fragments :: head(title='Listado de libros', 
+          description='Listado de libros de la BD.',
+          script='/library/js/bookList.js')"></head>
     <body>
         <header>
             <h1 th:text="${'LIBROS' + (author != null ? ' DE «' + #strings.toUpperCase(author.name) + '»' : '')}"></h1>
@@ -15,29 +17,29 @@
                         <th>ACCIONES</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr th:each="book:${books}">
-                        <td th:text="${#strings.toUpperCase(book.pk_isbn)}"></td>
-                        <td th:text="${book.title}"></td>
-                        <td>
-                            <a th:href="@{'/authors/' + ${book.fk_author.pk_id}}" th:text="${book.fk_author.name}"></a>
-                        </td>
-                        <td th:block th:if="${author == null}">
-                            <a th:href="@{${book.pk_isbn} + '/edit'}">Editar</a>
-                            <a th:href="@{delete(pk_isbn=${book.pk_isbn})}">Borrar</a>
-                            <a th:href="@{${book.pk_isbn} + '/chapters/list'}">Ver capítulos</a>
-                        </td>
-                        <td th:block th:unless="${author == null}">
-                            <a th:href="@{'../' + ${book.pk_isbn} + '/edit'}">Editar</a>
-                            <a th:href="@{../delete(pk_isbn=${book.pk_isbn})}">Borrar</a>
-                            <a th:href="@{'../' + ${book.pk_isbn} + '/chapters/list'}">Ver capítulos</a>
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody></tbody>
             </table>
             <div class="links" th:if="${author == null}">
-                <a href='add'>Añadir un libro</a>
+                <button id="addBook">Añadir un libro</button>
             </div>
+            <form id="createBook" name="createBook" method="POST" action="create" hidden>
+                <fieldset>
+                    <legend>Datos del nuevo libro</legend>
+                    <div>
+                        <label for="pk_isbn">ISBN:</label>
+                        <input type="text" id="pk_isbn" name="pk_isbn" minlength="13" maxlength="13"/>
+                    </div>
+                    <div>
+                        <label for="title">Título</label>
+                        <input type="text" id="title" name="title" maxlength="64"/>
+                    </div>
+                    <div>
+                        <label for="fk_author">Autor:</label>
+                        <select id="fk_author" name="fk_author"></select>
+                    </div>
+                </fieldset>
+                <button id="saveBook" name="saveBook">Añadir</button>
+            </form>
             <div class="links" th:unless="${author == null}">
                 <a th:href="${'../../authors/' + author.pk_id}">Volver al autor</a>
                 <a href='../list'>Ver todos los libros</a>
