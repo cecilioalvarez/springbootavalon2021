@@ -10,16 +10,25 @@
 
 function borrar(isbn) {
 	
-	alert(isbn);
+	$.ajax({
+	    url: `http://localhost:8080/webapi/libros/${isbn}`,
+	    type: 'DELETE',
+	    success: function(result) {
+	     
+				buscarTodos();
+	    	
+	    }
+	});
+	
 	
 }
 
-$(document).ready(function() {
-
+function buscarTodos() {
 	
 	
-	$.get("http://localhost:8080/webapi/libros",function(datos) {
+$.get("http://localhost:8080/webapi/libros",function(datos) {
 		
+	$("table").empty();
 	
 		
 		for (var i=0;i<datos.length;i++) {
@@ -35,6 +44,15 @@ $(document).ready(function() {
 		
 		
 	})
+	
+	
+}
+
+$(document).ready(function() {
+
+	
+	
+	buscarTodos();
 	
 	
 	
