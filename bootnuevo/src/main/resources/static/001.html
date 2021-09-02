@@ -4,22 +4,64 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script type="text/javascript">
+	var divDdatos;
+	var formNuevoLibro;
+	var divDetalle;
+	var divEditar;
 	$(document).ready(function(){
+		divDdatos = $("#datos");
+		formNuevoLibro = $("#formularioNuevo");
+		divDetalle = $("#detalle");
+		divEditar = $("#editar");
+		
 		let promesaAjax = buscarTodos();
 		
+		
 		promesaAjax.then(function(libros){
-			generarTabla(libros);
+			generarTabla(libros.data);
 		});
+		
+		formNuevoLibro.hide();
+		divDetalle.hide();
+		divEditar.hide();
+		
+		$("#btnFormularioNuevo").click(function(){
+			divDdatos.hide();
+			formNuevoLibro.show();
+		});
+		
 		
 		$("#salvar").click(function(){
 			let objeto={};
 			objeto.isbn=$("#isbn").val();
 			objeto.titulo=$("#titulo").val();
 			objeto.autor=$("#autor").val();
-			
+			formNuevoLibro.hide();
+			divDdatos.show();
 			pulsarNuevoLibro(objeto);
+			$("#isbn").val('');
+			$("#titulo").val('');
+			$("#autor").val('');
 		});
+		
+		$("#salvarModificar").click(function(){
+			let objeto={};
+			objeto.isbn=$("#isbnEdit").val();
+			objeto.titulo=$("#tituloEdit").val();
+			objeto.autor=$("#autorEdit").val();
+			console.log(objeto);
+			editar(objeto).then(buscarTodos)
+			.then(function(libros){
+				generarTabla(libros.data);
+			}).then(function(){
+				divEditar.hide();
+				divDdatos.show();
+			});
+		});
+		
 	})
 	
 	function generarTabla(datos){
@@ -30,7 +72,9 @@
 								<td>${fila.isbn}</td>
 								<td>${fila.titulo}</td>
 								<td>${fila.autor}</td>
-								<td><button onClick='pulsarBorrar(${fila.isbn})'>Borrar</button></td>
+								<td><button onClick="pulsarBorrar('${fila.isbn}')">Borrar</button></td>
+								<td><button onClick="pulsarDetalle('${fila.isbn}')">Detalle</button></td>
+								<td><button onClick="pulsarEditar('${fila.isbn}')">Editar</button></td>
 								</tr>`)
 		}
 	}
@@ -41,37 +85,99 @@
 		//por eso el siguiente then va tras el paréntesis
 		borrar(isbn).then(buscarTodos)
 				.then(function(libros){
-					generarTabla(libros);
+					generarTabla(libros.data);
 			});
 	}
 	
 	function pulsarNuevoLibro(libro){
 		console.log(libro)
 		insertar(libro).then(buscarTodos).then(function(libros){
-				generarTabla(libros);
+				generarTabla(libros.data);
 		});
+	}
+	
+	function pulsarDetalle(isbn){
+		divDdatos.hide();
+		divDetalle.empty();
+		divDetalle.show();
+		detalle(isbn).then(function(libro){
+			divDetalle.append(`
+					<input id="btnBack" onClick="pulsarBackDetalle()" type="button" value="Volver"/>
+					<h2>Detalles:</h2>
+					<p>ISBN: ${libro.data.isbn}</p>
+					<p>Titulo: ${libro.data.titulo}</p>
+					<p>Autor: ${libro.data.autor}</p>
+					`);
+			}).then(function(){
+				buscarTodosCapitulos(isbn).then(function(capitulos){
+					console.log(capitulos);
+					divDetalle.append("<h4>Capitulos:</h4><ul id='listaCaps'></ul>");
+					let list = $("#listaCaps");
+					for (let i = 0; i < capitulos.data.length; i++) {
+						console.log(capitulos.data[i].titulo);
+							list.append(`
+								<li>Título: ${capitulos.data[i].titulo} - Nº Páginas: ${capitulos.data[i].paginas}</li>
+							`);
+						}
+					
+				});
+			});
+		
+	}	
+	
+	function pulsarBackDetalle(){
+		formNuevoLibro.hide();
+		divDetalle.hide();
+		divDdatos.show();
+	}
+	
+	function pulsarEditar(isbn){
+		divDdatos.hide();
+		divDetalle.hide();
+		divEditar.show();
+		detalle(isbn).then(function(libro){
+			$("#isbnEdit").val(`${libro.data.isbn}`);
+			$("#tituloEdit").val(`${libro.data.titulo}`);
+			$("#autorEdit").val(`${libro.data.autor}`);
+		});
+		
 	}
 	
 	//Funciones AJAX a partir de aquí
 	function buscarTodos(){
 		
-		return $.get("http://localhost:8084/webapi/libros");
+		return axios.get("http://localhost:8084/webapi/libros");
 	}
 	
 	function borrar(isbn){
-		return $.ajax({
+		/*return $.ajax({
 			url:`http://localhost:8084/webapi/libros/${isbn}`,
 			type: 'DELETE'
-		});
+		});*/
+		return axios.delete(`http://localhost:8084/webapi/libros/${isbn}`);
 	}
 	
 	function insertar(libro){
-		return $.ajax({
-	        type: "POST",
-	        url: "http://localhost:8084/webapi/libros",
-	        contentType:"application/json",
-	        data: JSON.stringify(libro)
-	    });
+		
+		return axios.post("http://localhost:8084/webapi/libros",libro);
+
+	}
+	
+	function detalle(isbn){
+		
+		return axios.get(`http://localhost:8084/webapi/libros/${isbn}`);
+
+	}
+	
+	function buscarTodosCapitulos(isbn){
+		
+		return axios.get(`http://localhost:8084/webapi/libros/${isbn}/capitulos`);
+
+	}
+	
+	function editar(libro){
+		
+		return axios.put(`http://localhost:8084/webapi/libros/${libro.isbn}`,libro);
 
 	}
 	
@@ -89,30 +195,59 @@
 </style>
 </head>
 <body>
-	<table id="tablaDatos">
-		<thead>
-		<tr>
-			<th>ISBN</th>
-			<th>Titulo</th>
-			<th>Autor</th>
-			<th>Acciones</th>
-		</tr>
-		</thead>
-		<tbody>
-		</tbody>
-	</table>
-	<form id="formularioLibro" action="insertar" method="POST">
-		<!--  he usado las etiquetas input para diseñar el formulario -->
-		<p>
-		ISBN: <input type="text" id="isbn" name="isbn" />
-		</p>
-		<p>
-		titulo: <input type="text" id="titulo" name="titulo" />
-		</p>
-		<p>
-		autor: <input type="text" id="autor" name="autor" />
-		</p>
-		<input id="salvar" type="button" value="salvar"/>
-	</form>
+	<div id="datos">
+		<table id="tablaDatos">
+			<thead>
+			<tr>
+				<th>ISBN</th>
+				<th>Titulo</th>
+				<th>Autor</th>
+				<th colspan="2">Acciones</th>
+			</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<input id="btnFormularioNuevo" type="button" value="Nuevo Libro"/>
+	</div>
+	
+	<div id="formularioNuevo">
+		<form  action="insertar" method="POST">
+			<!--  he usado las etiquetas input para diseñar el formulario -->
+			<p>
+			ISBN: <input type="text" id="isbn" name="isbn" />
+			</p>
+			<p>
+			titulo: <input type="text" id="titulo" name="titulo" />
+			</p>
+			<p>
+			autor: <input type="text" id="autor" name="autor" />
+			</p>
+			<input id="salvar" type="button" value="salvar"/>
+			
+		</form>
+		
+	</div>
+	
+	<div id="detalle">
+		
+	</div>
+	<div id="editar">
+		<form  action="editar" method="POST">
+			<!--  he usado las etiquetas input para diseñar el formulario -->
+			<p>
+			ISBN: <input type="text" readonly="readonly" id="isbnEdit" name="isbnEdit"/>
+			</p>
+			<p>
+			titulo: <input type="text" id="tituloEdit" name="tituloEdit"/>
+			</p>
+			<p>
+			autor: <input type="text" id="autorEdit" name="autorEdit"/>
+			</p>
+			<input id="salvarModificar" type="button" value="salvar"/>
+			
+		</form>
+	</div>
+	
 </body>
 </html>

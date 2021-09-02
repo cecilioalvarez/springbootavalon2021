@@ -1,6 +1,7 @@
 package com.arquitecturajava.bootnuevo.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.arquitecturajava.bootnuevo.negocio.Capitulo;
 import com.arquitecturajava.bootnuevo.negocio.Libro;
 import com.arquitecturajava.bootnuevo.servicios.LibroService;
 
@@ -38,10 +40,14 @@ public class LibroRestController {
 
 	@PutMapping("/{isbn}")
 	public void actualizar(@RequestBody Libro libro,@PathVariable String isbn) {
-		Libro libroModificado = servicio.buscarUno(isbn);
-		libroModificado.setTitulo(libro.getTitulo());
-		libroModificado.setAutor(libro.getAutor());
-		servicio.actualizar(libroModificado);
+		Optional<Libro> libroModificado = servicio.buscarUno(isbn);
+		
+		if (libroModificado.isPresent()) {
+			libroModificado.get().setTitulo(libro.getTitulo());
+			libroModificado.get().setAutor(libro.getAutor());
+			servicio.actualizar(libroModificado.get());
+		}
+		
 	}
 
 	@PostMapping
@@ -50,11 +56,16 @@ public class LibroRestController {
 	}
 
 	@GetMapping("/{isbn}")
-	public Libro buscarUno(@PathVariable String isbn) {
+	public Optional<Libro> buscarUno(@PathVariable String isbn) {
 		return servicio.buscarUno(isbn);
+	}
+
+	@GetMapping("/{isbn}/capitulos")
+	public List<Capitulo> buscarTodosCapitulos(@PathVariable String isbn) {
+		return servicio.buscarTodosCapitulos(new Libro (isbn));
 	}
 	
 	
-
+	
 	
 }
