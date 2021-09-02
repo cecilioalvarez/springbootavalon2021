@@ -1,20 +1,11 @@
 package com.arquitecturajava.bootnuevo;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.arquitecturajava.bootnuevo.negocio.Capitulo;
-import com.arquitecturajava.bootnuevo.negocio.Libro;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+@EnableJpaRepositories("com.arquitecturajava.bootnuevo.repositorios")
 public class BootnuevoApplication {
 /*
 	@PersistenceContext

@@ -1,12 +1,9 @@
 package com.arquitecturajava.bootnuevo.repositorios;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.arquitecturajava.bootnuevo.negocio.Capitulo;
 
-public interface CapituloRepository extends GenericRepository<Capitulo>{
-/*
-	public List<Capitulo> buscarTodos(); 
-	public void borrar(Capitulo capitulo);
-	public void insertar(Capitulo capitulo);*/
+public interface CapituloRepository extends JpaRepository<Capitulo, String>{
+
 }
