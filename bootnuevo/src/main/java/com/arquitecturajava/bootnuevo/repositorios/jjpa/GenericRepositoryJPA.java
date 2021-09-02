@@ -1,6 +1,9 @@
 package com.arquitecturajava.bootnuevo.repositorios.jjpa;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,6 +20,13 @@ public class GenericRepositoryJPA<T> implements GenericRepository<T> {
 	protected EntityManager em;
 	private Class<T> type;
 
+	public GenericRepositoryJPA() {
+        Type t = getClass().getGenericSuperclass();
+        ParameterizedType pt = (ParameterizedType) t;
+        type = (Class) pt.getActualTypeArguments()[0];
+    }
+	
+	
 	@Override
 	public void insertar(final T tipo) {
 
@@ -37,9 +47,9 @@ public class GenericRepositoryJPA<T> implements GenericRepository<T> {
 	}
 
 	@Override
-	public T buscarUno(final Object id) {
+	public Optional<T> buscarUno(final Object id) {
 
-		return (T) em.find(type, id);
+		return Optional.ofNullable( em.find(type, id));
 	}
 
 	@Override

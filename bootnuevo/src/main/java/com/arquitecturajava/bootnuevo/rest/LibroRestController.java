@@ -1,6 +1,7 @@
 package com.arquitecturajava.bootnuevo.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +29,15 @@ public class LibroRestController {
 	@PutMapping("{isbn}")
 	public void actualizar(@RequestBody Libro libro, @PathVariable String isbn) {
 		
-		Libro libroactual=servicio.buscarUno(isbn);
-		libroactual.setTitulo(libro.getTitulo());
-		libroactual.setAutor(libro.getAutor());
-		servicio.actualizar(libroactual);
+		Optional<Libro> libroactual=servicio.buscarUno(isbn);
+		if (libroactual.isPresent()) {
+			Libro libroNormal= libroactual.get();
+			libroNormal.setTitulo(libro.getTitulo());
+			libroNormal.setAutor(libro.getAutor());
+			servicio.actualizar(libroNormal);
+		}
+
+	
 	}
 	@PostMapping
 	public void insertar(@RequestBody Libro libro) {
@@ -40,7 +46,7 @@ public class LibroRestController {
 
 
 	@GetMapping("/{isbn}")
-	public Libro buscarUno(@PathVariable String isbn) {
+	public Optional<Libro> buscarUno(@PathVariable String isbn) {
 		
 		return servicio.buscarUno(isbn);
 	}

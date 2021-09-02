@@ -1,6 +1,7 @@
 package com.arquitecturajava.bootnuevo.repositorios;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenericRepository<T> {
 
@@ -10,7 +11,7 @@ public interface GenericRepository<T> {
 
 	void actualizar(T tipo);
 
-	T buscarUno(Object id);
+	Optional<T> buscarUno(Object id);
 
 	List<T> buscarTodos();
 

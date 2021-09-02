@@ -1,6 +1,7 @@
 package com.arquitecturajava.bootnuevo.repositorios.jdbc;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -56,7 +57,7 @@ public class CapituloRepositoryJDBC  implements CapituloRepository {
 		
 	}
 	@Override
-	public Capitulo buscarUno(Object id) {
+	public Optional<Capitulo> buscarUno(Object id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

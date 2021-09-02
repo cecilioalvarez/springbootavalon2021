@@ -8,7 +8,6 @@ import com.arquitecturajava.bootnuevo.negocio.Libro;
 public interface LibroRepository extends GenericRepository<Libro>{
 
 	
-	
 	List<Libro> buscarTodosConCapitulos();
 
 	List<Libro> buscarTituloyAutor(String titulo, String autor);

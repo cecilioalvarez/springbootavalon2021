@@ -7,7 +7,8 @@ import com.arquitecturajava.bootnuevo.negocio.Capitulo;
 import com.arquitecturajava.bootnuevo.repositorios.CapituloRepository;
 @Repository
 @Qualifier("jpa")
-public class CapituloRepositoryJPA extends GenericRepositoryJPA<Capitulo> implements CapituloRepository {
+public class CapituloRepositoryJPA 
+extends GenericRepositoryJPA<Capitulo> implements CapituloRepository {
 
 
 }

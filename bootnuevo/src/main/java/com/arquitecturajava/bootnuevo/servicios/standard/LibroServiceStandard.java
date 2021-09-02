@@ -1,6 +1,7 @@
 package com.arquitecturajava.bootnuevo.servicios.standard;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,7 @@ public class LibroServiceStandard implements LibroService  {
 		return repositorio.buscarTituloyAutor(titulo, autor);
 	}
 
-	public Libro buscarUno(String isbn) {
+	public Optional<Libro> buscarUno(String isbn) {
 		
 		return repositorio.buscarUno(isbn);
 	}

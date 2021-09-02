@@ -14,7 +14,8 @@ import com.arquitecturajava.bootnuevo.negocio.Libro;
 import com.arquitecturajava.bootnuevo.repositorios.LibroRepository;
 @Repository
 @Qualifier("jpa")
-public class LibroRepositoryJPA  extends GenericRepositoryJPA<Libro> implements LibroRepository {
+public class LibroRepositoryJPA 
+extends GenericRepositoryJPA<Libro> implements LibroRepository {
 
 
 
