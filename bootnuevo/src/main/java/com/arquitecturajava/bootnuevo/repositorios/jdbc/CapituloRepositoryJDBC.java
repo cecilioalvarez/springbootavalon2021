@@ -12,7 +12,7 @@ import com.arquitecturajava.bootnuevo.repositorios.CapituloRepository;
 import com.arquitecturajava.bootnuevo.repositorios.jdbc.mappers.CapituloMapper;
 @Component
 @Qualifier("jdbc")
-public class CapituloRepositoryJDBC implements CapituloRepository {
+public class CapituloRepositoryJDBC  implements CapituloRepository {
 
 	private JdbcTemplate plantilla;
 	
@@ -49,6 +49,16 @@ public class CapituloRepositoryJDBC implements CapituloRepository {
 
 		plantilla.update(CONSULTA_INSERTAR,capitulo.getTitulo(),capitulo.getPaginas(),capitulo.getLibro().getIsbn());
 
+	}
+	@Override
+	public void actualizar(Capitulo tipo) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Capitulo buscarUno(Object id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

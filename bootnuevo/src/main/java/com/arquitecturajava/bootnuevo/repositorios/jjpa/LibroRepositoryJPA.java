@@ -14,31 +14,9 @@ import com.arquitecturajava.bootnuevo.negocio.Libro;
 import com.arquitecturajava.bootnuevo.repositorios.LibroRepository;
 @Repository
 @Qualifier("jpa")
-public class LibroRepositoryJPA implements LibroRepository {
+public class LibroRepositoryJPA  extends GenericRepositoryJPA<Libro> implements LibroRepository {
 
-	@PersistenceContext
-	EntityManager em;
-	
-	@Override
-	public void actualizar(Libro libro) {
-		em.merge(libro);
-		
-	}
-	@Override
-	public void insertar(Libro libro) {
-		em.persist(libro);
-		
-	}
-	@Override
-	public void borrar(Libro libro) {
-		em.remove(em.merge(libro));	
-		
-	}
-	@Override
-	public List<Libro> buscarTodos() {
-		
-		return em.createNamedQuery("Libros.buscarTodos",Libro.class).getResultList();
-	}
+
 
 	@Override
 	public List<Libro> buscarTodosConCapitulos() {
@@ -55,11 +33,6 @@ public class LibroRepositoryJPA implements LibroRepository {
 		return consulta.getResultList();
 	}
 
-	@Override
-	public Libro buscarUno(String isbn) {
-		// TODO Auto-generated method stub
-		return em.find(Libro.class, isbn);
-	}
 
 	@Override
 	public List<Capitulo> buscarTodosCapitulos(Libro libro) {
