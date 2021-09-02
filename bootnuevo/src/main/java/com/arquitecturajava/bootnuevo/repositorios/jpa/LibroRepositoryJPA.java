@@ -63,9 +63,11 @@ public class LibroRepositoryJPA implements LibroRepository {
 
     @Override
     public Libro buscarUno(String isbn) {
-	// TODO Auto-generated method stub
 	return em.find(Libro.class, isbn);
+	
+	
     }
+   
 
     @Override
     public List<Capitulo> buscarTodosCapitulos(Libro libro) {
@@ -76,4 +78,6 @@ public class LibroRepositoryJPA implements LibroRepository {
 	return consulta.getResultList();
 
     }
+
+    
 }

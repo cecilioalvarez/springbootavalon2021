@@ -4,29 +4,155 @@
 <meta charset="ISO-8859-1">
 <title>Hola desde spring</title>
 <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script type="text/javascript">
+
+function generarTabla(libros){
+	$("table").empty();
+	for (var i=0;i<libros.length;i++) {
+			let fila=libros[i];
+			
+			$("table").append(`<tr>
+				<td>${fila.isbn}</td>
+				<td>${fila.titulo}</td>
+				<td>${fila.autor}</td>
+				<td><input type="button" onClick="verDetalle(${fila.isbn})" value="ver Detalle"/></td>
+				<td><input type="button" onClick="verCapitulos(${fila.isbn})" value="ver Capitulos"/></td>
+				<td><input type="button" onClick="pulsarBorrar(${fila.isbn})" value="borrar elemento"/></td>
+				</tr>`);
+			}
+}
+
+function generarDetalle(libro,capitulos){
+	$("#detalle").append(`<p>${libro.isbn}</p><p>${libro.titulo}</p><p>${libro.autor}</p>`);
+	capitulos.forEach(capitulo=>{
+		$("#detalle").append(`<p>${capitulo.titulo}</p><p>${capitulo.paginas}</p>`);
+	})
+	$("#detalle").show();
+	$("#lista").hide();
+	$("#formularionuevo").hide();
+	
+}
+
+function generarDetalleCapitulos(capitulos){
+	console.log(capitulos);
+	capitulos.forEach(capitulo => {
+		$("#detalle").append(`<p>${capitulo.titulo}</p><p>${capitulo.paginas}</p>`);
+	});
+	
+	$("#detalle").show();
+	$("#lista").hide();
+	$("#formularionuevo").hide(); 
+}
+
+function pulsarBorrar(isbn){
+	borrar(isbn).then(buscarTodos).then(function(libros){
+		generarTabla(libros.data);
+	});
+}
+
+function verDetalle(isbn){
+	buscarLibro(isbn).then(function(libro){
+		buscarCapitulos(libro.data.isbn).then(function(capitulos){
+			generarDetalle(libro.data,capitulos.data);	
+		})
+		
+
+	});
+	
+}
+function verCapitulos(isbn){
+	buscarCapitulos(isbn).then(function(capitulos){
+		generarDetalleCapitulos(capitulos.data);
+
+	});
+	
+}
+
+
+function borrar(isbn){
+	 return axios.delete(`http://localhost:8080/webapi/libros/${isbn}`);
+}
+
+function buscarTodos(){
+	 return axios.get("http://localhost:8080/webapi/libros")
+}
+
+function insertar(libro){
+	return axios.post("http://localhost:8080/webapi/libros",libro);
+    
+}
+
+function buscarLibro(isbn){
+	return axios.get("http://localhost:8080/webapi/libros/"+isbn);
+}
+
+function buscarCapitulos(isbn){
+	return axios.get(`http://localhost:8080/webapi/libros/${isbn}/capitulos`);
+}
+
 $(document).ready(function(){
 
-	$.get("http://localhost:8080/webapi/libros",function(datos){
-		for (var i=0;i<datos.length;i++) {
-			let fila=datos[i];	
-			$("table").append(`<tr>
-								 <td>${fila.isbn}</td>
-								  <td><${fila.titulo}</td>
-								  <td>${fila.autor}</td>
-								  <td><input type="button" onClick="borrar(${fila.isbn})" value="borrar elemento"/></td>
-								  </tr>`);
-		}
-	});
+	$("#formularionuevo").hide();
+	
+	let promesaAjax=buscarTodos();
+	promesaAjax.then(function(libros){
+		generarTabla(libros.data);
+	})
+	
+	$("#botonformularionuevo").click(function(){
+		$("#lista").hide();
+		$("#detalle").hide();
+		$("#formularionuevo").show();
+	})
+
+	
+	
+	$("#salvar").click(function(){
+		let objeto={};
+		objeto.isbn=$("#isbn").val();
+		objeto.titulo=$("#titulo").val();
+		objeto.autor=$("#autor").val();
+		
+		insertar(objeto).then(buscarTodos).then(function(libros){
+			$("#lista").show();
+			$("#formularionuevo").hide();
+			$("#detalle").hide();
+			generarTabla(libros.data)
+		});
+	})
 
 })
 </script>
 </head>
 <body>
-<h2>Hola desde spring boot</h2>
-<table>
+	
+	<table id="lista">
 
-</table>
+<input type="button" id="botonformularionuevo" value="Anaadir">
+	</table>
+	
+	<div id="formularionuevo">
+
+		<form>
+	
+			<p>
+				ISBN: <input type="text" name="isbn" id="isbn" />
+			</p>
+			<p>
+				titulo: <input type="text" name="titulo" id="titulo" />
+			</p>
+			<p>
+				autor: <input type="text" name="autor" id="autor" />
+			</p>
+			<input type="button" value="Guardar" id="salvar" />
+		</form>
+	</div>
+	<div id="detalle">
+		
+
+	</div>
 
 </body>
 </html>

@@ -22,5 +22,7 @@ public interface LibroRepository {
 	Libro buscarUno(String isbn);
 	
 	List<Capitulo> buscarTodosCapitulos(Libro libro);
+	
+	
 
 }
