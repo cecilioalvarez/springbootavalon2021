@@ -2,8 +2,6 @@ package com.arquitecturajava.bootnuevo.repositorios.jpa;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,8 +13,9 @@ import com.arquitecturajava.bootnuevo.repositorios.LibroRepository;
 
 @Repository
 @Qualifier("jpa")
-public class LibroRepositoryJPA implements LibroRepository {
+public class LibroRepositoryJPA /*implements LibroRepository*/ extends GenericRepositoryJPA<Libro> implements LibroRepository {
 
+/*
 	@PersistenceContext
 	EntityManager em;
 	
@@ -44,7 +43,7 @@ public class LibroRepositoryJPA implements LibroRepository {
 		//Con esta forma necesitamos en namedQuery en la clase libro
 		return em.createNamedQuery("Libros.buscarTodos", Libro.class).getResultList();
 	}
-
+*/
 	@Override
 	public List<Libro> buscarTodosConCapitulos() {
 		//Igual que en el metodo anterior de buscar todos se pueden hacer de las dos maneras
@@ -59,11 +58,11 @@ public class LibroRepositoryJPA implements LibroRepository {
 		consulta.setParameter("autor", autor);
 		return consulta.getResultList();
 	}
-
+/*
 	@Override
 	public Libro buscarUno(String isbn) {
 		return em.find(Libro.class, isbn);
-	}
+	}*/
 
 	@Override
 	public List<Capitulo> buscarTodosCapitulos(Libro libro) {

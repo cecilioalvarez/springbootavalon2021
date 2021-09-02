@@ -1,10 +1,5 @@
 package com.arquitecturajava.bootnuevo.repositorios.jpa;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +8,8 @@ import com.arquitecturajava.bootnuevo.repositorios.CapituloRepository;
 
 @Repository
 @Qualifier("jpa")
-public class CapituloRepositoryJPA implements CapituloRepository{
-
+public class CapituloRepositoryJPA /*implements CapituloRepository*/ extends GenericRepositoryJPA<Capitulo> implements CapituloRepository{
+	/*
 	@PersistenceContext
 	EntityManager em;
 	
@@ -33,4 +28,16 @@ public class CapituloRepositoryJPA implements CapituloRepository{
 		em.persist(capitulo);
 	}
 
+	@Override
+	public void actualizar(Capitulo tipo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Capitulo buscarUno(Object id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+*/
 }

@@ -1,6 +1,7 @@
 package com.arquitecturajava.bootnuevo.repositorios.jdbc;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -88,6 +89,12 @@ public class LibroRepositoryJDBC implements LibroRepository {
 
 		return plantilla.query(CONSULTA_BUSCAR_TODOS_CAPITULOS_LIBRO, new CapituloMapper(), libro.getIsbn());
 
+	}
+
+	@Override
+	public Optional<Libro> buscarUno(Object id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
 	}
 
 }
