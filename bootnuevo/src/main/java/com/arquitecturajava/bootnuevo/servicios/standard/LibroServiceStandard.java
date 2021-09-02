@@ -44,13 +44,12 @@ public class LibroServiceStandard implements LibroService  {
 	}
 
 	public List<Libro> buscarTodosConCapitulos() {
-		//return repositorio.buscarTodosConCapitulos();
-		return null;
+		return repositorio.buscarTodosConCapitulos();
+		
 	}
 
 	public List<Libro> buscarTituloyAutor(String titulo, String autor) {
-		//return repositorio.buscarTituloyAutor(titulo, autor);
-		return null;
+		return repositorio.findByTituloAndAutor(titulo, autor);
 	}
 
 	public Optional<Libro> buscarUno(String isbn) {
@@ -80,8 +79,8 @@ public class LibroServiceStandard implements LibroService  {
 	@Override
 	public List<Capitulo> buscarTodosCapitulos(Libro libro) {
 		
-		//return repositorio.buscarTodosCapitulos(libro);
-		return null;
+		return repositorio.buscarTodosCapitulos(libro.getIsbn());
+	
 	}
 
 	@Override
