@@ -5,6 +5,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 //public class BootnuevoApplication implements CommandLineRunner{
 @SpringBootApplication
+@EnableJpaRepositories("com.arquitecturajava.bootnuevo.repositorios")
 public class BootnuevoApplication {
     @PersistenceContext
     EntityManager em;

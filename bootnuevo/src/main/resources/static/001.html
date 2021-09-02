@@ -48,6 +48,12 @@ function generarDetalleCapitulos(capitulos){
 }
 
 function generarFormularioEditar(libro){
+	$("#lista").hide();
+	$("#detalle").hide();
+	$("#isbn").val(libro.isbn);
+	$("#titulo").val(libro.titulo);
+	$("#autor").val(libro.autor);
+	$("#formularionuevo").show();
 	
 }
 
@@ -103,6 +109,14 @@ function buscarCapitulos(isbn){
 	return axios.get(`http://localhost:8080/webapi/libros/${isbn}/capitulos`);
 }
 
+function actualizarLibro(libro){
+	console.log(libro.isbn);
+	return axios.put(`http://localhost:8080/webapi/libros/${libro.isbn}`, {
+		  libro: libro
+		});
+ 
+ }
+
 $(document).ready(function(){
 
 	$("#formularionuevo").hide();
@@ -133,21 +147,35 @@ $(document).ready(function(){
 			generarTabla(libros.data)
 		});
 	})
+	
+	$("#actualizar").click(function(){
+		let objeto={};
+		objeto.isbn=$("#isbn").val();
+		objeto.titulo=$("#titulo").val();
+		objeto.autor=$("#autor").val();
+		
+		actualizarLibro(objeto).then(buscarTodos).then(function(libros){
+			$("#lista").show();
+			$("#formularionuevo").hide();
+			$("#detalle").hide();
+			generarTabla(libros.data)
+		});
+	})
 
 })
 </script>
 </head>
 <body>
-	
+
 	<table id="lista">
 
-<input type="button" id="botonformularionuevo" value="Anaadir">
+		<input type="button" id="botonformularionuevo" value="Anaadir">
 	</table>
-	
+
 	<div id="formularionuevo">
 
 		<form>
-	
+
 			<p>
 				ISBN: <input type="text" name="isbn" id="isbn" />
 			</p>
@@ -157,14 +185,12 @@ $(document).ready(function(){
 			<p>
 				autor: <input type="text" name="autor" id="autor" />
 			</p>
-			<input type="button" value="Guardar" id="salvar" />
+			<input type="button" value="Guardar" id="salvar" /> <input
+				type="button" value="actualizar" id="actualizar" />
 		</form>
 	</div>
-	<div id="detalle">
-		
+	<div id="detalle"></div>
 
-	</div>
-	
 
 </body>
 </html>

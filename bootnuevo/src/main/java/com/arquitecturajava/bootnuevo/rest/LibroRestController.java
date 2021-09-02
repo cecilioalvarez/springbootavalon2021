@@ -46,7 +46,8 @@ public class LibroRestController {
 
     @PutMapping("/{isbn}")
     void actualizar(@RequestBody Libro libro, @PathVariable String isbn) {
-
+	System.out.println("dsdf");
+	
 	Optional<Libro> libroactual = servicio.buscarUno(isbn);
 	if (libroactual.isPresent()) {
 	    Libro libroNormal = libroactual.get();
