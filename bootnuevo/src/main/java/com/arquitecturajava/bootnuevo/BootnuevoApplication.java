@@ -5,8 +5,10 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+@EnableJpaRepositories("com.arquitecturajava.bootnuevo.repositorios")
 public class BootnuevoApplication {
 
 	@PersistenceContext
