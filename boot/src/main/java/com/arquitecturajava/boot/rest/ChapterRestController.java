@@ -19,7 +19,7 @@ public class ChapterRestController {
     
     @GetMapping
     public List<Chapter> getChapters(@PathVariable String pk_isbn) {
-        final Book BOOK = this.libraryService.selectBook(new Book(pk_isbn));
+        final Book BOOK = this.libraryService.selectBook(new Book(pk_isbn)).get();
         return this.libraryService.select(BOOK);
     }
 }

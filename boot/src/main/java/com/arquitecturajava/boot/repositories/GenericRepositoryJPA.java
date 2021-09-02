@@ -2,6 +2,7 @@ package com.arquitecturajava.boot.repositories;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -21,8 +22,8 @@ public abstract class GenericRepositoryJPA<T> implements GenericRepository<T> {
     }
     
     @Override
-    public T select(final Object entity_pk) {
-        return this.entityManager.find(this.TYPE, entity_pk);
+    public Optional<T> select(final Object entity_pk) {
+        return Optional.ofNullable(this.entityManager.find(this.TYPE, entity_pk));
     }
     
     @Override

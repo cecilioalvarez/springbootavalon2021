@@ -4,6 +4,7 @@ import com.arquitecturajava.boot.business.Book;
 import com.arquitecturajava.boot.business.Chapter;
 import com.arquitecturajava.boot.services.LibraryService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,17 +21,21 @@ public class ChapterController {
     
     @RequestMapping("/list")
     public String getBookChaptersPage(Model model, @PathVariable String pk_isbn) {
-        final Book BOOK = this.libraryService.selectBook(new Book(pk_isbn));
-        final List<Chapter> CHAPTERS = this.libraryService.select(BOOK);
-        model.addAttribute("book", BOOK);
-        model.addAttribute("chapters", CHAPTERS);
+        Optional<Book> optionalBook = this.libraryService.selectBook(new Book(pk_isbn));
+        if (optionalBook.isPresent()) {
+            final List<Chapter> CHAPTERS = this.libraryService.select(optionalBook.get());
+            model.addAttribute("chapters", CHAPTERS);
+            model.addAttribute("book", optionalBook.get());
+        }
         return "bookChapters";
     }
     
     @RequestMapping("/add")
     public String getaddChapterPage(Model model, @PathVariable String pk_isbn) {
-        final Book BOOK = this.libraryService.selectBook(new Book(pk_isbn));
-        model.addAttribute("book", BOOK);
+        Optional<Book> optionalBook = this.libraryService.selectBook(new Book(pk_isbn));
+        if (optionalBook.isPresent()) {
+            model.addAttribute("book", optionalBook.get());
+        }
         return "addChapter";
     }
     
@@ -49,7 +54,10 @@ public class ChapterController {
     
     @RequestMapping("{pk_title}/edit")
     public String getEditChapterPage(Model model, @PathVariable String pk_isbn, @PathVariable String pk_title) {
-        model.addAttribute("chapter", this.libraryService.select(new Chapter(pk_title, new Book(pk_isbn))));
+        Optional<Chapter> optionalChapter = this.libraryService.select(new Chapter(pk_title, new Book(pk_isbn)));
+        if (optionalChapter.isPresent()) {
+            model.addAttribute("chapter", optionalChapter.get());
+        }
         return "editChapter";
     }
     

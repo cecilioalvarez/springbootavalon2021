@@ -4,6 +4,7 @@ import com.arquitecturajava.boot.business.Book;
 import com.arquitecturajava.boot.business.Chapter;
 import com.arquitecturajava.boot.mappers.ChapterMapper;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,14 +19,14 @@ public class ChapterRepositoryJDBC implements ChapterRepository {
     private JdbcTemplate template;
 
     @Override
-    public Chapter select(Object chapter_object) {
+    public Optional<Chapter> select(Object chapter_object) {
         final String QUERY = "SELECT * FROM chapter c "
                 + "INNER JOIN book b ON c.pk_fk_book = b.pk_isbn "
                 + "INNER JOIN author a ON b.fk_author = a.pk_id "
                 + "WHERE c.pk_title = ? AND b.pk_isbn = ?";
         Chapter chapter = (Chapter) chapter_object;
         Object[] params = {chapter.getPk_title(), chapter.getPk_fk_book().getPk_isbn()};
-        return this.template.queryForObject(QUERY, params, new ChapterMapper());
+        return Optional.ofNullable(this.template.queryForObject(QUERY, params, new ChapterMapper()));
     }
 
     @Override

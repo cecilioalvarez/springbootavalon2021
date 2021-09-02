@@ -3,6 +3,7 @@ package com.arquitecturajava.boot.rest;
 import com.arquitecturajava.boot.business.Book;
 import com.arquitecturajava.boot.services.LibraryService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class BookRestController {
     private LibraryService LIBRARY_SERVICE;
     
     @GetMapping("/{pk_isbn}")
-    public Book getBook(@PathVariable String pk_isbn) {
+    public Optional<Book> getBook(@PathVariable String pk_isbn) {
         return this.LIBRARY_SERVICE.selectBook(new Book(pk_isbn));
     }
     
@@ -42,9 +43,12 @@ public class BookRestController {
     
     @PutMapping("/{pk_isbn}")
     public void update(@PathVariable String pk_isbn, @RequestBody Book book) {
-        Book bookToUpdate = this.LIBRARY_SERVICE.selectBook(new Book(pk_isbn));
-        bookToUpdate.setTitle(book.getTitle());
-        bookToUpdate.setFk_author(book.getFk_author());
-        this.LIBRARY_SERVICE.update(bookToUpdate);
+        Optional<Book> optionalBook = this.LIBRARY_SERVICE.selectBook(new Book(pk_isbn));
+        if (optionalBook.isPresent()) {
+            Book bookToUpdate = optionalBook.get();
+            bookToUpdate.setTitle(book.getTitle());
+            bookToUpdate.setFk_author(book.getFk_author());
+            this.LIBRARY_SERVICE.update(bookToUpdate);
+        }
     }
 }

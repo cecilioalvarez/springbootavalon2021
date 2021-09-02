@@ -8,6 +8,7 @@ import com.arquitecturajava.boot.repositories.BookRepository;
 import com.arquitecturajava.boot.repositories.ChapterRepository;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class LibraryServiceImplementation implements LibraryService {
     @Qualifier("jpa")
     private AuthorRepository authorRepository;
     
-    public Book selectBook(Book book) {
+    public Optional<Book> selectBook(Book book) {
         return this.bookRepository.select(book);
     }
 
@@ -99,7 +100,7 @@ public class LibraryServiceImplementation implements LibraryService {
     }
 
     @Override
-    public Chapter select(Chapter chapter) {
+    public Optional<Chapter> select(Chapter chapter) {
         return this.chapterRepository.select(chapter);
     }
 
@@ -150,7 +151,7 @@ public class LibraryServiceImplementation implements LibraryService {
     }
 
     @Override
-    public Author select(Author author) {
+    public Optional<Author> select(Author author) {
         return this.authorRepository.select(author);
     }
 

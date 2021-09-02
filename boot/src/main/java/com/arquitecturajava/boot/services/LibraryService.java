@@ -4,6 +4,7 @@ import com.arquitecturajava.boot.business.Author;
 import com.arquitecturajava.boot.business.Book;
 import com.arquitecturajava.boot.business.Chapter;
 import java.util.List;
+import java.util.Optional;
 
 public interface LibraryService {
 
@@ -15,7 +16,7 @@ public interface LibraryService {
     
     void insert(Book ...book);
     
-    Book selectBook(Book book);
+    Optional<Book> selectBook(Book book);
 
     Book selectBookWithChapters(Book book);
     
@@ -33,7 +34,7 @@ public interface LibraryService {
 
     int updateTitle(Book book, String title);
     
-    Chapter select(Chapter chapter);
+    Optional<Chapter> select(Chapter chapter);
     
     List<Chapter> select();
     
@@ -51,7 +52,7 @@ public interface LibraryService {
     
     void updateBook(Chapter chapter, Book book);
     
-    Author select(Author author);
+    Optional<Author> select(Author author);
     
     List<Author> selectAuthors();
     

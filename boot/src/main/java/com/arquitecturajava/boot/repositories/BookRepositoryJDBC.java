@@ -6,6 +6,7 @@ import com.arquitecturajava.boot.mappers.BookMapper;
 import com.arquitecturajava.boot.mappers.BookWithChaptersMapper;
 import com.arquitecturajava.boot.mappers.BooksWithChaptersMapper;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,12 +21,12 @@ public class BookRepositoryJDBC implements BookRepository {
     private JdbcTemplate template;
     
     @Override
-    public Book select(Object pk_isbn) {
+    public Optional<Book> select(Object pk_isbn) {
         final String QUERY = "SELECT * FROM book b "
                 + "JOIN author a ON b.fk_author = a.pk_id "
                 + "WHERE b.pk_isbn = ?";
         Object[] params = {(String) pk_isbn};
-        return this.template.queryForObject(QUERY, params, new BookMapper());
+        return Optional.ofNullable(this.template.queryForObject(QUERY, params, new BookMapper()));
     }
 
     @Override

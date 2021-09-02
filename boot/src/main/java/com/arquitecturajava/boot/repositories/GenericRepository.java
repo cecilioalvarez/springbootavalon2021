@@ -1,6 +1,7 @@
 package com.arquitecturajava.boot.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenericRepository<T> {
 
@@ -8,7 +9,7 @@ public interface GenericRepository<T> {
 
     void insert(final T entity);
 
-    T select(final Object entity_pk);
+    Optional<T> select(final Object entity_pk);
 
     List<T> selectAll();
 

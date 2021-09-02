@@ -3,6 +3,7 @@ package com.arquitecturajava.boot.controllers;
 import com.arquitecturajava.boot.business.Author;
 import com.arquitecturajava.boot.business.Book;
 import com.arquitecturajava.boot.services.LibraryService;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,9 +26,11 @@ public class BookController {
     
     @RequestMapping("/list/{pk_id}")
     public String getAuthorBookListPage(Model model, @PathVariable String pk_id) {
-        Author author = this.libraryService.select(new Author(pk_id));
-        model.addAttribute("books", this.libraryService.selectBooks(author));
-        model.addAttribute("author", author);
+        Optional<Author> optionalAuthor = this.libraryService.select(new Author(pk_id));
+        if (optionalAuthor.isPresent()) {
+            model.addAttribute("books", this.libraryService.selectBooks(optionalAuthor.get()));
+            model.addAttribute("author", optionalAuthor.get());
+        }
         return "bookList";
     }
     
@@ -51,7 +54,10 @@ public class BookController {
     
     @RequestMapping("/{pk_isbn}/edit")
     public String getEditBookPage(Model model, @PathVariable String pk_isbn) {
-        model.addAttribute("book", this.libraryService.selectBook(new Book(pk_isbn)));
+        Optional<Book> optionalBook = this.libraryService.selectBook(new Book(pk_isbn));
+        if (optionalBook.isPresent()) {
+            model.addAttribute("book", optionalBook.get());
+        }
         model.addAttribute("authors", this.libraryService.selectAuthors());
         return "editBook";
     }
