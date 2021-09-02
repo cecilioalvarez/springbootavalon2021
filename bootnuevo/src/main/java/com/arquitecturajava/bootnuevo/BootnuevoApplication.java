@@ -5,7 +5,10 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+
+@EnableJpaRepositories("com.arquitecturajava.bootnuevo.repositorios")
 @SpringBootApplication
 public class BootnuevoApplication {
 
@@ -18,7 +21,6 @@ public class BootnuevoApplication {
 
 	/*
 	@Override
-	@Transactional
 	public void run(String... args) throws Exception {
 
 		TypedQuery<Libro> consulta = em.createQuery("select distinct l from Libro l left join fetch l.capitulos", Libro.class);

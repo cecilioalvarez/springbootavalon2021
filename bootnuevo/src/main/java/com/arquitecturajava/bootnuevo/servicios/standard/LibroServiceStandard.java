@@ -19,7 +19,7 @@ public class LibroServiceStandard implements LibroService  {
 	private CapituloRepository repositorioCapitulo;
 
 	
-	public LibroServiceStandard(@Qualifier("jpa") LibroRepository repositorio, @Qualifier("jpa")  CapituloRepository repositorioCapitulo) {
+	public LibroServiceStandard( LibroRepository repositorio,  CapituloRepository repositorioCapitulo) {
 		super();
 		this.repositorio = repositorio;
 		this.repositorioCapitulo = repositorioCapitulo;
@@ -27,20 +27,20 @@ public class LibroServiceStandard implements LibroService  {
 
 	@Transactional
 	public void actualizar(Libro libro) {
-		repositorio.actualizar(libro);
+		repositorio.save(libro);
 	}
 
 	@Transactional
 	public void insertar(Libro libro) {
-		repositorio.insertar(libro);
+		repositorio.save(libro);
 	}
 	@Transactional
 	public void borrar(Libro libro) {
-		repositorio.borrar(libro);
+		repositorio.delete(libro);
 	}
 
 	public List<Libro> buscarTodos() {
-		return repositorio.buscarTodos();
+		return repositorio.findAll();
 	}
 
 	public List<Libro> buscarTodosConCapitulos() {
@@ -53,25 +53,25 @@ public class LibroServiceStandard implements LibroService  {
 
 	public Optional<Libro> buscarUno(String isbn) {
 		
-		return repositorio.buscarUno(isbn);
+		return repositorio.findById(isbn);
 	}
 
 	@Override
 	public List<Capitulo> buscarTodosLosCapitulos() {
 		// TODO Auto-generated method stub
-		return repositorioCapitulo.buscarTodos();
+		return repositorioCapitulo.findAll();
 	}
 
 	@Override
 	public void borrarCapitulo(Capitulo capitulo) {
-		repositorioCapitulo.borrar(capitulo);
+		repositorioCapitulo.delete(capitulo);
 		
 	}
 
 	@Override
 	public void insertarCapitulo(Capitulo capitulo) {
 		
-		repositorioCapitulo.insertar(capitulo);
+		repositorioCapitulo.save(capitulo);
 		
 	}
 
@@ -86,7 +86,7 @@ public class LibroServiceStandard implements LibroService  {
 	public void insertarVariosLibros(Libro... libros) {
 		
 		for (Libro l : libros) {
-			repositorio.insertar(l);
+			repositorio.save(l);
 		}
 		
 	}
