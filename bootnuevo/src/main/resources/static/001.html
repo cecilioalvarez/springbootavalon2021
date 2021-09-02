@@ -20,6 +20,7 @@ function generarTabla(libros){
 				<td><input type="button" onClick="verDetalle(${fila.isbn})" value="ver Detalle"/></td>
 				<td><input type="button" onClick="verCapitulos(${fila.isbn})" value="ver Capitulos"/></td>
 				<td><input type="button" onClick="pulsarBorrar(${fila.isbn})" value="borrar elemento"/></td>
+				<td><input type="button" onClick="pulsarEditar(${fila.isbn})" value="Editar elemento"/></td>
 				</tr>`);
 			}
 }
@@ -36,7 +37,7 @@ function generarDetalle(libro,capitulos){
 }
 
 function generarDetalleCapitulos(capitulos){
-	console.log(capitulos);
+	
 	capitulos.forEach(capitulo => {
 		$("#detalle").append(`<p>${capitulo.titulo}</p><p>${capitulo.paginas}</p>`);
 	});
@@ -46,9 +47,19 @@ function generarDetalleCapitulos(capitulos){
 	$("#formularionuevo").hide(); 
 }
 
+function generarFormularioEditar(libro){
+	
+}
+
 function pulsarBorrar(isbn){
 	borrar(isbn).then(buscarTodos).then(function(libros){
 		generarTabla(libros.data);
+	});
+}
+
+function pulsarEditar(isbn){
+	buscarLibro(isbn).then(function(libro){
+		generarFormularioEditar(libro.data);
 	});
 }
 
@@ -153,6 +164,7 @@ $(document).ready(function(){
 		
 
 	</div>
+	
 
 </body>
 </html>

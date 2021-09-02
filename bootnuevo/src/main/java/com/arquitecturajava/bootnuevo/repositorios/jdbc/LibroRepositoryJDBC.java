@@ -90,4 +90,10 @@ public class LibroRepositoryJDBC implements LibroRepository {
 
 	}
 
+	@Override
+	public Libro buscarUno(Object id) {
+	    // TODO Auto-generated method stub
+	    return null;
+	}
+
 }

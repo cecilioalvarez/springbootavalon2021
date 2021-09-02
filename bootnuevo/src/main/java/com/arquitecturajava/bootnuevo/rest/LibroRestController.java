@@ -1,6 +1,7 @@
 package com.arquitecturajava.bootnuevo.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,49 +20,51 @@ import com.arquitecturajava.bootnuevo.servicios.LibroService;
 @RequestMapping("/webapi/libros")
 public class LibroRestController {
 
-	private LibroService servicio;
+    private LibroService servicio;
 
-	public LibroRestController(LibroService servicio) {
-		super();
-		this.servicio = servicio;
+    public LibroRestController(LibroService servicio) {
+	super();
+	this.servicio = servicio;
+    }
+
+    @GetMapping
+    public List<Libro> buscarTodos() {
+
+	return servicio.buscarTodos();
+
+    }
+
+    @DeleteMapping("/{isbn}")
+    public void borrar(@PathVariable String isbn) {
+	servicio.borrar(new Libro(isbn));
+    }
+
+    @PostMapping
+    public void insertar(@RequestBody Libro libro) {
+	servicio.insertar(libro);
+    }
+
+    @PutMapping("/{isbn}")
+    void actualizar(@RequestBody Libro libro, @PathVariable String isbn) {
+
+	Optional<Libro> libroactual = servicio.buscarUno(isbn);
+	if (libroactual.isPresent()) {
+	    Libro libroNormal = libroactual.get();
+
+	    libroNormal.setTitulo(libro.getTitulo());
+	    libroNormal.setAutor(libro.getAutor());
+	    servicio.actualizar(libroNormal);
 	}
-	
-	@GetMapping
-	public List<Libro> buscarTodos() {
+    }
 
-		return servicio.buscarTodos();
+    @GetMapping("/{isbn}")
+    public Optional<Libro> buscarUno(@PathVariable String isbn) {
+	return servicio.buscarUno(isbn);
+    }
 
-	}
-
-	@DeleteMapping("/{isbn}")
-	public void borrar(@PathVariable String isbn) {
-		servicio.borrar(new Libro(isbn));
-	}
-
-	@PostMapping
-	public void insertar(@RequestBody Libro libro) {
-		servicio.insertar(libro);
-	}
-
-	@PutMapping("/{isbn}")
-	void actualizar(@RequestBody Libro libro,@PathVariable String isbn) {
-
-		Libro libroactual=servicio.buscarUno(isbn);
-		libroactual.setTitulo(libro.getTitulo());
-		libroactual.setAutor(libro.getAutor());
-		servicio.actualizar(libroactual);
-	}
-
-	@GetMapping("/{isbn}")
-	public Libro buscarUno(@PathVariable String isbn) {
-		return servicio.buscarUno(isbn);
-	}
-
-	@GetMapping("/{isbn}/capitulos")
-	public List<Capitulo> buscarTodosCapitulos(@PathVariable String isbn) {
-	    return servicio.buscarTodosCapitulos(new Libro(isbn));
-	}
-	
-	
+    @GetMapping("/{isbn}/capitulos")
+    public List<Capitulo> buscarTodosCapitulos(@PathVariable String isbn) {
+	return servicio.buscarTodosCapitulos(new Libro(isbn));
+    }
 
 }

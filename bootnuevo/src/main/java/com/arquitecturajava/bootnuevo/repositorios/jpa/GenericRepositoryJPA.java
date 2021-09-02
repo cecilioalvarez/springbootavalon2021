@@ -1,5 +1,7 @@
 package com.arquitecturajava.bootnuevo.repositorios.jpa;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,12 +10,22 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Optional;
 
-public class GenericRepositoryJPA<T> {
+import com.arquitecturajava.bootnuevo.repositorios.GenericRepository;
+
+public class GenericRepositoryJPA<T> implements GenericRepository<T> {
 
     @PersistenceContext
     protected EntityManager em;
     private Class<T> type;
+    
+    public GenericRepositoryJPA() {
+        Type t = getClass().getGenericSuperclass();
+        ParameterizedType pt = (ParameterizedType) t;
+        type = (Class) pt.getActualTypeArguments()[0];
+    }
+
 
     public void insertar(final T tipo) {
 	em.persist(tipo);
@@ -28,8 +40,8 @@ public class GenericRepositoryJPA<T> {
  	em.merge(tipo);
      }
     
-    public T buscarUno(final Object id) {
- 	return (T) em.find(type, id);
+    public Optional<T> buscarUno(final Object id) {
+ 	return Optional.ofNullable(em.find(type, id));
      }
     
     public List<T> buscarTodos() {

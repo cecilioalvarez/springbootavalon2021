@@ -2,8 +2,6 @@ package com.arquitecturajava.bootnuevo.repositorios.jpa;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,39 +13,13 @@ import com.arquitecturajava.bootnuevo.repositorios.LibroRepository;
 
 @Repository
 @Qualifier("jpa")
-public class LibroRepositoryJPA implements LibroRepository {
-
-    @PersistenceContext
-    EntityManager em;
-
-    @Override
-    public void actualizar(Libro libro) {
-	// TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void insertar(Libro libro) {
-	em.persist(libro);
-
-    }
-
-    @Override
-    public void borrar(Libro libro) {
-	em.remove(em.merge(libro));
-
-    }
-
-    @Override
-    public List<Libro> buscarTodos() {
-	//return em.createQuery("select l from Libro l", Libro.class).getResultList();
-	return em.createNamedQuery("Libros.buscarTodos",Libro.class).getResultList();
-    }
+public class LibroRepositoryJPA extends GenericRepositoryJPA<Libro> implements LibroRepository {
 
     @Override
     public List<Libro> buscarTodosConCapitulos() {
-	//return em.createQuery("select l from Libro l join fetch l.capitulos", Libro.class).getResultList();
-	return em.createNamedQuery("Libros.buscarTodosConCapitulos",Libro.class).getResultList();
+	// return em.createQuery("select l from Libro l join fetch l.capitulos",
+	// Libro.class).getResultList();
+	return em.createNamedQuery("Libros.buscarTodosConCapitulos", Libro.class).getResultList();
 
     }
 
@@ -62,14 +34,6 @@ public class LibroRepositoryJPA implements LibroRepository {
     }
 
     @Override
-    public Libro buscarUno(String isbn) {
-	return em.find(Libro.class, isbn);
-	
-	
-    }
-   
-
-    @Override
     public List<Capitulo> buscarTodosCapitulos(Libro libro) {
 	// TODO Auto-generated method stub
 	TypedQuery<Capitulo> consulta = em.createQuery("select c from Capitulo c where c.libro.isbn=:isbn",
@@ -79,5 +43,4 @@ public class LibroRepositoryJPA implements LibroRepository {
 
     }
 
-    
 }
