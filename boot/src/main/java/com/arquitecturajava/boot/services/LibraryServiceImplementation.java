@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,49 +17,46 @@ import org.springframework.transaction.annotation.Transactional;
 public class LibraryServiceImplementation implements LibraryService {
     
     @Autowired
-    @Qualifier("jpa")
     private BookRepository bookRepository;
     @Autowired
-    @Qualifier("jpa")
     private ChapterRepository chapterRepository;
     @Autowired
-    @Qualifier("jpa")
     private AuthorRepository authorRepository;
     
     public Optional<Book> selectBook(Book book) {
-        return this.bookRepository.select(book);
+        return this.bookRepository.findById(book.getPk_isbn());
     }
 
     @Override
     public Book selectBookWithChapters(Book book) {
-        return this.bookRepository.selectAllWithChapters(book);
+        return this.bookRepository.selectBookWithChapters(book);
     }
 
     @Override
     public List<Book> selectBooks() {
-        return this.bookRepository.selectAll();
+        return this.bookRepository.findAll();
     }
 
     @Override
-    public List<Book> selectBooksWithChapters() {
-        return this.bookRepository.selectBooksWithChapters();
+    public List<Book> selectAllWithChapters() {
+        return this.bookRepository.selectAllWithChapters();
     }
 
     @Override
     public List<Book> selectBooks(Author fk_author) {
-        return this.bookRepository.select(fk_author);
+        return this.bookRepository.selectAllByAuthor(fk_author);
     }
     
     @Transactional
     @Override
     public void insert(Book book) {
-        this.bookRepository.insert(book);
+        this.bookRepository.save(book);
     }
 
     @Transactional
     @Override
     public void insert(Book... books) {
-        Arrays.asList(books).forEach(book -> this.bookRepository.insert(book));
+        Arrays.asList(books).forEach(book -> this.bookRepository.save(book));
     }
 
     @Transactional
@@ -72,19 +68,19 @@ public class LibraryServiceImplementation implements LibraryService {
     @Transactional
     @Override
     public int deleteBooks(Author fk_author) {
-        return this.bookRepository.deleteBooks(fk_author);
+        return this.bookRepository.deleteBooksByAuthor(fk_author);
     }
 
     @Transactional
     @Override
     public void update(Book book) {
-        this.bookRepository.update(book);
+        this.bookRepository.save(book);
     }
 
-    @Transactional
+    /*@Transactional
     @Override
     public int updatePk_isbn(Book book, String pk_isbn) {
-        return this.bookRepository.updatePk_isbn(book, pk_isbn);
+        return this.bookRepository.updateIsbn(book, pk_isbn);
     }
 
     @Transactional
@@ -97,27 +93,27 @@ public class LibraryServiceImplementation implements LibraryService {
     @Override
     public int updateAuthor(Book book, Author author) {
         return this.bookRepository.updateAuthor(book, author);
+    }*/
+
+    @Override
+    public Optional<Chapter> selectChapter(Chapter chapter) {
+        return this.chapterRepository.findById(chapter.getPk_chapter());
     }
 
     @Override
-    public Optional<Chapter> select(Chapter chapter) {
-        return this.chapterRepository.select(chapter);
+    public List<Chapter> selectChapters() {
+        return this.chapterRepository.findAll();
     }
 
     @Override
-    public List<Chapter> select() {
-        return this.chapterRepository.selectAll();
-    }
-
-    @Override
-    public List<Chapter> select(Book book) {
-        return this.chapterRepository.select(book);
+    public List<Chapter> selectChapters(Book book) {
+        return this.chapterRepository.selectByBook(book);
     }
 
     @Transactional
     @Override
     public void insert(Chapter chapter) {
-        this.chapterRepository.insert(chapter);
+        this.chapterRepository.save(chapter);
     }
 
     @Transactional
@@ -126,13 +122,20 @@ public class LibraryServiceImplementation implements LibraryService {
         this.chapterRepository.delete(chapter);
     }
 
-    @Transactional
+    /*@Transactional
     @Override
     public int deleteChapters(Book book) {
         return this.chapterRepository.delete(book);
+    }*/
+    
+    
+
+    @Override
+    public void updateChapter(Chapter chapter) {
+        this.chapterRepository.save(chapter);
     }
 
-    @Transactional
+    /*@Transactional
     @Override
     public void updateChapter(Chapter oldChapter, Chapter newChapter) {
         this.chapterRepository.updateChapter(oldChapter, newChapter);
@@ -148,22 +151,22 @@ public class LibraryServiceImplementation implements LibraryService {
     @Override
     public void updateBook(Chapter chapter, Book book) {
         this.chapterRepository.updateBook(chapter, book);
-    }
+    }*/
 
     @Override
-    public Optional<Author> select(Author author) {
-        return this.authorRepository.select(author);
+    public Optional<Author> selectAuthor(Author author) {
+        return this.authorRepository.findById(author.getPk_id());
     }
 
     @Override
     public List<Author> selectAuthors() {
-       return this.authorRepository.selectAll();
+       return this.authorRepository.findAll();
     }
 
     @Transactional
     @Override
     public void insert(Author author) {
-        this.authorRepository.insert(author);
+        this.authorRepository.save(author);
     }
 
     @Transactional
@@ -175,10 +178,10 @@ public class LibraryServiceImplementation implements LibraryService {
     @Transactional
     @Override
     public void update(Author author) {
-        this.authorRepository.update(author);
+        this.authorRepository.save(author);
     }
 
-    @Transactional
+   /* @Transactional
     @Override
     public int updatePk_id(Author author, String pk_id) {
         return this.authorRepository.updatePk_id(author, pk_id);
@@ -194,5 +197,5 @@ public class LibraryServiceImplementation implements LibraryService {
     @Override
     public int updateAge(Author author, int age) {
         return this.authorRepository.updateAge(author, age);
-    }
+    }*/
 }

@@ -2,47 +2,40 @@ package com.arquitecturajava.boot.business;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "chapter")
 @NamedQuery(name = "Chapter.selectAll", query = "SELECT c FROM Chapter c")
-@NamedQuery(name = "Chapter.selectByBook", query = "SELECT c FROM Chapter c WHERE c.pk_fk_book.pk_isbn = :pk_isbn")
+@NamedQuery(name = "Chapter.selectByBook", query = "SELECT c FROM Chapter c WHERE c.pk_chapter.pk_fk_book = :book")
 public class Chapter implements Serializable {
 
-    @Id
-    private String pk_title;
+    @EmbeddedId
+    private ChapterPK pk_chapter;
     private int pages;
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "pk_fk_book", referencedColumnName = "pk_isbn")
-    private Book pk_fk_book;
     
     public Chapter() {
     }
 
     public Chapter(String title, int pages, Book book) {
-        this.pk_title = title;
+        this.pk_chapter = new ChapterPK(title, book);
         this.pages = pages;
-        this.pk_fk_book = book;
     }
     
     public Chapter(String title, Book book) {
-        this.pk_title = title;
-        this.pk_fk_book = book;
+        this.pk_chapter = new ChapterPK(title, book);
     }
 
     public void setPk_title(String pk_title) {
-        this.pk_title = pk_title;
+        this.pk_chapter = new ChapterPK();
+        this.pk_chapter.setPk_title(pk_title);
     }
     
     public String getPk_title() {
-        return this.pk_title;
+        return this.pk_chapter.getPk_title();
     }
 
     public void setPages(int pages) {
@@ -54,18 +47,25 @@ public class Chapter implements Serializable {
     }
 
     public void setPk_fk_book(Book pk_fk_book) {
-        this.pk_fk_book = pk_fk_book;
+        this.pk_chapter.setPk_fk_book(pk_fk_book);
     }
 
     public Book getPk_fk_book() {
-        return this.pk_fk_book;
+        return this.pk_chapter.getPk_fk_book();
+    }
+
+    public ChapterPK getPk_chapter() {
+        return pk_chapter;
+    }
+
+    public void setPk_chapter(ChapterPK pk_chapter) {
+        this.pk_chapter = pk_chapter;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + Objects.hashCode(this.pk_title);
-        hash = 31 * hash + Objects.hashCode(this.pk_fk_book);
+        hash = 23 * hash + Objects.hashCode(this.pk_chapter);
         return hash;
     }
 
@@ -81,10 +81,7 @@ public class Chapter implements Serializable {
             return false;
         }
         final Chapter other = (Chapter) obj;
-        if (!Objects.equals(this.pk_title, other.pk_title)) {
-            return false;
-        }
-        if (!Objects.equals(this.pk_fk_book, other.pk_fk_book)) {
+        if (!Objects.equals(this.pk_chapter, other.pk_chapter)) {
             return false;
         }
         return true;
@@ -92,6 +89,6 @@ public class Chapter implements Serializable {
 
     @Override
     public String toString() {
-        return "[" + this.pk_fk_book.getTitle() + "] Capítulo: " + this.pk_title + " [" + this.pages + " pags]";
+        return "[" + this.pk_chapter.getPk_fk_book().getTitle() + "] Capítulo: " + this.pk_chapter.getPk_title() + " [" + this.pages + " pags]";
     }
 }

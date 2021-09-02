@@ -23,7 +23,7 @@ public class ChapterController {
     public String getBookChaptersPage(Model model, @PathVariable String pk_isbn) {
         Optional<Book> optionalBook = this.libraryService.selectBook(new Book(pk_isbn));
         if (optionalBook.isPresent()) {
-            final List<Chapter> CHAPTERS = this.libraryService.select(optionalBook.get());
+            final List<Chapter> CHAPTERS = this.libraryService.selectChapters(optionalBook.get());
             model.addAttribute("chapters", CHAPTERS);
             model.addAttribute("book", optionalBook.get());
         }
@@ -54,7 +54,7 @@ public class ChapterController {
     
     @RequestMapping("{pk_title}/edit")
     public String getEditChapterPage(Model model, @PathVariable String pk_isbn, @PathVariable String pk_title) {
-        Optional<Chapter> optionalChapter = this.libraryService.select(new Chapter(pk_title, new Book(pk_isbn)));
+        Optional<Chapter> optionalChapter = this.libraryService.selectChapter(new Chapter(pk_title, new Book(pk_isbn)));
         if (optionalChapter.isPresent()) {
             model.addAttribute("chapter", optionalChapter.get());
         }
@@ -65,7 +65,7 @@ public class ChapterController {
     public String updateChapterAction(Model model, Chapter chapter, String old_pk_title, @PathVariable String pk_isbn) {
         Book book = new Book(pk_isbn);
         chapter.setPk_fk_book(book);
-        this.libraryService.updateChapter(new Chapter(old_pk_title, book), chapter);
+        this.libraryService.updateChapter(chapter);
         return "redirect:../list";
     }
 }

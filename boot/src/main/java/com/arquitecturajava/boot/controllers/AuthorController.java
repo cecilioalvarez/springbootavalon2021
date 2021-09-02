@@ -18,7 +18,7 @@ public class AuthorController {
     
     @RequestMapping("/{pk_id}")
     public String getAuthorDetailPage(Model model, @PathVariable String pk_id) {
-        Optional<Author> optionalAuthor = this.libraryService.select(new Author(pk_id));
+        Optional<Author> optionalAuthor = this.libraryService.selectAuthor(new Author(pk_id));
         if (optionalAuthor.isPresent()) {
             model.addAttribute("author", optionalAuthor.get());
         }

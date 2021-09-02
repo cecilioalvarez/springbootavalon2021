@@ -1,5 +1,6 @@
 package com.arquitecturajava.boot.business;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "author")
 @NamedQuery(name = "Author.selectAll", query = "SELECT a FROM Author a")
-public class Author {
+public class Author implements Serializable {
 
     @Id
     private String pk_id;

@@ -3,20 +3,21 @@ package com.arquitecturajava.boot.repositories;
 import com.arquitecturajava.boot.business.Author;
 import com.arquitecturajava.boot.business.Book;
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BookRepository extends GenericRepository<Book> {
+public interface BookRepository extends JpaRepository<Book, String> {
     
-    Book selectAllWithChapters(Book book);
+    Book selectBookWithChapters(Book book);
     
-    List<Book> selectBooksWithChapters();
+    List<Book> selectAllWithChapters();
     
-    List<Book> select(Author fk_author);
+    List<Book> selectAllByAuthor(Author fk_author);
     
-    int deleteBooks(Author fk_author);
+    int deleteBooksByAuthor(Author fk_author);
     
-    int updatePk_isbn(Book book, String pk_isbn);
+    /*int updateIsbn(Book book, String pk_isbn);
     
     int updateTitle(Book book, String title);
     
-    int updateAuthor(Book book, Author author);
+    int updateAuthor(Book book, Author author);*/
 }

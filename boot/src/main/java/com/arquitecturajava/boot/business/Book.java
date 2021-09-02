@@ -1,6 +1,7 @@
 package com.arquitecturajava.boot.business;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -14,11 +15,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "book")
-@NamedQuery(name = "Book.selectAll", query = "SELECT b FROM Book b")
 @NamedQuery(name = "Book.selectAllWithChapters", query = "SELECT b FROM Book b JOIN FETCH b.chapters")
-@NamedQuery(name = "Book.selectBookWithChapters", query = "SELECT b FROM Book b JOIN FETCH b.chapters WHERE b.pk_isbn = :pk_isbn")
-@NamedQuery(name = "Book.selectAllByAuthor", query = "SELECT b FROM Book b WHERE b.fk_author.pk_id = :pk_id")
-public class Book {
+@NamedQuery(name = "Book.selectBookWithChapters", query = "SELECT b FROM Book b JOIN FETCH b.chapters WHERE b = :book")
+@NamedQuery(name = "Book.selectAllByAuthor", query = "SELECT b FROM Book b WHERE b.fk_author = :fk_author")
+@NamedQuery(name = "Book.deleteBooksByAuthor", query = "DELETE FROM Book b WHERE b.fk_author = :fk_author")
+/*@NamedQuery(name = "Book.updateIsbn", query = "UPDATE Book b SET b.pk_isbn = :pk_isbn WHERE b = :book")
+@NamedQuery(name = "Book.updateTitle", query = "UPDATE Book b SET b.title = :title WHERE b = :book")
+@NamedQuery(name = "Book.updateAuthor", query = "UPDATE Book b SET b.fk_author = :author WHERE b = :book")*/
+public class Book implements Serializable {
 
     @Id
     private String pk_isbn;
@@ -30,7 +34,7 @@ public class Book {
     @JoinColumn(name = "fk_author", referencedColumnName = "pk_id")
     private Author fk_author;
     @JsonIgnore
-    @OneToMany(mappedBy = "pk_fk_book")
+    @OneToMany(mappedBy = "pk_chapter.pk_title")
     private List<Chapter> chapters;
 
     public Book() {
@@ -51,7 +55,6 @@ public class Book {
         this.title = title;
         this.fk_cover = fk_cover;
         this.fk_author = fk_author;
-        this.chapters = chapters;
     }
 
     public String getPk_isbn() {

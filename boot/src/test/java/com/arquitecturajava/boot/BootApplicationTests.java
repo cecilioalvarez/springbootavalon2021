@@ -1,16 +1,7 @@
 package com.arquitecturajava.boot;
 
-import com.arquitecturajava.boot.business.Author;
-import com.arquitecturajava.boot.business.Book;
-import com.arquitecturajava.boot.business.Chapter;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -20,7 +11,7 @@ class BootApplicationTests {
     @PersistenceContext
     EntityManager entityManager;
 
-    @Test
+    /*@Test
     void selectAuthorTest() {
         Author author = this.entityManager.find(Author.class, "00000000t");
         assertEquals(author.getPk_id(), "00000000t");
@@ -87,5 +78,5 @@ class BootApplicationTests {
         assertEquals(chapter.getPk_title(), "Primer capítulo");
         assertEquals(chapter.getPages(), 10);
         assertEquals(chapter.getPk_fk_book().getTitle(), "Prueba modificado");
-    }
+    }*/
 }

@@ -45,6 +45,7 @@ public class BookRestController {
     public void update(@PathVariable String pk_isbn, @RequestBody Book book) {
         Optional<Book> optionalBook = this.LIBRARY_SERVICE.selectBook(new Book(pk_isbn));
         if (optionalBook.isPresent()) {
+            System.out.println(optionalBook.get());
             Book bookToUpdate = optionalBook.get();
             bookToUpdate.setTitle(book.getTitle());
             bookToUpdate.setFk_author(book.getFk_author());

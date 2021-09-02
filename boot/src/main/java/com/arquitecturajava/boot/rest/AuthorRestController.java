@@ -19,7 +19,7 @@ class AuthorRestController {
     
     @GetMapping("/{pk_id}")
     public Optional<Author> getAuthor(@PathVariable String pk_id) {
-        return this.LIBRARY_SERVICE.select(new Author(pk_id));
+        return this.LIBRARY_SERVICE.selectAuthor(new Author(pk_id));
     }
     
     @GetMapping

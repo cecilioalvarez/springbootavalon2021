@@ -22,37 +22,39 @@ public interface LibraryService {
     
     List<Book> selectBooks();
     
-    List<Book> selectBooksWithChapters();
+    List<Book> selectAllWithChapters();
 
     List<Book> selectBooks(Author fk_author);
 
     void update(Book book);
 
-    int updateAuthor(Book book, Author author);
+    /*int updateAuthor(Book book, Author author);
 
     int updatePk_isbn(Book book, String pk_isbn);
 
-    int updateTitle(Book book, String title);
+    int updateTitle(Book book, String title);*/
     
-    Optional<Chapter> select(Chapter chapter);
+    Optional<Chapter> selectChapter(Chapter chapter);
     
-    List<Chapter> select();
+    List<Chapter> selectChapters();
     
-    List<Chapter> select(Book book);
+    List<Chapter> selectChapters(Book book);
     
     void insert(Chapter chapter);
     
     void delete(Chapter chapter);
     
-    int deleteChapters(Book book);
+    /*int deleteChapters(Book book);
     
-    void updateChapter(Chapter oldChapter, Chapter newChapter);
+    void updateChapter(Chapter oldChapter, Chapter newChapter);*/
     
-    void updateTitle(Chapter chapter, String title);
+    void updateChapter(Chapter chapter);
     
-    void updateBook(Chapter chapter, Book book);
+    /*void updateTitle(Chapter chapter, String title);
     
-    Optional<Author> select(Author author);
+    void updateBook(Chapter chapter, Book book);*/
+    
+    Optional<Author> selectAuthor(Author author);
     
     List<Author> selectAuthors();
     
@@ -62,9 +64,9 @@ public interface LibraryService {
     
     void update(Author author);
     
-    int updatePk_id(Author author, String pk_id);
+    /*int updatePk_id(Author author, String pk_id);
     
     int updateName(Author author, String name);
     
-    int updateAge(Author author, int age);
+    int updateAge(Author author, int age);*/
 }
