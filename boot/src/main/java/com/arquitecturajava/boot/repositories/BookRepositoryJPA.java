@@ -3,34 +3,19 @@ package com.arquitecturajava.boot.repositories;
 import com.arquitecturajava.boot.business.Author;
 import com.arquitecturajava.boot.business.Book;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @Qualifier("jpa")
-public class BookRepositoryJPA implements BookRepository {
-    
-    @PersistenceContext
-    private EntityManager entityManager;
+public class BookRepositoryJPA extends GenericRepositoryJPA<Book> implements BookRepository {
 
     @Override
-    public Book selectBook(Book book) {
-        return this.entityManager.find(Book.class, book.getPk_isbn());
-    }
-
-    @Override
-    public Book selectBookWithChapters(Book book) {
+    public Book selectAllWithChapters(Book book) {
         final TypedQuery<Book> QUERY = this.entityManager.createNamedQuery("Book.selectBookWithChapters", Book.class);
         QUERY.setParameter("pk_isbn", book.getPk_isbn());
         return QUERY.getSingleResult();
-    }
-
-    @Override
-    public List<Book> selectBooks() {
-        return this.entityManager.createNamedQuery("Book.selectAll", Book.class).getResultList();
     }
 
     @Override
@@ -46,16 +31,6 @@ public class BookRepositoryJPA implements BookRepository {
     }
 
     @Override
-    public void insert(Book book) {
-        this.entityManager.persist(book);
-    }
-
-    @Override
-    public void delete(Book book) {
-        this.entityManager.remove(this.entityManager.merge(book));
-    }
-
-    @Override
     public int deleteBooks(Author fk_author) {
         final String STRING_QUERY = "DELETE b "
                 + "FROM Book b "
@@ -63,11 +38,6 @@ public class BookRepositoryJPA implements BookRepository {
         final TypedQuery<Book> QUERY = this.entityManager.createQuery(STRING_QUERY, Book.class);
         QUERY.setParameter("pk_id", fk_author.getPk_id());
         return QUERY.executeUpdate();
-    }
-
-    @Override
-    public void update(Book book) {
-        this.entityManager.merge(book);
     }
 
     @Override

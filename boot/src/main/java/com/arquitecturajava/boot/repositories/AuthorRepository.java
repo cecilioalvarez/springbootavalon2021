@@ -1,19 +1,8 @@
 package com.arquitecturajava.boot.repositories;
 
 import com.arquitecturajava.boot.business.Author;
-import java.util.List;
 
-public interface AuthorRepository {
-    
-    Author select(Author author);
-    
-    List<Author> select();
-    
-    void insert(Author author);
-    
-    void delete(Author author);
-    
-    void update(Author author);
+public interface AuthorRepository extends GenericRepository<Author> {
     
     int updatePk_id(Author author, String pk_id);
     

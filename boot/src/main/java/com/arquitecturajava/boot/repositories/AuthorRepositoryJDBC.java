@@ -17,14 +17,14 @@ public class AuthorRepositoryJDBC implements AuthorRepository {
     private JdbcTemplate template;
 
     @Override
-    public Author select(Author author) {
+    public Author select(Object pk_id) {
         final String QUERY = "SELECT * FROM author WHERE pk_id = ?";
-        Object[] params = {author.getPk_id()};
+        Object[] params = {(String) pk_id};
         return this.template.queryForObject(QUERY, params, new AuthorMapper());
     }
 
     @Override
-    public List<Author> select() {
+    public List<Author> selectAll() {
         final String QUERY = "SELECT * FROM author";
         return this.template.query(QUERY, new AuthorMapper());
     }

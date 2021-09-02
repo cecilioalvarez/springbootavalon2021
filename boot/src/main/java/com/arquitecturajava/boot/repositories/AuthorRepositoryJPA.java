@@ -1,44 +1,13 @@
 package com.arquitecturajava.boot.repositories;
 
 import com.arquitecturajava.boot.business.Author;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @Qualifier("jpa")
-public class AuthorRepositoryJPA implements AuthorRepository {
-    
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public Author select(Author author) {
-        return this.entityManager.find(Author.class, author.getPk_id());
-    }
-
-    @Override
-    public List<Author> select() {
-        return this.entityManager.createNamedQuery("Author.selectAll", Author.class).getResultList();
-    }
-
-    @Override
-    public void insert(Author author) {
-        this.entityManager.persist(author);
-    }
-
-    @Override
-    public void delete(Author author) {
-        this.entityManager.remove(this.entityManager.merge(author));
-    }
-
-    @Override
-    public void update(Author author) {
-        this.entityManager.merge(author);
-    }
+public class AuthorRepositoryJPA extends GenericRepositoryJPA<Author> implements AuthorRepository {
 
     @Override
     public int updatePk_id(Author author, String pk_id) {

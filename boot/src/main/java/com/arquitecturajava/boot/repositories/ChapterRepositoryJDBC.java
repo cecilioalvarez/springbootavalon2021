@@ -18,11 +18,12 @@ public class ChapterRepositoryJDBC implements ChapterRepository {
     private JdbcTemplate template;
 
     @Override
-    public Chapter select(Chapter chapter) {
+    public Chapter select(Object chapter_object) {
         final String QUERY = "SELECT * FROM chapter c "
                 + "INNER JOIN book b ON c.pk_fk_book = b.pk_isbn "
                 + "INNER JOIN author a ON b.fk_author = a.pk_id "
                 + "WHERE c.pk_title = ? AND b.pk_isbn = ?";
+        Chapter chapter = (Chapter) chapter_object;
         Object[] params = {chapter.getPk_title(), chapter.getPk_fk_book().getPk_isbn()};
         return this.template.queryForObject(QUERY, params, new ChapterMapper());
     }
@@ -38,7 +39,7 @@ public class ChapterRepositoryJDBC implements ChapterRepository {
     }
 
     @Override
-    public List<Chapter> select() {
+    public List<Chapter> selectAll() {
         final String QUERY = "SELECT * FROM chapter c "
                 + "INNER JOIN book b ON c.pk_fk_book = b.pk_isbn "
                 + "INNER JOIN author a ON b.fk_author = a.pk_id";
@@ -68,6 +69,13 @@ public class ChapterRepositoryJDBC implements ChapterRepository {
 
     @Transactional
     @Override
+    public void update(Chapter entity) {
+        final String QUERY = "UPDATE chapter SET pages = ? WHERE pk_title = ? AND pk_fk_book = ?";
+        this.template.update(QUERY, entity.getPages(), entity.getPk_title(), entity.getPk_fk_book().getPk_isbn());
+    }
+
+    @Transactional
+    @Override
     public int updateChapter(Chapter oldChapter, Chapter newChapter) {
         final String QUERY = "UPDATE chapter SET pk_title = ?, pages = ? WHERE pk_title = ? AND pk_fk_book = ?";
         return this.template.update(QUERY, newChapter.getPk_title(), newChapter.getPages(), 
@@ -79,13 +87,6 @@ public class ChapterRepositoryJDBC implements ChapterRepository {
     public int updateTitle(Chapter chapter, String title) {
         final String QUERY = "UPDATE chapter SET pk_title = ? WHERE pk_title = ? AND pk_fk_book = ?";
         return this.template.update(QUERY, title, chapter.getPk_title(), chapter.getPk_fk_book().getPk_isbn());
-    }
-
-    @Transactional
-    @Override
-    public int updatePages(Chapter chapter, int pages) {
-        final String QUERY = "UPDATE chapter SET pages = ? WHERE pk_title = ? AND pk_fk_book = ?";
-        return this.template.update(QUERY, pages, chapter.getPk_title(), chapter.getPk_fk_book().getPk_isbn());
     }
 
     @Transactional

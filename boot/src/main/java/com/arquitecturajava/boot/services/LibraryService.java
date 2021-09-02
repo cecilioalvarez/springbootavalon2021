@@ -49,8 +49,6 @@ public interface LibraryService {
     
     void updateTitle(Chapter chapter, String title);
     
-    void updatePages(Chapter chapter, int pages);
-    
     void updateBook(Chapter chapter, Book book);
     
     Author select(Author author);

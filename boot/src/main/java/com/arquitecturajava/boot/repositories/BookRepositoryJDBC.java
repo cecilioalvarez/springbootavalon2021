@@ -20,23 +20,23 @@ public class BookRepositoryJDBC implements BookRepository {
     private JdbcTemplate template;
     
     @Override
-    public Book selectBook(Book book) {
+    public Book select(Object pk_isbn) {
         final String QUERY = "SELECT * FROM book b "
                 + "JOIN author a ON b.fk_author = a.pk_id "
                 + "WHERE b.pk_isbn = ?";
-        Object[] params = {book.getPk_isbn()};
+        Object[] params = {(String) pk_isbn};
         return this.template.queryForObject(QUERY, params, new BookMapper());
     }
 
     @Override
-    public List<Book> selectBooks() {
+    public List<Book> selectAll() {
         final String QUERY = "SELECT * FROM book b "
                 + "JOIN author a ON b.fk_author = a.pk_id";
         return this.template.query(QUERY, new BookMapper());
     }
 
     @Override
-    public Book selectBookWithChapters(Book book) {
+    public Book selectAllWithChapters(Book book) {
         final String QUERY = "SELECT * FROM book b "
                 + "JOIN author a ON b.fk_author = a.pk_id "
                 + "LEFT JOIN chapter c ON b.pk_isbn = c.pk_fk_book "

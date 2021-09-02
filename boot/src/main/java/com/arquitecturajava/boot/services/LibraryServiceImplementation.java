@@ -27,17 +27,17 @@ public class LibraryServiceImplementation implements LibraryService {
     private AuthorRepository authorRepository;
     
     public Book selectBook(Book book) {
-        return this.bookRepository.selectBook(book);
+        return this.bookRepository.select(book);
     }
 
     @Override
     public Book selectBookWithChapters(Book book) {
-        return this.bookRepository.selectBookWithChapters(book);
+        return this.bookRepository.selectAllWithChapters(book);
     }
 
     @Override
     public List<Book> selectBooks() {
-        return this.bookRepository.selectBooks();
+        return this.bookRepository.selectAll();
     }
 
     @Override
@@ -105,7 +105,7 @@ public class LibraryServiceImplementation implements LibraryService {
 
     @Override
     public List<Chapter> select() {
-        return this.chapterRepository.select();
+        return this.chapterRepository.selectAll();
     }
 
     @Override
@@ -145,12 +145,6 @@ public class LibraryServiceImplementation implements LibraryService {
 
     @Transactional
     @Override
-    public void updatePages(Chapter chapter, int pages) {
-        this.chapterRepository.updatePages(chapter, pages);
-    }
-
-    @Transactional
-    @Override
     public void updateBook(Chapter chapter, Book book) {
         this.chapterRepository.updateBook(chapter, book);
     }
@@ -162,7 +156,7 @@ public class LibraryServiceImplementation implements LibraryService {
 
     @Override
     public List<Author> selectAuthors() {
-       return this.authorRepository.select();
+       return this.authorRepository.selectAll();
     }
 
     @Transactional
