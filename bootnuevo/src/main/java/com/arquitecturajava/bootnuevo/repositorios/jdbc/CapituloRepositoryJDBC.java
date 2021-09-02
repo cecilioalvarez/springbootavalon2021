@@ -1,6 +1,7 @@
 package com.arquitecturajava.bootnuevo.repositorios.jdbc;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,7 +13,7 @@ import com.arquitecturajava.bootnuevo.repositorios.CapituloRepository;
 import com.arquitecturajava.bootnuevo.repositorios.jdbc.mappers.CapituloMapper;
 @Component
 @Qualifier("jdbc")
-public class CapituloRepositoryJDBC implements CapituloRepository {
+public class CapituloRepositoryJDBC  implements CapituloRepository {
 
 	private JdbcTemplate plantilla;
 	
@@ -50,5 +51,16 @@ public class CapituloRepositoryJDBC implements CapituloRepository {
 		plantilla.update(CONSULTA_INSERTAR,capitulo.getTitulo(),capitulo.getPaginas(),capitulo.getLibro().getIsbn());
 
 	}
+	@Override
+	public void actualizar(Capitulo tipo) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Optional<Capitulo> buscarUno(Object id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

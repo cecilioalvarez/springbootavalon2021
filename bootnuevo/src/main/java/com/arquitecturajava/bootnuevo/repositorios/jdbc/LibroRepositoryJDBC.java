@@ -1,6 +1,7 @@
 package com.arquitecturajava.bootnuevo.repositorios.jdbc;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +14,7 @@ import com.arquitecturajava.bootnuevo.repositorios.LibroRepository;
 import com.arquitecturajava.bootnuevo.repositorios.jdbc.mappers.CapituloMapper;
 import com.arquitecturajava.bootnuevo.repositorios.jdbc.mappers.LibroCapitulosExtractor;
 import com.arquitecturajava.bootnuevo.repositorios.jdbc.mappers.LibroMapper;
+import com.arquitecturajava.bootnuevo.repositorios.jpa.GenericRepositoryJPA;
 
 @Repository
 @Qualifier("jdbc")
@@ -88,6 +90,12 @@ public class LibroRepositoryJDBC implements LibroRepository {
 
 		return plantilla.query(CONSULTA_BUSCAR_TODOS_CAPITULOS_LIBRO, new CapituloMapper(), libro.getIsbn());
 
+	}
+
+	@Override
+	public Optional<Libro> buscarUno(Object id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
