@@ -49,13 +49,13 @@ public class LibraryServiceImplementation implements LibraryService {
     
     @Transactional
     @Override
-    public void insert(Book book) {
+    public void insertBook(Book book) {
         this.bookRepository.save(book);
     }
 
     @Transactional
     @Override
-    public void insert(Book... books) {
+    public void insertBook(Book... books) {
         Arrays.asList(books).forEach(book -> this.bookRepository.save(book));
     }
 
@@ -73,7 +73,7 @@ public class LibraryServiceImplementation implements LibraryService {
 
     @Transactional
     @Override
-    public void update(Book book) {
+    public void updateBook(Book book) {
         this.bookRepository.save(book);
     }
 
@@ -112,22 +112,21 @@ public class LibraryServiceImplementation implements LibraryService {
 
     @Transactional
     @Override
-    public void insert(Chapter chapter) {
+    public void insertChapter(Chapter chapter) {
         this.chapterRepository.save(chapter);
     }
 
     @Transactional
     @Override
-    public void delete(Chapter chapter) {
+    public void deleteChapter(Chapter chapter) {
         this.chapterRepository.delete(chapter);
     }
 
-    /*@Transactional
+    @Transactional
     @Override
     public int deleteChapters(Book book) {
-        return this.chapterRepository.delete(book);
-    }*/
-    
+        return this.chapterRepository.deleteByBook(book);
+    }
     
 
     @Override
@@ -165,19 +164,19 @@ public class LibraryServiceImplementation implements LibraryService {
 
     @Transactional
     @Override
-    public void insert(Author author) {
+    public void insertAuthor(Author author) {
         this.authorRepository.save(author);
     }
 
     @Transactional
     @Override
-    public void delete(Author author) {
+    public void deleteAuthor(Author author) {
         this.authorRepository.delete(author);
     }
 
     @Transactional
     @Override
-    public void update(Author author) {
+    public void updateAuthor(Author author) {
         this.authorRepository.save(author);
     }
 

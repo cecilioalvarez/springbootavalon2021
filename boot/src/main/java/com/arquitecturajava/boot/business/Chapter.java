@@ -9,8 +9,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "chapter")
-@NamedQuery(name = "Chapter.selectAll", query = "SELECT c FROM Chapter c")
 @NamedQuery(name = "Chapter.selectByBook", query = "SELECT c FROM Chapter c WHERE c.pk_chapter.pk_fk_book = :book")
+@NamedQuery(name = "Chapter.deleteByBook", query = "DELETE FROM Chapter c WHERE c.pk_chapter.pk_fk_book = :book")
 public class Chapter implements Serializable {
 
     @EmbeddedId

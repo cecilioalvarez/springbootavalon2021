@@ -33,7 +33,7 @@ public class BookRestController {
     
     @PostMapping
     public void insert(@RequestBody Book book) {
-        this.LIBRARY_SERVICE.insert(book);
+        this.LIBRARY_SERVICE.insertBook(book);
     }
     
     @DeleteMapping("/{pk_isbn}")
@@ -49,7 +49,7 @@ public class BookRestController {
             Book bookToUpdate = optionalBook.get();
             bookToUpdate.setTitle(book.getTitle());
             bookToUpdate.setFk_author(book.getFk_author());
-            this.LIBRARY_SERVICE.update(bookToUpdate);
+            this.LIBRARY_SERVICE.updateBook(bookToUpdate);
         }
     }
 }

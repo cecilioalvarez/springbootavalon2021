@@ -12,9 +12,9 @@ public interface LibraryService {
 
     int deleteBooks(Author fk_author);
 
-    void insert(Book book);
+    void insertBook(Book book);
     
-    void insert(Book ...book);
+    void insertBook(Book ...book);
     
     Optional<Book> selectBook(Book book);
 
@@ -26,7 +26,7 @@ public interface LibraryService {
 
     List<Book> selectBooks(Author fk_author);
 
-    void update(Book book);
+    void updateBook(Book book);
 
     /*int updateAuthor(Book book, Author author);
 
@@ -40,13 +40,13 @@ public interface LibraryService {
     
     List<Chapter> selectChapters(Book book);
     
-    void insert(Chapter chapter);
+    void insertChapter(Chapter chapter);
     
-    void delete(Chapter chapter);
+    void deleteChapter(Chapter chapter);
     
-    /*int deleteChapters(Book book);
+    int deleteChapters(Book book);
     
-    void updateChapter(Chapter oldChapter, Chapter newChapter);*/
+    /*void updateChapter(Chapter oldChapter, Chapter newChapter);*/
     
     void updateChapter(Chapter chapter);
     
@@ -58,11 +58,11 @@ public interface LibraryService {
     
     List<Author> selectAuthors();
     
-    void insert(Author author);
+    void insertAuthor(Author author);
     
-    void delete(Author author);
+    void deleteAuthor(Author author);
     
-    void update(Author author);
+    void updateAuthor(Author author);
     
     /*int updatePk_id(Author author, String pk_id);
     

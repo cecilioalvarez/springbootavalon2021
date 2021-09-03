@@ -10,9 +10,9 @@ public interface ChapterRepository extends JpaRepository<Chapter, ChapterPK> {
     
     List<Chapter> selectByBook(Book book);
     
-    /*int delete(Book book);
+    int deleteByBook(Book book);
     
-    int updateChapter(Chapter oldChapter, Chapter newChapter);
+    /*int updateChapter(Chapter oldChapter, Chapter newChapter);
     
     int updateTitle(Chapter chapter, String title);
     
