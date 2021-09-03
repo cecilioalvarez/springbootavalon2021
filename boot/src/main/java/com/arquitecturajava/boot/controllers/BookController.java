@@ -42,7 +42,7 @@ public class BookController {
     
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createBookAction(Model model, Book book) {
-        this.libraryService.insert(book);
+        this.libraryService.insertBook(book);
         return "redirect:/books/list";
     }
     
@@ -64,7 +64,7 @@ public class BookController {
     
     @RequestMapping("/{pk_isbn}/update")
     public String updateBookAction(Model model, Book book) {
-        this.libraryService.update(book);
+        this.libraryService.updateBook(book);
         return "redirect:/books/list";
     }
 }

@@ -42,13 +42,13 @@ public class ChapterController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createChapterAction(Model model, Chapter chapter, @PathVariable String pk_isbn) {
         chapter.setPk_fk_book(new Book(pk_isbn));
-        this.libraryService.insert(chapter);
+        this.libraryService.insertChapter(chapter);
         return "redirect:list";
     }
     
     @RequestMapping("{pk_title}/delete")
     public String deleteChapterAction(Model model, @PathVariable String pk_isbn, @PathVariable String pk_title) {
-        this.libraryService.delete(new Chapter(pk_title, new Book(pk_isbn)));
+        this.libraryService.deleteChapter(new Chapter(pk_title, new Book(pk_isbn)));
         return "redirect:../list";
     }
     
