@@ -110,9 +110,11 @@ function buscarCapitulos(isbn){
 }
 
 function actualizarLibro(libro){
-	console.log(libro.isbn);
+	
 	return axios.put(`http://localhost:8080/webapi/libros/${libro.isbn}`, {
-		  libro: libro
+		  isbn: libro.isbn,
+		  titulo: libro.titulo,
+		  autor: libro.autor
 		});
  
  }
