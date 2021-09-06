@@ -23,6 +23,7 @@ public class LibraryServiceImplementation implements LibraryService {
     @Autowired
     private AuthorRepository authorRepository;
     
+    @Override
     public Optional<Book> selectBook(Book book) {
         return this.bookRepository.findById(book.getPk_isbn());
     }
