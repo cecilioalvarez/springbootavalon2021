@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name="libros")
 @NamedQuery(name="Libros.buscarTodos",query="select l from Libro l")
-@NamedQuery(name="Libros.buscarTodosConCapitulos",query="select l from Libro l join fetch l.capitulos")
+@NamedQuery(name="Libro.buscarTodosConCapitulos",query="select l from Libro l join fetch l.capitulos")
 public class Libro {
 	//Id indice el identificador en la entidad JPA, se asocia con la primary key de la BD
 	

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "capitulos")
+
 public class Capitulo {
 
 	@Id
