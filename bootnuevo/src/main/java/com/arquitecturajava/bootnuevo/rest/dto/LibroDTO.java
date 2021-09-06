@@ -31,5 +31,8 @@ public class LibroDTO {
 		this.titulo = libro.getTitulo();
 		this.autor = libro.getAutor();
 	}
+	public LibroDTO() {
+		super();
+	}
 	
 }
