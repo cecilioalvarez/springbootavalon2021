@@ -8,6 +8,7 @@ public class LibroDTO {
 	private  String titulo;
 	private  String autor;
 	
+	public LibroDTO() {}
 	public LibroDTO(Libro libro) {
 		super();
 		this.isbn = libro.getIsbn();
