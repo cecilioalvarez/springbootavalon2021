@@ -1,4 +1,4 @@
-package com.arquitecturajava.bootnuevo.rest.dto;
+package com.arquitecturajava.bootnuevo.dto;
 
 import com.arquitecturajava.bootnuevo.negocio.Libro;
 
