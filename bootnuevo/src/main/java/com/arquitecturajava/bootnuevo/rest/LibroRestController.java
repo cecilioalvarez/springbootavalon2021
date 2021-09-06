@@ -2,6 +2,8 @@ package com.arquitecturajava.bootnuevo.rest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arquitecturajava.bootnuevo.negocio.Capitulo;
 import com.arquitecturajava.bootnuevo.negocio.Libro;
+import com.arquitecturajava.bootnuevo.rest.dto.LibroDTO;
 import com.arquitecturajava.bootnuevo.servicios.LibroService;
 
 //Transformar la info a JSON
@@ -29,13 +32,17 @@ public class LibroRestController {
 	}
 
 	@GetMapping
-	public List<Libro> buscarTodos() {
-		return servicio.buscarTodos();
+	public List<LibroDTO> buscarTodos() {
+		return servicio.buscarTodos().stream().map(LibroDTO::new).collect(Collectors.toList());
 	}
 
 	@GetMapping("/{isbn}")
-	public Optional<Libro> buscarUno(@PathVariable String isbn) {
-		return servicio.buscarUno(isbn);
+	public Optional<LibroDTO> buscarUno(@PathVariable String isbn) {
+		Optional<Libro> oLibro = servicio.buscarUno(isbn);
+		if (oLibro.isPresent()) {
+			return Optional.of(new LibroDTO(oLibro.get()));
+		}
+		return Optional.empty();
 	}
 
 	@DeleteMapping("/{isbn}")
@@ -44,23 +51,22 @@ public class LibroRestController {
 	}
 
 	@PutMapping("/{isbn}")
-	public void actualizar(@RequestBody Libro libro, @PathVariable String isbn) {
+	public void actualizar(@RequestBody LibroDTO libroDTO, @PathVariable String isbn) {
 		Optional<Libro> libroactual = servicio.buscarUno(isbn);
-		
-		//El optional contiene un valor? si o no
+
+		// El optional contiene un valor? si o no
 		if (libroactual.isPresent()) {
 			Libro libroNormal = libroactual.get();
-			libroNormal.setTitulo(libro.getTitulo());
-			libroNormal.setAutor(libro.getAutor());		
-			servicio.actualizar(libro);
-		} 
-	
+			libroNormal.setTitulo(libroDTO.getTitulo());
+			libroNormal.setAutor(libroDTO.getAutor());
+			servicio.actualizar(libroNormal);
+		}
 
 	}
 
 	@PostMapping
-	public void insertar(@RequestBody Libro libro) {
-		servicio.insertar(libro);
+	public void insertar(@RequestBody LibroDTO libroDTO) {
+		servicio.insertar(new Libro(libroDTO.getIsbn(), libroDTO.getTitulo(), libroDTO.getAutor()));
 	}
 
 	@GetMapping("/{isbn}/capitulos")
