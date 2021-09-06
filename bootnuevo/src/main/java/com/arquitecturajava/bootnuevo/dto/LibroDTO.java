@@ -1,4 +1,4 @@
-package com.arquitecturajava.bootnuevo.rest.dto;
+package com.arquitecturajava.bootnuevo.dto;
 
 import com.arquitecturajava.bootnuevo.negocio.Libro;
 
@@ -15,6 +15,10 @@ public class LibroDTO {
 		this.autor=libro.getAutor();
 	}
 	
+	public LibroDTO() {
+		super();
+	}
+
 	public String getIsbn() {
 		return isbn;
 	}
