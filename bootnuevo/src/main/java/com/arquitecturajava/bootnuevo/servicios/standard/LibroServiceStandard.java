@@ -92,6 +92,11 @@ public class LibroServiceStandard implements LibroService  {
 		}
 		
 	}
+
+	public List<Libro> buscarLibroPorTituloComenzando(String titulo) {
+		return repositorio.findByTituloStartsWith(titulo);
+	}
+	
 	
 	
 }

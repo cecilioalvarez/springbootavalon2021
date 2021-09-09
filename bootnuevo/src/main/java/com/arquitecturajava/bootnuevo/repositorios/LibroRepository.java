@@ -16,5 +16,6 @@ public interface LibroRepository extends JpaRepository<Libro,String>{
 	@Query("select c from Capitulo c where c.libro.isbn=:isbn")
 	 List<Capitulo> buscarTodosCapitulos(String isbn);
 	 List<Libro> findByTituloAndAutor(String titulo,String autor);
+	 List<Libro> findByTituloStartsWith(String titulo);
 
 }
